@@ -82,7 +82,7 @@ export function XlsxHandling() {
             { regex: /\b(ac|act|acet|acetinado)\b/gi, valor: 'Acetinado' },
             { regex: /\b(pol|lux|polido)\b/gi, valor: 'Polido' },
             { regex: /\b(nat|natural)\b/gi, valor: 'Natural' },
-            { regex: /\b(rustico|hard|ext|externo)\b/gi, valor: 'Externo' }
+            { regex: /\b(rustico|hard|ext|externo|abs)\b/gi, valor: 'Externo' }
         ];
         const matches = termos.filter(termo => termo.regex.test(descricao));
         if (matches.length > 1) {
