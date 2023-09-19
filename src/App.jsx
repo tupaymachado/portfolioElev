@@ -9,8 +9,8 @@ function App() {
   return (
     <>
       <Logo />
-      <SearchBar />{/* 
-      <XlsxHandling /> */}
+      <SearchBar />
+      <XlsxHandling />
     </>
   )
 }

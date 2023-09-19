@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from './firebaseConfig.jsx';
+import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import * as XLSX from 'xlsx';
 
 export function XlsxHandling() {
