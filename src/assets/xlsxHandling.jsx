@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import * as XLSX from 'xlsx';
-import { set } from 'react-hook-form';
 
 export function XlsxHandling() {
-    const [etiquetas, setEtiquetas] = useState([]);
+    const [etiquetasPreco, setEtiquetasPreco] = useState([]);
+    const [etiquetasPromo, setEtiquetasPromo] = useState([]);
 
     const handleFileChange = async (event) => {
         try {
@@ -127,54 +127,63 @@ export function XlsxHandling() {
         updateData(jsonData);
     };
 
-
     const updateData = async (jsonData) => {
         const portfolioRef = collection(db, 'portfolio');
         for (const item of jsonData) {
             const codigo = item.codigo;
             const docRef = doc(portfolioRef, codigo);
             const docSnapshot = await getDoc(docRef);
+            const docData = docSnapshot.data();
             if (!docSnapshot.exists()) { //primeira escrita, item não existe no DB - escreve item tal como veio no RELATÓRIO (snapshot.exists() == false)
                 await setDoc(docRef, item);
-            } else if (docSnapshot.descricao) { //se snapshot.exists() == true e docSnapshot.descricao existir, já recebeu uma escrita do RELATÓRIO
-                precosUpdate(docSnapshot, item);
-            } else { //se docSnapshot existir, mas não tiver descrição, já recebeu uma escrita do CSV
+            } else if (docData.descricao) { //se snapshot.exists() == true e docSnapshot.descricao existir, já recebeu uma escrita do RELATÓRIO
+                //se o item já existe, precisa apenas receber um update de preço e promoção, se houver
+                await updateDoc(docRef, precoEPromo(docData, item)); //atualiza o DB com novos preços e promoções
+            } else { //se docSnapshot existir, mas não tiver descrição, já recebeu uma escrita do CSV (docSnapshot.exists() == true && docSnapshot.descricao == false)
                 await updateDoc(docRef, item); //atualiza o DB com dados do relatório
+                //Esse else representa um item já inserido pelo CSV, mas que ainda não recebeu uma escrita do relatório. Se item.precoAtual !== 0, então deve ser emitida uma etiqueta de preço
+            }
+            if (docData.hasOwnProperty('expositor')) { //se o item já consta com expositor, é pq já recebeu uma escrita do CSV
+                emissaoEtiquetasPreco(item, docData);
+                emissaoEtiquetasPromo(item, docData);
             }
         }
         console.log('Dados atualizados com sucesso!');
+        console.log(etiquetasPreco);
+        console.log(etiquetasPromo);
     };
 
-    function precosUpdate(docSnapshot, item) { //executado apenas em escritas subsequentes de cada item
-        const docData = docSnapshot.data();
+    function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
         const dataPromocaoItem = new Date(item.dataPromocao);
         const dataPromocaoDB = docData.dataPromocao.toDate();
-        let updateData = {};
-        if (dataPromocaoItem > dataPromocaoDB) {
-            updateData = {
+        let precosEPromosUpdate = {};
+        if (dataPromocaoItem > dataPromocaoDB && item.promocao !== docData.promocao && item.promocao !== 'Sem mudança') {
+            precosEPromosUpdate = {
                 promocao: item.promocao,
                 precoPromocao: item.precoPromocao,
                 dataPromocao: dataPromocaoItem
             }
-        } else {
-            alert('Você anexou um arquivo antigo. Os dados de preços e promoções no banco de dados são mais recentes que os do relatório anexado. Os dados de preços e promoções não irão gerar etiquetas, e apenas novos produtos serão cadastrados no Banco.')
         }
-        if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for diferente de 0 e diferente do preço no DB
-            updateData = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
-                ...updateData,
+        if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for diferente de 0 e diferente do preço atual no DB
+            precosEPromosUpdate = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
+                ...precosEPromosUpdate,
                 precoAtual: item.precoAtual,
                 dataPrecoAtual: new Date(item.dataPrecoAtual),
                 ultimoPreco: docData.precoAtual,
-                dataUltimoPreco: new Date(docData.dataPrecoAtual)            
-            }
-            if ((item.precoAtual - docData.precoAtual) > 0.1) { //se o preço atual for maior que o último preço em mais de 10 centavos, também emite etiqueta
-                setEtiquetas([...etiquetas, item]);
+                dataUltimoPreco: new Date(docData.dataPrecoAtual)
             }
         }
-        console.log(etiquetas);
-        return updateData;
+        return precosEPromosUpdate;
     }
-    
+
+    function emissaoEtiquetasPreco(item, docData) {
+        if (item.precoAtual !== 0 && Math.abs(item.precoAtual - docData.precoAtual) > 0.1 || item.precoAtual !== 0 && docData.precoAtual === undefined) {
+            setEtiquetasPreco(etiquetasPreco => [...etiquetasPreco, item]);
+        }
+    }
+
+    //SALVAR UMA ESPÉCIE DE LOG PARA REIMPRESSÃO DE ETIQUETAS DO DIA X
+
     return (
         <input type="file" id="fileInput" onChange={handleFileChange} />
     );
