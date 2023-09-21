@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import * as XLSX from 'xlsx';
+import { set } from 'react-hook-form';
 
 export function XlsxHandling() {
-    const [jsonData, setJsonData] = useState([]);
+    const [etiquetas, setEtiquetas] = useState([]);
 
     const handleFileChange = async (event) => {
         try {
@@ -55,16 +56,18 @@ export function XlsxHandling() {
                 descricao: row[2],
                 formato: formato,
                 marca: marca,
-                preco: row[7] === 0 ? false : row[7],
-                dataPreco: data,
+                ultimoPreco: row[7],
+                dataUltimoPreco: data,
+                precoAtual: row[7],
+                dataPrecoAtual: data,
                 categoria: piso ? categoria(row[2]) : 'não definido',
                 promocao: promocao(row[11]),
                 precoPromocao: promocao ? row[8] : false,
-                dataPromocao: data,
+                dataPromocao: data
             };
             newJsonData.push(obj);
         }
-        setJsonData(newJsonData); // Atualizando o estado aqui
+        //setJsonData(newJsonData); // Atualizando o estado aqui
         verificarRepetidos(newJsonData);
     };
 
@@ -99,7 +102,7 @@ export function XlsxHandling() {
         } else if (status === 'PRORROGADO PROMO' || status === 'EM PROMO') {
             return true;
         } else {
-            return 'não definido';
+            return 'Sem mudança';
         }
     };
 
@@ -113,17 +116,17 @@ export function XlsxHandling() {
             } else {
                 mapa[jsonData[i].codigo] = true;
             }
-        }    
+        }
         // Em seguida, filtre o array original para remover os itens duplicados
         jsonData = jsonData.filter(item => !duplicados[item.codigo]);
         //se duplicados contiver algum item, gerar um alert() com os itens duplicados
         if (Object.keys(duplicados).length > 0) {
             alert('Os seguintes itens estão duplicados e foram excluídos da atualização. Confira os dados pelo CISS e adicione manualmente: ' + Object.keys(duplicados).join(', '));
         }
-        setJsonData(jsonData); // Atualizando o estado aqui
+        //setJsonData(jsonData); // Atualizando o estado aqui
         updateData(jsonData);
     };
-    
+
 
     const updateData = async (jsonData) => {
         const portfolioRef = collection(db, 'portfolio');
@@ -131,32 +134,47 @@ export function XlsxHandling() {
             const codigo = item.codigo;
             const docRef = doc(portfolioRef, codigo);
             const docSnapshot = await getDoc(docRef);
-            if (!docSnapshot.exists()) {
+            if (!docSnapshot.exists()) { //primeira escrita, item não existe no DB - escreve item tal como veio no RELATÓRIO (snapshot.exists() == false)
                 await setDoc(docRef, item);
-            } else { //
-                const docData = docSnapshot.data(); 
-                const dataPromocaoItem = new Date(item.dataPromocao);
-                const dataPromocaoDB = docData.dataPromocao.toDate();
-                if (dataPromocaoItem > dataPromocaoDB) {
-                    await updateDoc(docRef, {
-                        promocao: item.promocao,
-                        precoPromocao: item.precoPromocao,
-                        dataPromocao: dataPromocaoItem
-                    });
-                }
-                const dataPrecoItem = new Date(item.dataPreco);
-                const dataPrecoDB = docData.dataPreco.toDate();
-                if (dataPrecoItem > dataPrecoDB) {
-                    await updateDoc(docRef, {
-                        preco: item.preco,
-                        dataPreco: dataPrecoItem
-                    });
-                }
+            } else if (docSnapshot.descricao) { //se snapshot.exists() == true e docSnapshot.descricao existir, já recebeu uma escrita do RELATÓRIO
+                precosUpdate(docSnapshot, item);
+            } else { //se docSnapshot existir, mas não tiver descrição, já recebeu uma escrita do CSV
+                await updateDoc(docRef, item); //atualiza o DB com dados do relatório
             }
         }
         console.log('Dados atualizados com sucesso!');
     };
 
+    function precosUpdate(docSnapshot, item) { //executado apenas em escritas subsequentes de cada item
+        const docData = docSnapshot.data();
+        const dataPromocaoItem = new Date(item.dataPromocao);
+        const dataPromocaoDB = docData.dataPromocao.toDate();
+        let updateData = {};
+        if (dataPromocaoItem > dataPromocaoDB) {
+            updateData = {
+                promocao: item.promocao,
+                precoPromocao: item.precoPromocao,
+                dataPromocao: dataPromocaoItem
+            }
+        } else {
+            alert('Você anexou um arquivo antigo. Os dados de preços e promoções no banco de dados são mais recentes que os do relatório anexado. Os dados de preços e promoções não irão gerar etiquetas, e apenas novos produtos serão cadastrados no Banco.')
+        }
+        if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for diferente de 0 e diferente do preço no DB
+            updateData = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
+                ...updateData,
+                precoAtual: item.precoAtual,
+                dataPrecoAtual: new Date(item.dataPrecoAtual),
+                ultimoPreco: docData.precoAtual,
+                dataUltimoPreco: new Date(docData.dataPrecoAtual)            
+            }
+            if ((item.precoAtual - docData.precoAtual) > 0.1) { //se o preço atual for maior que o último preço em mais de 10 centavos, também emite etiqueta
+                setEtiquetas([...etiquetas, item]);
+            }
+        }
+        console.log(etiquetas);
+        return updateData;
+    }
+    
     return (
         <input type="file" id="fileInput" onChange={handleFileChange} />
     );
