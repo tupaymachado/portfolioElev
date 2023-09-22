@@ -133,24 +133,23 @@ export function XlsxHandling() {
             const codigo = item.codigo;
             const docRef = doc(portfolioRef, codigo);
             const docSnapshot = await getDoc(docRef);
-            const docData = docSnapshot.data();
-            if (!docSnapshot.exists()) { //primeira escrita, item não existe no DB - escreve item tal como veio no RELATÓRIO (snapshot.exists() == false)
+            let docData;
+            if (docSnapshot.exists()) {
+                docData = docSnapshot.data();
+                if (docData.descricao) {
+                    await updateDoc(docRef, precoEPromo(docData, item));
+                } else {
+                    await updateDoc(docRef, item);
+                }
+                if (docData.hasOwnProperty('expositor')) {
+                    emissaoEtiquetasPreco(item, docData);
+                    emissaoEtiquetasPromo(item, docData);
+                }
+            } else {
                 await setDoc(docRef, item);
-            } else if (docData.descricao) { //se snapshot.exists() == true e docSnapshot.descricao existir, já recebeu uma escrita do RELATÓRIO
-                //se o item já existe, precisa apenas receber um update de preço e promoção, se houver
-                await updateDoc(docRef, precoEPromo(docData, item)); //atualiza o DB com novos preços e promoções
-            } else { //se docSnapshot existir, mas não tiver descrição, já recebeu uma escrita do CSV (docSnapshot.exists() == true && docSnapshot.descricao == false)
-                await updateDoc(docRef, item); //atualiza o DB com dados do relatório
-                //Esse else representa um item já inserido pelo CSV, mas que ainda não recebeu uma escrita do relatório. Se item.precoAtual !== 0, então deve ser emitida uma etiqueta de preço
-            }
-            if (docData.hasOwnProperty('expositor')) { //se o item já consta com expositor, é pq já recebeu uma escrita do CSV
-                emissaoEtiquetasPreco(item, docData);
-                emissaoEtiquetasPromo(item, docData);
             }
         }
         console.log('Dados atualizados com sucesso!');
-        console.log(etiquetasPreco);
-        console.log(etiquetasPromo);
     };
 
     function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
@@ -170,8 +169,11 @@ export function XlsxHandling() {
                 precoAtual: item.precoAtual,
                 dataPrecoAtual: new Date(item.dataPrecoAtual),
                 ultimoPreco: docData.precoAtual,
-                dataUltimoPreco: new Date(docData.dataPrecoAtual)
+                dataUltimoPreco: docData.dataPrecoAtual.toDate()
             }
+        }
+        if (item.codigo == 1129706) {
+            console.log(precosEPromosUpdate);
         }
         return precosEPromosUpdate;
     }
