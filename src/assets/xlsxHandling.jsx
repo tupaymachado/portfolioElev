@@ -31,11 +31,11 @@ export function XlsxHandling() {
     };
 
     const processarDados = (rows) => {
-        if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') {
+        if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto
             alert('Arquivo inválido. Selecione o arquivo correto.');
             return;
         }
-        let data = formatarData(rows[4][6]);
+        let data = formatarData(rows[4][6]); //data da atualização, serve para preços e promoções
         rows = rows.slice(7);
         let marca = '';
         const newJsonData = [];
@@ -196,9 +196,9 @@ export function XlsxHandling() {
         }
     }
 
-    //SALVAR UMA ESPÉCIE DE LOG PARA REIMPRESSÃO DE ETIQUETAS DO DIA X
-
     return (
-        <input type="file" id="fileInput" onChange={handleFileChange} />
+        <>  <h1>Inserir Relatório '10449 - Preços Alterados nas Últimas 24 horas II' em formato .xls</h1>
+            <input type="file" id="fileInput" onChange={handleFileChange} />
+        </>
     );
 };
