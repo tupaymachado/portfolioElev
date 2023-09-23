@@ -56,13 +56,13 @@ export function XlsxHandling() {
                 descricao: row[2],
                 formato: formato,
                 marca: marca,
-                ultimoPreco: row[7],
+                ultimoPreco: Number(row[7]),
                 dataUltimoPreco: data,
-                precoAtual: row[7],
+                precoAtual: Number(row[7]),
                 dataPrecoAtual: data,
                 categoria: piso ? categoria(row[2]) : 'não definido',
                 promocao: promocao(row[11]),
-                precoPromocao: promocao ? row[8] : false,
+                precoPromocao: promocao ? Number(row[8]) : false,
                 dataPromocao: data
             };
             newJsonData.push(obj);
@@ -156,12 +156,27 @@ export function XlsxHandling() {
         const dataPromocaoItem = new Date(item.dataPromocao);
         const dataPromocaoDB = docData.dataPromocao.toDate();
         let precosEPromosUpdate = {};
-        if (dataPromocaoItem > dataPromocaoDB && item.promocao !== docData.promocao && item.promocao !== 'Sem mudança') {
+        if (item.codigo == 1018984) {
+            console.log(item, docData)
+        }
+        //update status de promoção
+        if (dataPromocaoItem > dataPromocaoDB && item.promocao !== 'Sem mudança') {
             precosEPromosUpdate = {
                 promocao: item.promocao,
+            }
+        }
+        //update preço de promoção
+        if (item.precoPromocao !== 0 && item.precoPromocao !== docData.precoPromocao || item.promocao === false) { //se preço promoção for diferente de 0 e diferente do preço atual no DB
+            precosEPromosUpdate = {
+                ...precosEPromosUpdate,
                 precoPromocao: item.precoPromocao,
                 dataPromocao: dataPromocaoItem
             }
+            /* existe uma possibilidade remota de promocao ser true e precoPromocao ser 0,
+            caso o item.promocao seja true por conta do status "prorrogado promo". Esse status seta, corretamente, o status de promocao como true,
+            porém não necessariamente é informado um preço de promoção no relatório 10449. Se um dado item tiver a primeira escrita nesse caso, enquanto ele não sair
+            de promoção, o preço de promoção será 0. Nesse caso deve haver uma verificação nas etiquetas e na implementação da pesquisa
+            para que esse item seja analisado manualmente no CISS.  */
         }
         if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for diferente de 0 e diferente do preço atual no DB
             precosEPromosUpdate = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
@@ -171,9 +186,6 @@ export function XlsxHandling() {
                 ultimoPreco: docData.precoAtual,
                 dataUltimoPreco: docData.dataPrecoAtual.toDate()
             }
-        }
-        if (item.codigo == 1129706) {
-            console.log(precosEPromosUpdate);
         }
         return precosEPromosUpdate;
     }
