@@ -141,7 +141,7 @@ export function XlsxHandling() {
                 } else {
                     await updateDoc(docRef, item);
                 }
-                if (docData.hasOwnProperty('expositor')) {
+                if (docData.expositor) {
                     emissaoEtiquetasPreco(item, docData);
                     emissaoEtiquetasPromo(item, docData);
                 }
@@ -190,9 +190,15 @@ export function XlsxHandling() {
         return precosEPromosUpdate;
     }
 
-    function emissaoEtiquetasPreco(item, docData) {
+    function emissaoEtiquetasPreco(item, docData) { //fazer uns console.logs aqui pra verificar exatamente o que está acontecendo e ver se as etiquetas estão sendo selecionadas corretamente
         if (item.precoAtual !== 0 && Math.abs(item.precoAtual - docData.precoAtual) > 0.1 || item.precoAtual !== 0 && docData.precoAtual === undefined) {
             setEtiquetasPreco(etiquetasPreco => [...etiquetasPreco, item]);
+        }
+    }
+
+    function emissaoEtiquetasPromo(item, docData) {
+        if (item.promocao !== 'Sem mudança' && item.promocao !== false && item.precoPromocao !== 0 && Math.abs(item.precoPromocao - docData.precoPromocao) > 0.1 || item.precoPromocao !== 0 && docData.precoPromocao === undefined) {
+            setEtiquetasPromo(etiquetasPromo => [...etiquetasPromo, item]);
         }
     }
 
@@ -201,4 +207,4 @@ export function XlsxHandling() {
             <input type="file" id="fileInput" onChange={handleFileChange} />
         </>
     );
-};
+}
