@@ -8,13 +8,19 @@ import './App.css'
 
 
 function App() {
+  const [intersec, setIntersec] = useState([]);
+
+  const handleEtiquetas = (newEtiquetas) => {
+    setIntersec(newEtiquetas);
+  }
+
   return (
     <>
       <Logo />
       <SearchBar />
       <CsvHandling />
-      <XlsxHandling />
-      <EtiquetasPreco />
+      <XlsxHandling onEtiquetasChange={handleEtiquetas} />
+      <EtiquetasPreco etiquetas={intersec} />
     </>
   )
 }

@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import * as XLSX from 'xlsx';
 
-export function XlsxHandling() {
-    const [etiquetasPreco, setEtiquetasPreco] = useState([]);
-    const [etiquetasPromo, setEtiquetasPromo] = useState([]);
+export function XlsxHandling({ onEtiquetasChange }) {
 
     const handleFileChange = async (event) => {
         try {
@@ -127,8 +125,9 @@ export function XlsxHandling() {
         updateData(jsonData);
     };
 
-    const updateData = async (jsonData) => {
+    const updateData = async (jsonData) => { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
         const portfolioRef = collection(db, 'portfolio');
+        const newIntersec = [];
         for (const item of jsonData) {
             const codigo = item.codigo;
             const docRef = doc(portfolioRef, codigo);
@@ -136,19 +135,21 @@ export function XlsxHandling() {
             let docData;
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data();
-                if (docData.descricao) {
+                if (docData.descricao) { 
                     await updateDoc(docRef, precoEPromo(docData, item));
                 } else {
                     await updateDoc(docRef, item);
                 }
-                if (docData.hasOwnProperty('expositor')) {
-                    emissaoEtiquetasPreco(item, docData);
-                    emissaoEtiquetasPromo(item, docData);
-                }
             } else {
                 await setDoc(docRef, item);
             }
+            if (docData && docData.expositor && docData.codigo == item.codigo) { 
+                console.log(docData.expositor)
+                const combinedObject = { ...item, ...docData };
+                newIntersec.push(combinedObject);
+            }
         }
+        onEtiquetasChange(newIntersec);
         console.log('Dados atualizados com sucesso!');
     };
 
@@ -156,9 +157,6 @@ export function XlsxHandling() {
         const dataPromocaoItem = new Date(item.dataPromocao);
         const dataPromocaoDB = docData.dataPromocao.toDate();
         let precosEPromosUpdate = {};
-        if (item.codigo == 1018984) {
-            console.log(item, docData)
-        }
         //update status de promoção
         if (dataPromocaoItem > dataPromocaoDB && item.promocao !== 'Sem mudança') {
             precosEPromosUpdate = {
@@ -188,12 +186,6 @@ export function XlsxHandling() {
             }
         }
         return precosEPromosUpdate;
-    }
-
-    function emissaoEtiquetasPreco(item, docData) {
-        if (item.precoAtual !== 0 && Math.abs(item.precoAtual - docData.precoAtual) > 0.1 || item.precoAtual !== 0 && docData.precoAtual === undefined) {
-            setEtiquetasPreco(etiquetasPreco => [...etiquetasPreco, item]);
-        }
     }
 
     return (

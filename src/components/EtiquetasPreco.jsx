@@ -1,25 +1,20 @@
 import { useState } from 'react';
 
-export function EtiquetasPreco() {
 
-    const array = [
-        {
-            nome: 'tupay',
-            idade: 35
-        },
-        {
-            nome: 'luiza',
-            idade: 29
-        },
-        {
-            nome: 'alisson',
-            idade: 34
-        }
-    ]
+export function EtiquetasPreco({ etiquetas = [] }) {
 
     return (
         <>
-            <p>teste</p>
+            {etiquetas.map((etiqueta) => {
+                return (
+                    <div className="etiqueta" key={etiqueta.codigo}>
+                        <div className="etiqueta__codigo">{etiqueta.codigo}</div>
+                        <div className="etiqueta__descricao">{etiqueta.descricao}</div>
+                        <div className="etiqueta__preco">{etiqueta.precoAtual}</div>
+                    </div>
+                )
+            })
+            }
         </>
     )
 }
