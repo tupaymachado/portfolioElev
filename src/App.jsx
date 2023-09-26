@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { XlsxHandling } from './assets/xlsxHandling.jsx'
-import { SearchBar } from './assets/SearchBar.jsx'
-import { Logo } from './assets/Logo.jsx'
-import { CsvHandling } from './assets/CsvHandling.jsx'
+import { XlsxHandling } from './components/xlsxHandling.jsx'
+import { SearchBar } from './components/SearchBar.jsx'
+import { Logo } from './components/Logo.jsx'
+import { CsvHandling } from './components/CsvHandling.jsx'
+import { EtiquetasPreco } from './components/EtiquetasPreco.jsx'
 import './App.css'
 
 
@@ -13,6 +14,7 @@ function App() {
       <SearchBar />
       <CsvHandling />
       <XlsxHandling />
+      <EtiquetasPreco />
     </>
   )
 }
