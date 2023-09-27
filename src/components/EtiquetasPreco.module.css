@@ -1,0 +1,48 @@
+.etiquetasContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    text-transform: uppercase;
+}
+
+.etiqueta {
+    position: relative;
+    background-color: aqua;
+    width: 9.5cm;
+    height: 2.5cm;
+    border: 1px solid black;
+}
+
+.etiquetaUnidade {
+    position: absolute;
+    top: 3mm;
+    left: 2mm;
+    font-weight: bold;
+}
+
+.etiquetaPosicao {
+    position: absolute;
+    top: 3mm;
+    left: 50mm;
+    font-weight: bold;
+}
+
+.etiquetaPreco {
+    position: absolute;
+    top: 3mm;
+    right: 2mm;
+}
+
+.etiquetaCodigo {
+    position: absolute;
+    top: 1cm;
+    left: 2mm;
+}
+
+.etiquetaDescricao {
+    position: absolute;
+    bottom: 3mm;
+    left: 2mm;
+}
