@@ -193,4 +193,4 @@ export function XlsxHandling({ onEtiquetasChange }) {
             <input type="file" id="fileInput" onChange={handleFileChange} />
         </>
     );
-};
+}
