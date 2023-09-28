@@ -143,8 +143,8 @@ export function XlsxHandling({ onEtiquetasChange }) {
             } else {
                 await setDoc(docRef, item);
             }
-            if (docData && docData.expositor && docData.codigo == item.codigo) { 
-                console.log(docData.expositor)
+            if (docData && docData.expositor && docData.codigo == item.codigo) {
+                for (let combinedObj of jsonData) {
                 const combinedObject = { ...item, ...docData };
                 newIntersec.push(combinedObject);
             }
