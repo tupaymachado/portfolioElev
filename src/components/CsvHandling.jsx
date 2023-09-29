@@ -13,9 +13,9 @@ export function CsvHandling() {
       data.shift();
       for (let line of data) {
         let obj = {
-          codigo: line[0],
-          expositor: line[1],
-          posicao: line[2],
+          codigo: line[0],/* 
+          expositor: line[1], //trocar isso pelo map localizacoess
+          posicao: line[2], */
           unidade: line[3],
           referencia: line[4],
           quantidade: line[5],
