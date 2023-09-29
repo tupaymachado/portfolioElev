@@ -143,9 +143,13 @@ export function XlsxHandling({ onEtiquetasChange }) {
             } else {
                 await setDoc(docRef, item);
             }
-            if (docData && docData.expositor && docData.codigo == item.codigo) {
+            if (docData && docData.expositor && docData.codigo == item.codigo) { //3 listas: etiquetas de troca de preço, etiquetas de promoção e lista de fora de promoção
                 for (let combinedObj of jsonData) {
-                const combinedObject = { ...item, ...docData };
+                const combinedObject = { 
+                    codigo: jsonData.codigo,
+                    descricao: jsonData.descricao,
+                    
+                 };
                 newIntersec.push(combinedObject);
             }
         }
