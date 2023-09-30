@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import * as XLSX from 'xlsx';
 
-export function XlsxHandling({ onEtiquetasChange }) {
+export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo }) {
 
     const handleFileChange = async (event) => {
         try {
@@ -59,8 +59,8 @@ export function XlsxHandling({ onEtiquetasChange }) {
                 precoAtual: Number(row[7]),
                 dataPrecoAtual: data,
                 categoria: piso ? categoria(row[2]) : 'não definido',
-                promocao: promocao(row[11]),
-                precoPromocao: promocao ? Number(row[8]) : false,
+                precoPromocao: Number(row[8]),
+                promocao: precoPromocao ? promocao(row[11]) : false,
                 dataPromocao: data
             };
             newJsonData.push(obj);
@@ -127,7 +127,9 @@ export function XlsxHandling({ onEtiquetasChange }) {
 
     const updateData = async (jsonData) => { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
         const portfolioRef = collection(db, 'portfolio');
-        const newIntersec = [];
+        const precosImprimir = [];
+        const promosImprimir = [];
+        const foraPromoImprimir = [];
         for (const item of jsonData) {
             const codigo = item.codigo;
             const docRef = doc(portfolioRef, codigo);
@@ -135,27 +137,55 @@ export function XlsxHandling({ onEtiquetasChange }) {
             let docData;
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data();
-                if (docData.descricao) { 
-                    await updateDoc(docRef, precoEPromo(docData, item));
+                if (docData.descricao) {
+                    await updateDoc(docRef, precoEPromo(docData, item)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
                 } else {
-                    await updateDoc(docRef, item);
+                    await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
+                verificaEtiquetasPreco(docData, item);
+                verificaEtiquetasPromo(docData, item);
             } else {
-                await setDoc(docRef, item);
-            }
-            if (docData && docData.expositor && docData.codigo == item.codigo) { //3 listas: etiquetas de troca de preço, etiquetas de promoção e lista de fora de promoção
-                for (let combinedObj of jsonData) {
-                const combinedObject = { 
-                    codigo: jsonData.codigo,
-                    descricao: jsonData.descricao,
-                    
-                 };
-                newIntersec.push(combinedObject);
+                await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
             }
         }
-        onEtiquetasChange(newIntersec);
+        onEtiquetasPreco(precosImprimir);
+        onEtiquetasPromo(promosImprimir);
+        onEtiquetasForaPromo(foraPromoImprimir);
         console.log('Dados atualizados com sucesso!');
     };
+
+    function verificaEtiquetasPreco(docData, item) { //verifica se o item precisa ter uma etiqueta de preço impressa
+        if (docData.expositor) {
+            if (item.precoAtual !== 0) {
+                let dataComparacao = item.dataPrecoAtual === docData.dataPrecoAtual.toDate() ? docData.ultimoPreco : docData.precoAtual;
+                if (Math.abs(item.precoAtual - dataComparacao) >= 0.1) {
+                    let obj = {
+                        ...item,
+                        localizacao: docData.localizacao,
+                    }
+                    precosImprimir.push(obj);
+                }
+            }
+        };
+    };
+
+    function verificaEtiquetasPromo(docData, item) { //verifica se o item precisa ter uma etiqueta de promoção impressa ou retirada
+        if (docData.expositor && item.promocao === true && item.precoPromocao !== 0) { //se o preço é 0, é pq tiraram de promoção mas não mudaram o status, não sei pq essa viagem
+            let obj = {
+                ...item,
+                localizacao: docData.localizacao,
+            }
+            promosImprimir.push(obj);
+        } else if (docData.expositor && item.promocao === false || docData.expositor && item.precoPromocao === 0) { //se o preço é 0, será que eu retiro a etiqueta???
+            let obj = {
+                ...item,
+                localizacao: docData.localizacao,
+            }
+            foraPromoImprimir.push(obj);
+        }
+    }
+
+
 
     function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
         const dataPromocaoItem = new Date(item.dataPromocao);
