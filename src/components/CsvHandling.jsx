@@ -10,19 +10,27 @@ export function CsvHandling() {
       const contents = e.target.result;
       const lines = contents.split('\n');
       const data = lines.map(line => line.split(','));
-      data.shift();
+      let filial = data[0][0];
+      console.log(filial);
+      data.splice(0, 2); 
       for (let line of data) {
+        if (line[0] === '' && line[1] === '') {
+          break;
+        }
         let obj = {
-          codigo: line[0],/* 
-          expositor: line[1], //trocar isso pelo map localizacoess
-          posicao: line[2], */
+          codigo: line[0] ? line[0] : 0,
+          localizacao: {
+            filial: filial,
+            posicao: `${line[1]}-${line[2]}`,
+          },
           unidade: line[3],
           referencia: line[4],
           quantidade: line[5],
         };
         csvData.push(obj);
       }
-      updateFirebase(csvData);
+      console.log(csvData);
+//      updateFirebase(csvData);
     };
     reader.readAsText(file);
   };
