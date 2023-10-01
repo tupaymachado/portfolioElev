@@ -60,7 +60,7 @@ export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasFo
                 dataPrecoAtual: data,
                 categoria: piso ? categoria(row[2]) : 'não definido',
                 precoPromocao: Number(row[8]),
-                promocao: precoPromocao ? promocao(row[11]) : false,
+                promocao: Number(row[8]) ? promocao(row[11]) : false,
                 dataPromocao: data
             };
             newJsonData.push(obj);
@@ -142,6 +142,7 @@ export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasFo
                 } else {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
+                console.log(docData);
                 verificaEtiquetasPreco(docData, item);
                 verificaEtiquetasPromo(docData, item);
             } else {
@@ -151,10 +152,14 @@ export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasFo
         onEtiquetasPreco(precosImprimir);
         onEtiquetasPromo(promosImprimir);
         onEtiquetasForaPromo(foraPromoImprimir);
+        console.log('PrecosImprimir: ' + precosImprimir)
+        console.log('PromosImprimir: ' + promosImprimir)
+        console.log('ForaPromoImprimir: ' + foraPromoImprimir)
         console.log('Dados atualizados com sucesso!');
     };
 
     function verificaEtiquetasPreco(docData, item) { //verifica se o item precisa ter uma etiqueta de preço impressa
+        console.log('verificaEtiquetasPreco')
         if (docData.expositor) {
             if (item.precoAtual !== 0) {
                 let dataComparacao = item.dataPrecoAtual === docData.dataPrecoAtual.toDate() ? docData.ultimoPreco : docData.precoAtual;
@@ -170,6 +175,7 @@ export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasFo
     };
 
     function verificaEtiquetasPromo(docData, item) { //verifica se o item precisa ter uma etiqueta de promoção impressa ou retirada
+        console.log('verificaEtiquetasPromo')
         if (docData.expositor && item.promocao === true && item.precoPromocao !== 0) { //se o preço é 0, é pq tiraram de promoção mas não mudaram o status, não sei pq essa viagem
             let obj = {
                 ...item,
@@ -184,8 +190,6 @@ export function XlsxHandling({ onEtiquetasPreco, onEtiquetasPromo, onEtiquetasFo
             foraPromoImprimir.push(obj);
         }
     }
-
-
 
     function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
         const dataPromocaoItem = new Date(item.dataPromocao);

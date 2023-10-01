@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { XlsxHandling } from './components/xlsxHandling.jsx'
+import { XlsxHandling } from './components/XlsxHandling.jsx'
 import { SearchBar } from './components/SearchBar.jsx'
 import { Logo } from './components/Logo.jsx'
 import { CsvHandling } from './components/CsvHandling.jsx'
@@ -8,10 +8,20 @@ import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
 import './App.css'
 
 function App() {
-  const [intersec, setIntersec] = useState([]);
+  const [precos, setPrecos] = useState([]);
+  const [promos, setPromos] = useState([]);
+  const [foraPromos, setForaPromos] = useState([]);
 
-  const handleEtiquetas = (newEtiquetas) => {
-    setIntersec(newEtiquetas);
+  const handlePrecos = (precos) => {
+    setPrecos(precos);
+  }
+
+  const handlePromos = (promos) => {
+    setPromos(promos);
+  }
+
+  const handleForaPromos = (foraPromos) => {
+    setForaPromos(foraPromos);
   }
 
   return (
@@ -19,10 +29,14 @@ function App() {
       <Logo />
       <SearchBar />
       <CsvHandling />
-      <XlsxHandling onEtiquetasChange={handleEtiquetas} />   
-{/* Componentes de etiqueta terão renderização apenas quando um botão for clicado
+      <XlsxHandling
+        onEtiquetasPreco={handlePrecos}
+        onEtiquetasPromo={handlePromos}
+        onEtiquetasForaPromo={handleForaPromos}
+      />
+      {/* Componentes de etiqueta terão renderização apenas quando um botão for clicado
  <EtiquetasPreco etiquetas={intersec} /> */}
-      <EtiquetasPromo etiquetas={intersec} />
+      <EtiquetasPromo etiquetas={promos} />
     </>
   )
 }
