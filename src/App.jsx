@@ -34,8 +34,9 @@ function App() {
         onEtiquetasPromo={handlePromos}
         onEtiquetasForaPromo={handleForaPromos}
       />
-      {/* Componentes de etiqueta terão renderização apenas quando um botão for clicado
- <EtiquetasPreco etiquetas={intersec} /> */}
+      <h1>ETIQUETAS PREÇO:</h1>
+      <EtiquetasPreco etiquetas={precos} />
+      <h1>ETIQUETAS PROMOÇÃO:</h1>
       <EtiquetasPromo etiquetas={promos} />
     </>
   )
