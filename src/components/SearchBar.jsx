@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { collection, query, where, getDocs, db } from './firebaseConfig.jsx';
+import styles from './SearchBar.module.css';
 
 export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
