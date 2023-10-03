@@ -12,30 +12,18 @@ function App() {
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
 
-  const handlePrecos = (precos) => {
-    setPrecos(precos);
-  }
-
-  const handlePromos = (promos) => {
-    setPromos(promos);
-  }
-
-  const handleForaPromos = (foraPromos) => {
-    setForaPromos(foraPromos);
-  }
-
   return (
     <>
       <Logo />
       <SearchBar />
       <CsvHandling />
       <XlsxHandling
-        onEtiquetasPreco={handlePrecos}
-        onEtiquetasPromo={handlePromos}
-        onEtiquetasForaPromo={handleForaPromos}
+        setPrecos={setPrecos}
+        setPromos={setPromos}
+        setForaPromos={setForaPromos}
       />
       <h1>ETIQUETAS PREÇO:</h1>
-      <EtiquetasPreco etiquetas={precos} />
+      <EtiquetasPreco etiquetas={promos} />
       <h1>ETIQUETAS PROMOÇÃO:</h1>
       <EtiquetasPromo etiquetas={promos} />
     </>

@@ -21,16 +21,17 @@ button {
 
 .etiquetaUnidade {
     position: absolute;
-    top: 3mm;
+    top: 2mm;
     left: 2mm;
     font-weight: bold;
 }
 
 .etiquetaPosicao {
     position: absolute;
-    top: 3mm;
-    left: 40mm;
+    top: 7.5mm;
+    left: 2mm;
     font-weight: bold;
+    font-size: 90%;
 }
 
 .etiquetaPreco {
@@ -43,7 +44,7 @@ button {
 
 .etiquetaCodigo {
     position: absolute;
-    top: 1.1cm;
+    top: 1.25cm;
     left: 2mm;
     font-weight: bold;
     font-size: 90%;
@@ -51,7 +52,7 @@ button {
 
 .etiquetaDescricao {
     position: absolute;
-    bottom: 3mm;
+    bottom: 2.5mm;
     left: 2mm;
     font-size: medium;
     font-weight: bold;

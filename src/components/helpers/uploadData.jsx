@@ -2,12 +2,27 @@ import { db } from '../firebaseConfig.jsx';
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { verificaEtiquetasPreco, verificaEtiquetasPromo } from './gerarEtiquetas';
 
-export async function updateData(jsonData, onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
+function handlePrecos(precos, setPrecos) {
+    setPrecos(precos);
+}
+
+function handlePromos(promos, setPromos) {
+    setPromos(promos);
+}
+
+function handleForaPromos(foraPromos, setForaPromos) {
+    setForaPromos(foraPromos);
+}
+
+export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
+    console.log('updateData')
     const portfolioRef = collection(db, 'portfolio');
     const precosImprimir = [];
     const promosImprimir = [];
     const foraPromoImprimir = [];
+    let counter = 0;
     for (const item of jsonData) {
+        counter++;
         const codigo = item.codigo;
         const docRef = doc(portfolioRef, codigo);
         const docSnapshot = await getDoc(docRef);
@@ -20,20 +35,15 @@ export async function updateData(jsonData, onEtiquetasPreco, onEtiquetasPromo, o
                 await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
             }
             verificaEtiquetasPreco(docData, item, precosImprimir);
-            verificaEtiquetasPromo(docData, item, promosImprimir, foraPromoImprimir);            
+            verificaEtiquetasPromo(docData, item, promosImprimir, foraPromoImprimir);
         } else {
             await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
         }
+        setProgress(((counter / jsonData.length) * 100).toFixed(2));
     }
-    onEtiquetasPreco(precosImprimir);
-    onEtiquetasPromo(promosImprimir);
-    onEtiquetasForaPromo(foraPromoImprimir);
-    console.log('PrecosImprimir:');
-    console.log(precosImprimir);
-    console.log('PromosImprimir:')
-    console.log(promosImprimir)
-    console.log('ForaPromoImprimir:')
-    console.log(foraPromoImprimir)
+    handlePrecos(precosImprimir, setPrecos);
+    handlePromos(promosImprimir, setPromos);
+    handleForaPromos(foraPromoImprimir, setForaPromos);
     console.log('Dados atualizados com sucesso!');
 };
 

@@ -1,7 +1,9 @@
 import * as XLSX from 'xlsx';
 import { updateData } from './uploadData.jsx';
+import { set } from 'react-hook-form';
 
 export function readFileAndConvertToJson(event) {
+    console.log('readFileAndConvertToJson');
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = function (evt) {
@@ -15,7 +17,8 @@ export function readFileAndConvertToJson(event) {
         reader.readAsBinaryString(event.target.files[0]);
     });
 };
-export function processarDados(rows, onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo) {
+export function processarDados(rows, setPrecos, setPromos, setForaPromos, setProgress) {
+    console.log('processarDados');
     if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
@@ -53,7 +56,7 @@ export function processarDados(rows, onEtiquetasPreco, onEtiquetasPromo, onEtiqu
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui
-    verificarRepetidos(jsonData, onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo);
+    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress);
 };
 
 export function formatarData(dataString) {
@@ -91,7 +94,7 @@ export function promocao(status) {
     }
 };
 
-export function verificarRepetidos(jsonData, onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo) {
+export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress) {
     let mapa = {};
     let duplicados = {};
     // Primeiro, identifique todos os itens duplicados
@@ -108,7 +111,7 @@ export function verificarRepetidos(jsonData, onEtiquetasPreco, onEtiquetasPromo,
     if (Object.keys(duplicados).length > 0) {
         alert('Os seguintes itens estão duplicados e foram excluídos da atualização. Confira os dados pelo CISS e adicione manualmente: ' + Object.keys(duplicados).join(', '));
     }
-    
+
     //setJsonData(jsonData); // Atualizando o estado aqui
-    updateData(jsonData, onEtiquetasPreco, onEtiquetasPromo, onEtiquetasForaPromo);
+    updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress);
 };

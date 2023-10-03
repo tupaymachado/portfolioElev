@@ -11,8 +11,7 @@ export function CsvHandling() {
       const lines = contents.split('\n');
       const data = lines.map(line => line.split(','));
       let filial = data[0][0];
-      console.log(filial);
-      data.splice(0, 2); 
+      data.splice(0, 2);
       for (let line of data) {
         if (line[0] === '' && line[1] === '') {
           break;
@@ -20,8 +19,10 @@ export function CsvHandling() {
         let obj = {
           codigo: line[0] ? line[0] : 0,
           localizacao: {
-            filial: filial,
-            posicao: `${line[1]}-${line[2]}`,
+            filial: {
+              posicao: `${line[2]}`,
+              expositor: `${line[1]}`
+            }
           },
           unidade: line[3],
           referencia: line[4],
@@ -30,7 +31,7 @@ export function CsvHandling() {
         csvData.push(obj);
       }
       console.log(csvData);
-//      updateFirebase(csvData);
+      //      updateFirebase(csvData);
     };
     reader.readAsText(file);
   };
@@ -58,10 +59,10 @@ export function CsvHandling() {
   }
 
 
-    return (
-      <>
-        <h1>Insira um arquivo CSV padronizado</h1>
-        <input type="file" accept=".csv" onChange={handleFileUpload} />
-      </>
-    )
-  }
+  return (
+    <>
+      <h1>Insira um arquivo CSV padronizado</h1>
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
+    </>
+  )
+}

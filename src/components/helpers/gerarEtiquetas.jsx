@@ -6,6 +6,7 @@ export function verificaEtiquetasPreco(docData, item, precosImprimir) { //verifi
             if (Math.abs(item.precoAtual - dataComparacao) >= 0.1) {
                 let obj = {
                     ...item,
+                    unidade: docData.unidade,
                     localizacao: docData.localizacao,
                 }
                 precosImprimir.push(obj);
@@ -18,12 +19,14 @@ export function verificaEtiquetasPromo(docData, item, promosImprimir, foraPromoI
     if (docData.expositor && item.promocao === true && item.precoPromocao !== 0) { //se o preço é 0, é pq tiraram de promoção mas não mudaram o status, não sei pq essa viagem
         let obj = {
             ...item,
+            unidade: docData.unidade,
             localizacao: docData.localizacao,
         }
         promosImprimir.push(obj);
     } else if (docData.expositor && item.promocao === false || docData.expositor && item.precoPromocao === 0) { //se o preço é 0, será que eu retiro a etiqueta???
         let obj = {
             ...item,
+            unidade: docData.unidade,
             localizacao: docData.localizacao,
         }
         foraPromoImprimir.push(obj);
