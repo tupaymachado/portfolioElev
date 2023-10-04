@@ -5,6 +5,7 @@ import { Logo } from './components/Logo.jsx'
 import { CsvHandling } from './components/CsvHandling.jsx'
 import { EtiquetasPreco } from './components/EtiquetasPreco.jsx'
 import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
+import { AddEtiqueta } from './components/AddEtiqueta.jsx'
 import './App.css'
 
 function App() {
@@ -15,17 +16,24 @@ function App() {
   return (
     <>
       <Logo />
-      <SearchBar />
-      <CsvHandling />
-      <XlsxHandling
-        setPrecos={setPrecos}
-        setPromos={setPromos}
-        setForaPromos={setForaPromos}
-      />
-      <h1>ETIQUETAS PREÇO:</h1>
-      <EtiquetasPreco etiquetas={promos} />
-      <h1>ETIQUETAS PROMOÇÃO:</h1>
-      <EtiquetasPromo etiquetas={promos} />
+      <div className='wrapper'>
+        <div className="sidebar">
+          <AddEtiqueta />
+          <XlsxHandling
+            setPrecos={setPrecos}
+            setPromos={setPromos}
+            setForaPromos={setForaPromos}
+          />
+          <CsvHandling />
+        </div>
+        <div className='main'>
+          <SearchBar />
+          <h1>ETIQUETAS PREÇO:</h1>
+          <EtiquetasPreco etiquetas={promos} />
+          <h1>ETIQUETAS PROMOÇÃO:</h1>
+          <EtiquetasPromo etiquetas={promos} />
+        </div>
+      </div>
     </>
   )
 }

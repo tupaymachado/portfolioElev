@@ -1,3 +1,8 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 256px 1fr;
+}
+
 @media print {
 
     /* Esconde todos os elementos */
