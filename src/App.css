@@ -1,6 +1,10 @@
 .wrapper {
     display: grid;
     grid-template-columns: 256px 1fr;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+    grid-gap: 20px;
 }
 
 @media print {

@@ -1,0 +1,17 @@
+.progressBarWrapper {
+    width: 95%;
+    background-color: #759eef;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.progressBarDiv {
+    height: 20px;
+    background-color: #2363d8;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.progressSpan {
+    color: white;
+}

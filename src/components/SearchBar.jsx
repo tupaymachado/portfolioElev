@@ -11,13 +11,11 @@ export function SearchBar() {
     console.log(`SearchTerm: ${searchTerm}`);
     console.log(`filter: ${filter}`);
     const collectionRef = collection(db, 'portfolio');
-    const queryTerm = await query(collectionRef, where(filter, '==', searchTerm));
+    const queryTerm = await query(collectionRef, where(filter, '==', true));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
-    }
-    )
-
+    })
   }
 
   return (
@@ -33,7 +31,7 @@ export function SearchBar() {
       <select onChange={() => setFilter(event.target.value)}>
         <option value='codigo'>Código</option>
         <option value='categoria'>Categoria</option>
-        <option value='descricao'>Descrição</option>
+        <option value='promocao'>promocao</option>
       </select>
       <button type="submit">Pesquisar</button>
     </form>

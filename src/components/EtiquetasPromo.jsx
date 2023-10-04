@@ -7,6 +7,7 @@ export const EtiquetasPromo = ({ etiquetas }) => {
 
     return (
         <>
+            <h1>ETIQUETAS PROMOÇÃO:</h1>
             <button onClick={handlePrint}>Imprimir Etiquetas de Promoção</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
 
@@ -16,7 +17,7 @@ export const EtiquetasPromo = ({ etiquetas }) => {
                             <div className={styles.etiqueta} key={etiqueta.codigo}>
                                 <div className={styles.etiquetaPromocao}>PROMOÇÃO</div>
                                 <div className={styles.etiquetaUnidade}>Metro Quadrado{/*{etiqueta.unidade}*/}</div>
-                                <div className={styles.etiquetaPosicao}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</div>
+                                <div className={styles.etiquetaPosicao}>{/* {etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao} */}1-25</div>
                                 <div className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</div>
                                 <p className={styles.etiquetaAVista}>À Vista</p>
                                 <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>

@@ -8,6 +8,7 @@ export function EtiquetasPreco({ etiquetas = [] }) {
 
     return (
         <>
+            <h1>ETIQUETAS PREÇO:</h1>
             <button onClick={handlePrint}>Imprimir Etiquetas de Preço</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
 
@@ -15,8 +16,8 @@ export function EtiquetasPreco({ etiquetas = [] }) {
                     return (
                         <>
                             <div className={styles.etiqueta} key={etiqueta.codigo}>
-                                <div className={styles.etiquetaUnidade}>Metro Quadrado</div>
-                                <div className={styles.etiquetaPosicao}>eti</div>
+                                <div className={styles.etiquetaUnidade}>{etiqueta.unidade}</div>
+                                <div className={styles.etiquetaPosicao}>etiqueta.localizacao</div>
                                 <div className={styles.etiquetaPreco}>R$ {String(etiqueta.precoAtual).replace('.', ',')}</div>
                                 <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>
                                 <div className={styles.etiquetaDescricao}>{etiqueta.descricao}</div>

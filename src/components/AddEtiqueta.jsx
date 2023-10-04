@@ -21,11 +21,14 @@ export function AddEtiqueta() {
     }
 
     return (
-        <form onSubmit={handleAddEtiqueta}>
-            <input type="radio" id="preco" name="tipoEtiqueta" value="preco" />
-            <label htmlFor="preco">Preço</label>
-            <input type="radio" id="promocao" name="tipoEtiqueta" value="promocao" />
-            <label htmlFor="promocao">Promoção</label>
+        <form className={styles.addEtiqueta} onSubmit={handleAddEtiqueta}>
+            <h3>Adicionar etiqueta manualmente</h3>
+            <div className={styles.radial}>
+                <input type="radio" id="preco" name="tipoEtiqueta" value="preco" />
+                <label htmlFor="preco">Preço</label>
+                <input type="radio" id="promocao" name="tipoEtiqueta" value="promocao" />
+                <label htmlFor="promocao">Promoção</label>
+            </div>
 
             <input
                 onChange={(event) => setCodigo(event.target.value)}
@@ -45,7 +48,7 @@ export function AddEtiqueta() {
             <input
                 onChange={(event) => setLocalizacao(event.target.value)}
                 type="text"
-                placeholder="localizacao"
+                placeholder="Localizacao"
             />
             <input
                 onChange={(event) => setData(event.target.value)}

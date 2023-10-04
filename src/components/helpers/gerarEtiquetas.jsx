@@ -1,9 +1,8 @@
 export function verificaEtiquetasPreco(docData, item, precosImprimir) { //verifica se o item precisa ter uma etiqueta de preço impressa
     if (docData.expositor) {
         if (item.precoAtual !== 0) {
-            console.log()
-            let dataComparacao = item.dataPrecoAtual === docData.dataPrecoAtual.toDate() ? docData.ultimoPreco : docData.precoAtual;
-            if (Math.abs(item.precoAtual - dataComparacao) >= 0.1) {
+            let dataComparacao = docData.dataPrecoAtual ? (item.dataPrecoAtual === docData.dataPrecoAtual.toDate() ? docData.ultimoPreco : docData.precoAtual) : item.precoAtual;
+            if (Math.abs(item.precoAtual - dataComparacao) >= 0.1 || docData.dataPrecoAtual === undefined) {
                 let obj = {
                     ...item,
                     unidade: docData.unidade,
