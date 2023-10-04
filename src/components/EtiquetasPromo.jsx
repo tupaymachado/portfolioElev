@@ -6,7 +6,7 @@ export const EtiquetasPromo = ({ etiquetas }) => {
     }
 
     return (
-        <>
+        <div className={styles.etiquetasPromoWrapper}>
             <h1>ETIQUETAS PROMOÇÃO:</h1>
             <button onClick={handlePrint}>Imprimir Etiquetas de Promoção</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
@@ -31,7 +31,7 @@ export const EtiquetasPromo = ({ etiquetas }) => {
                 }
                 )}
             </div>
-        </>
+        </div>
     )
 }
 
