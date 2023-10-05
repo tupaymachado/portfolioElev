@@ -2,6 +2,38 @@
     display: none;
 }
 
+.etiquetasContainer {
+    width: 95%;
+    margin: auto;
+    padding: 1rem;    
+    border-spacing: 0                                                                                               ;
+}
+
+.etiquetasContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.etiquetasContainer th,
+.etiquetasContainer td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.etiquetasContainer tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.etiquetasContainer th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.etiquetaData {
+    display: none;
+}
+
 @media print {
     .pageBreak {
         display: block;
@@ -13,12 +45,12 @@
     button {
         display: block;
     }
-    
+
     .etiquetasContainer {
         width:fit-content;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 0.3rem;
+        grid-gap: 0.1rem;
         margin: auto;
         padding: 1rem;
     }
@@ -56,7 +88,7 @@
     
     .etiquetaCodigo {
         position: absolute;
-        top: 1.25cm;
+        top: 1.3cm;
         left: 2mm;
         font-weight: bold;
         font-size: 90%;
@@ -64,7 +96,7 @@
     
     .etiquetaDescricao {
         position: absolute;
-        bottom: 2.5mm;
+        top: 1.8cm;
         left: 2mm;
         font-size: medium;
         font-weight: bold;
@@ -77,5 +109,29 @@
         bottom: 3mm;
         right: 2mm;
         font-size: x-small;
+    } 
+
+    .etiqueta,
+    .etiqueta thead,
+    .etiqueta tbody,
+    .etiqueta tr,
+    .etiqueta th,
+    .etiqueta td {
+        display: block;
+    }
+
+    .etiquetasContainer th,
+    .etiquetasContainer td {
+        border: none;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .etiquetasContainer th {
+        background-color: transparent;
+    }
+
+    .etiquetasContainer thead {
+        display: none;
     }
 }

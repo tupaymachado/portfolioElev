@@ -18,8 +18,8 @@ export const EtiquetasPromo = ({ etiquetas }) => {
                                 <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>
                                 <div className={styles.etiquetaDescricao}>{etiqueta.descricao}</div>
                                 <div className={styles.etiquetaPromocao}>PROMOÇÃO</div>
-                                <div className={styles.etiquetaUnidade}>Metro Quadrado{/*{etiqueta.unidade}*/}</div>
-                                <div className={styles.etiquetaPosicao}>{/* {etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao} */}1-25</div>
+                                <div className={styles.etiquetaUnidade}>{etiqueta.unidade}</div>
+                                <div className={styles.etiquetaPosicao}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}1-25</div>
                                 <div className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</div>
                                 <p className={styles.etiquetaAVista}>À Vista</p>
                                 <p className={styles.etiquetaAviso}>Promoção válida enquanto durarem os estoques</p>

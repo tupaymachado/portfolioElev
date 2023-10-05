@@ -11,23 +11,31 @@ export function EtiquetasPreco({ etiquetas = [] }) {
             <h1>ETIQUETAS PREÇO:</h1>
             <button onClick={handlePrint}>Imprimir Etiquetas de Preço</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
-
                 {etiquetas.map((etiqueta, index) => {
                     return (
-                        <>
-                            <div className={styles.etiqueta} key={etiqueta.codigo}>
-                                <div className={styles.etiquetaUnidade}>{etiqueta.unidade}</div>
-                                <div className={styles.etiquetaPosicao}>etiqueta.localizacao</div>
-                                <div className={styles.etiquetaPreco}>R$ {String(etiqueta.precoAtual).replace('.', ',')}</div>
-                                <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>
-                                <div className={styles.etiquetaDescricao}>{etiqueta.descricao}</div>
-                                <div className={styles.etiquetaData}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</div>
-                            </div>
-                            {(index + 1) % 16 === 0 && <div className={styles.pageBreak}></div>}
-                        </>
+                        <table key={etiqueta.codigo}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th>Posição</th>
+                                    <th>Preço</th>
+                                    <th>Unidade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className={styles.etiqueta}>
+                                    <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
+                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
+                                    <td className={styles.etiquetaPosicao}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</td>
+                                    <td className={styles.etiquetaPreco}>R$ {String(etiqueta.precoAtual).replace('.', ',')}</td>
+                                    <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     )
                 })}
-            </div >
+            </div>
         </>
     )
 }

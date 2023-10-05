@@ -18,8 +18,6 @@ function App() {
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
-
-
   return (
     <div>
       <Logo />
@@ -41,7 +39,7 @@ function App() {
           <SearchBar />
           {mostrarPrecos && <EtiquetasPreco etiquetas={precos} />}
           {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
-          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={promos} />}
+          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
         </div>
       </div>
     </div>

@@ -17,9 +17,6 @@ function handleForaPromos(foraPromos, setForaPromos) {
 export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
     console.log('updateData')
     const portfolioRef = collection(db, 'portfolio');
-    const precosImprimir = [];
-    const promosImprimir = [];
-    const foraPromoImprimir = [];
     let counter = 0;
     for (const item of jsonData) {
         counter++;
@@ -34,16 +31,13 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
             } else {
                 await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
             }
-            verificaEtiquetasPreco(docData, item, precosImprimir);
-            verificaEtiquetasPromo(docData, item, promosImprimir, foraPromoImprimir);
+            verificaEtiquetasPreco(docData, item, setPrecos);
+            verificaEtiquetasPromo(docData, item, setPromos, setForaPromos);
         } else {
             await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
         }
         setProgress(((counter / jsonData.length) * 100).toFixed(2));
     }
-    handlePrecos(precosImprimir, setPrecos);
-    handlePromos(promosImprimir, setPromos);
-    handleForaPromos(foraPromoImprimir, setForaPromos);
     console.log('Dados atualizados com sucesso!');
 };
 

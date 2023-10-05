@@ -1,7 +1,12 @@
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
 import styles from './CsvHandling.module.css';
+import { ProgressBar } from './ProgressBar.jsx';
+import { useState } from 'react';
 
 export function CsvHandling() {
+
+  const [progress, setProgress] = useState(0);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     let csvData = [];
@@ -13,13 +18,13 @@ export function CsvHandling() {
       let filial = data[0][0];
       data.splice(0, 2);
       for (let line of data) {
-        if (line[0] === '' && line[1] === '') {
+        if (line.length === 0) {
           break;
         }
         let obj = {
           codigo: line[0] ? line[0] : 0,
           localizacao: {
-            filial: {
+            [filial]: {
               posicao: `${line[2]}`,
               expositor: `${line[1]}`
             }
@@ -30,17 +35,14 @@ export function CsvHandling() {
         };
         csvData.push(obj);
       }
-      console.log(csvData);
-      //      updateFirebase(csvData);
+      updateFirebase(csvData);
     };
     reader.readAsText(file);
   };
 
   //fazer update no Firebase
   async function updateFirebase(csvData) {
-    console.log()
     const portfolioRef = collection(db, 'portfolio');
-    let counter = 0;
     for (let item of csvData) {
       if (item.codigo === '') {
         continue;
@@ -54,15 +56,14 @@ export function CsvHandling() {
         await setDoc(docRef, item);
       }
     }
-    console.log(`Foram atualizados ${counter} itens.`)
     console.log('Dados atualizados com sucesso!')
   }
-
 
   return (
     <div className={styles.CsvHandling}>
       <h4>Insira um arquivo CSV padronizado</h4>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <input type="file" accept=".csv" onChange={handleFileUpload} />      
+      <ProgressBar progress={progress} />
     </div>
   )
 }
