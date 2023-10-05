@@ -21,7 +21,7 @@ function App() {
 
 
   return (
-    <>
+    <div>
       <Logo />
 
       <div className='wrapper'>
@@ -41,10 +41,10 @@ function App() {
           <SearchBar />
           {mostrarPrecos && <EtiquetasPreco etiquetas={precos} />}
           {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
-          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
+          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={promos} />}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

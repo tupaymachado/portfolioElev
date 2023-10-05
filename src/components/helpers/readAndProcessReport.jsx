@@ -1,6 +1,5 @@
 import * as XLSX from 'xlsx';
 import { updateData } from './uploadData.jsx';
-import { set } from 'react-hook-form';
 
 export function readFileAndConvertToJson(event) {
     console.log('readFileAndConvertToJson');
@@ -17,6 +16,7 @@ export function readFileAndConvertToJson(event) {
         reader.readAsBinaryString(event.target.files[0]);
     });
 };
+
 export function processarDados(rows, setPrecos, setPromos, setForaPromos, setProgress) {
     console.log('processarDados');
     if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto

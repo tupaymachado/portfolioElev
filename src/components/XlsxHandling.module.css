@@ -36,3 +36,11 @@
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
+
+.xlsxHandling button:hover {
+    background-color: #3680ef;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+}

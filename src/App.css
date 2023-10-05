@@ -4,7 +4,11 @@
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
     padding: 20px;
-    grid-gap: 20px;
+    grid-gap: 10px;
+}
+
+button {
+    transition: all 0.2s ease-in-out;
 }
 
 @media print {
@@ -28,6 +32,6 @@
     }
 
     .etiquetasContainer button {
-        visibility: hidden;
+        display: none;
     }    
 }

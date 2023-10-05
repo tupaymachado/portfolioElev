@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
+import styles from './CsvHandling.module.css';
 
 export function CsvHandling() {
   const handleFileUpload = (event) => {
@@ -60,9 +60,9 @@ export function CsvHandling() {
 
 
   return (
-    <>
-      <h1>Insira um arquivo CSV padronizado</h1>
+    <div className={styles.CsvHandling}>
+      <h4>Insira um arquivo CSV padronizado</h4>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-    </>
+    </div>
   )
 }
