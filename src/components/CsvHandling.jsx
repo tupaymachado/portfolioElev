@@ -22,7 +22,7 @@ export function CsvHandling() {
           break;
         }
         let obj = {
-          codigo: line[0] ? line[0] : 0,
+          codigo: line[0] ? line[0] : line[4],
           localizacao: {
             [filial]: {
               posicao: `${line[2]}`,
