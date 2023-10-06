@@ -28,13 +28,14 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
     let marca = '';
     const jsonData = [];
     for (let row of rows) {
-        if (row.length === 1) {
+        if (row.length <= 1) { //
             break;
         }
         if (row[0] === 'Marca/Fabricante') {
             marca = row[3];
             continue;
         }
+        console.log(row);
         let piso = row[2].split(' ')[0] === 'PISO' ? true : false;
         let formatoRegex = /(\d+,\d+|\d+)X(\d+,\d+|\d+)/;
         let formatoMatch = row[2].match(formatoRegex);
@@ -50,13 +51,24 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             dataPrecoAtual: data,
             categoria: piso ? categoria(row[2]) : 'não definido',
             precoPromocao: Number(row[8]),
-            promocao: Number(row[8]) ? promocao(row[11]) : false,
+            promocao: Number(row[8]) ? true : false,
+            promocaoStatus: promocao(row[11]),
             dataPromocao: data
         };
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui
     verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress);
+};
+
+export function promocao(status) {
+    if (status === 'REMOVER ETQ' || status === 'ENCERRADO PROMO') {
+        return false;
+    } else if (status === 'PRORROGADO PROMO' || status === 'EM PROMO') {
+        return true;
+    } else {
+        return 'Sem mudança';
+    }
 };
 
 export function formatarData(dataString) {
@@ -81,16 +93,6 @@ export function categoria(descricao) {
         return matches[0].valor;
     } else {
         return 'Não identificado';
-    }
-};
-
-export function promocao(status) {
-    if (status === 'REMOVER ETQ' || status === 'ENCERRADO PROMO') {
-        return false;
-    } else if (status === 'PRORROGADO PROMO' || status === 'EM PROMO') {
-        return true;
-    } else {
-        return 'Sem mudança';
     }
 };
 

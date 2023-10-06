@@ -11,7 +11,7 @@ export function SearchBar() {
     console.log(`SearchTerm: ${searchTerm}`);
     console.log(`filter: ${filter}`);
     const collectionRef = collection(db, 'portfolio');
-    const queryTerm = await query(collectionRef, where(filter, '==', searchTerm));
+    const queryTerm = await query(collectionRef, where(filter, '==', true));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());

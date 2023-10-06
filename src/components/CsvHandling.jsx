@@ -43,10 +43,13 @@ export function CsvHandling() {
   //fazer update no Firebase
   async function updateFirebase(csvData) {
     const portfolioRef = collection(db, 'portfolio');
+    let counter = 0;
     for (let item of csvData) {
+      counter++
       if (item.codigo === '') {
         continue;
       }
+      console.log(item);
       const docRef = doc(portfolioRef, item.codigo);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
@@ -55,6 +58,7 @@ export function CsvHandling() {
       } else {
         await setDoc(docRef, item);
       }
+      setProgress(((counter / csvData.length) * 100).toFixed(2));
     }
     console.log('Dados atualizados com sucesso!')
   }

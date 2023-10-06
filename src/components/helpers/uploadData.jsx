@@ -42,21 +42,13 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
 };
 
 export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
-    const dataPromocaoItem = new Date(item.dataPromocao);
-    const dataPromocaoDB = docData.dataPromocao.toDate();
     let precosEPromosUpdate = {};
-    //update status de promoção
-    if (dataPromocaoItem > dataPromocaoDB && item.promocao !== 'Sem mudança') {
+    //update preço de promoção
+    if (item.precoPromocao !== 0 && item.precoPromocao !== docData.precoPromocao && item.dataPromocao.getTime() > docData.dataPromocao.toDate().getTime() || item.promocao === false) { //se preço promoção for diferente de 0 e diferente do preço atual no DB
         precosEPromosUpdate = {
             promocao: item.promocao,
-        }
-    }
-    //update preço de promoção
-    if (item.precoPromocao !== 0 && item.precoPromocao !== docData.precoPromocao || item.promocao === false) { //se preço promoção for diferente de 0 e diferente do preço atual no DB
-        precosEPromosUpdate = {
-            ...precosEPromosUpdate,
             precoPromocao: item.precoPromocao,
-            dataPromocao: dataPromocaoItem
+            dataPromocao: item.dataPromocao
         }
         /* existe uma possibilidade remota de promocao ser true e precoPromocao ser 0,
         caso o item.promocao seja true por conta do status "prorrogado promo". Esse status seta, corretamente, o status de promocao como true,
