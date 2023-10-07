@@ -58,7 +58,7 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
         de promoção, o preço de promoção será 0. Nesse caso deve haver uma verificação nas etiquetas e na implementação da pesquisa
         para que esse item seja analisado manualmente no CISS.  */
     }
-    if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for diferente de 0 e diferente do preço atual no DB
+    if (item.precoAtual !== 0 && item.precoAtual !== docData.precoAtual && item.dataPrecoAtual.getTime() > docData.dataPrecoAtual.toDate().getTime()) { //se preço varejo for diferente de 0 e diferente do preço atual no DB
         precosEPromosUpdate = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
             ...precosEPromosUpdate,
             precoAtual: item.precoAtual,
