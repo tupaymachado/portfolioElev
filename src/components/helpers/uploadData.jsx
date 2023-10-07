@@ -33,9 +33,7 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
             }
             if (docData.localizacao) {
                 verificaEtiquetasPreco(docData, item, setPrecos);
-                if (item.promocao === false) {
                 verificaEtiquetasPromo(docData, item, setPromos, setForaPromos);
-                }
             }
         } else {
             await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
