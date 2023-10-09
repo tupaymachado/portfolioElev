@@ -15,8 +15,15 @@ export function verificaEtiquetasPreco(docData, item, setPrecos) {
         const dataPrecoAtual = item.dataPrecoAtual.getTime();
         const dataUltimoPreco = docData.dataUltimoPreco && docData.dataUltimoPreco.toDate().getTime();
         const dataPrecoAtualDoc = docData.dataPrecoAtual && docData.dataPrecoAtual.toDate().getTime();
-
-        if (!docData.precoAtual || dataPrecoAtual === dataUltimoPreco === dataPrecoAtualDoc || Math.abs(item.precoAtual - docData.precoAtual) > 0.1 && dataPrecoAtual > dataPrecoAtualDoc) {
+        if (item.codigo == 1131281) {
+            console.log(dataPrecoAtual)
+            console.log(dataPrecoAtualDoc)
+        }
+        
+        if (!docData.precoAtual || //caso não tenha nenhuma info de preço no DB, é obrigatório a sair etiqueta
+            dataPrecoAtual === dataPrecoAtualDoc || //Basta que a data do DB seja igual a do relatório para determinar que é uma reimpressão
+            Math.abs(item.precoAtual - docData.precoAtual) > 0.1 && dataPrecoAtual > dataPrecoAtualDoc) {
+                console.log('verificaEtiquetasPreco')
             let obj = {
                 ...item,
                 unidade: docData.unidade,
