@@ -32,14 +32,13 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
     let marca = '';
     const jsonData = [];
     for (let row of rows) {
-        if (row.length <= 1) { //
+        if (row.length <= 1) {
             break;
         }
         if (row[0] === 'Marca/Fabricante') {
             marca = row[3];
             continue;
         }
-        console.log(row);
         let piso = row[2].split(' ')[0] === 'PISO' ? true : false;
         let formatoRegex = /(\d+,\d+|\d+)X(\d+,\d+|\d+)/;
         let formatoMatch = row[2].match(formatoRegex);
@@ -49,20 +48,22 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             descricao: row[2],
             formato: formato,
             marca: marca,
-            ultimoPreco: Number(row[7]),
-            dataUltimoPreco: data,
-            precoAtual: Number(row[7]),
-            dataPrecoAtual: data,
             categoria: piso ? categoria(row[2]) : 'não definido',
-            precoPromocao: Number(row[8]),
-            promocao: Number(row[8]) ? true : false,
-            promocaoStatus: promocao(row[11]),
-            dataPromocao: data
-        };
+            promocaoStatus: promocao(row[11])
+        };        
+        if (data >= new Date('2023-10-03')) {
+            obj.ultimoPreco = Number(row[7]);
+            obj.dataUltimoPreco = data;
+            obj.precoAtual = Number(row[7]);
+            obj.dataPrecoAtual = data;
+            obj.precoPromocao = Number(row[8]);
+            obj.promocao = Number(row[8]) ? true : false;
+            obj.dataPromocao = data;
+        }
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui
-    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress);
+    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
 
 export function promocao(status) {
@@ -100,7 +101,7 @@ export function categoria(descricao) {
     }
 };
 
-export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress) {
+export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) {
     let mapa = {};
     let duplicados = {};
     // Primeiro, identifique todos os itens duplicados
@@ -119,5 +120,5 @@ export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos
     }
 
     //setJsonData(jsonData); // Atualizando o estado aqui
-    updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress);
+    updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };

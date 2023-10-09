@@ -49,7 +49,6 @@ export function CsvHandling() {
       if (item.codigo === '') {
         continue;
       }
-      console.log(item);
       const docRef = doc(portfolioRef, item.codigo);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
