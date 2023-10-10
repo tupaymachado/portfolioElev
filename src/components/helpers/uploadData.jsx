@@ -29,8 +29,8 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
             let docData;
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data();
-                if (docData.descricao) {
-                    await updateDoc(docRef, precoEPromo(docData, item, data)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
+                if (docData.descricao && data >= new Date('2023-10-03')) {
+                    await updateDoc(docRef, precoEPromo(docData, item)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
                 } else {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
@@ -49,12 +49,9 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
     }
 };
 
-export function precoEPromo(docData, item, data) { //executado apenas em escritas subsequentes de cada item
+export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
     let precosEPromosUpdate = {};
     //update preço de promoção
-    if (data < new Date('2023-10-03')) { //
-        return
-    }
     if (!docData.promocao || item.promocao === false || item.precoPromocao !== docData.precoPromocao) { //se preço promoção for diferente de 0 e diferente do preço atual no DB
         precosEPromosUpdate = {
             promocao: item.promocao,

@@ -2,7 +2,6 @@ import * as XLSX from 'xlsx';
 import { updateData } from './uploadData.jsx';
 
 export function readFileAndConvertToJson(event) {
-    console.log('readFileAndConvertToJson');
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = function (evt) {
@@ -22,7 +21,6 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
     setForaPromos([]);
     setPrecos([]);
     setProgress(0);
-    console.log('processarDados');
     if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
@@ -49,21 +47,26 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             formato: formato,
             marca: marca,
             categoria: piso ? categoria(row[2]) : 'não definido',
-            promocaoStatus: promocao(row[11])
-        };        
-        if (data >= new Date('2023-10-03')) {
-            obj.ultimoPreco = Number(row[7]);
-            obj.dataUltimoPreco = data;
-            obj.precoAtual = Number(row[7]);
-            obj.dataPrecoAtual = data;
-            obj.precoPromocao = Number(row[8]);
-            obj.promocao = Number(row[8]) ? true : false;
-            obj.dataPromocao = data;
+            promocaoStatus: row[11],
+            ultimoPreco: Number(row[7]),
+            dataUltimoPreco: data,
+            precoAtual: Number(row[7]),
+            dataPrecoAtual: data,
+            precoPromocao: Number(row[8]),
+            promocao: Number(row[8]) ? true : false,
+            dataPromocao: data,
         }
         jsonData.push(obj);
     }
-    //setJsonData(newJsonData); // Atualizando o estado aqui
-    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    jsonData.forEach(item => {
+        if (item.promocaoStatus === 'EM PROMO' && item.promocao === false) {
+            console.log('item com promoçãoStatus EM PROMO e promoção false', item);
+        }
+    }
+    );
+    console.log('fim')
+    //setJsonData(newJsonData); // Atualizando o estado aqui 
+    //verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
 
 export function promocao(status) {
