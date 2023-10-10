@@ -47,7 +47,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             formato: formato,
             marca: marca,
             categoria: piso ? categoria(row[2]) : 'não definido',
-            promocaoStatus: row[11],
+            promocaoStatus: promocao(row[11]),
             ultimoPreco: Number(row[7]),
             dataUltimoPreco: data,
             precoAtual: Number(row[7]),
@@ -59,8 +59,8 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
         jsonData.push(obj);
     }
     jsonData.forEach(item => {
-        if (item.promocaoStatus === 'EM PROMO' && item.promocao === false) {
-            console.log('item com promoçãoStatus EM PROMO e promoção false', item);
+        if (item.promocaoStatus == true && item.promocao == false) {
+            console.log('item com promoçãoStatus sem mudança e promoção true', item);
         }
     }
     );
@@ -71,11 +71,11 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
 
 export function promocao(status) {
     if (status === 'REMOVER ETQ' || status === 'ENCERRADO PROMO') {
-        return false;
+        return false; //nunca tem preço promoção !== 0
     } else if (status === 'PRORROGADO PROMO' || status === 'EM PROMO') {
-        return true;
+        return true; //pode ter preço promoção === 0 ou !== 0
     } else {
-        return 'Sem mudança';
+        return 'Sem mudança'; //nunca sai 'sem mudança' e preço !== 0
     }
 };
 

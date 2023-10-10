@@ -40,8 +40,9 @@ export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) 
     if (item.promocao === true && !docData.promocao || //se o promocao > 0, e o item não estiver em promoção no DB, quero que saia uma etiqueta de promoção
         item.promocao === true && item.precoPromocao !== docData.precoPromocao) { //se promocao > 0 e os preços forem diferentes, também quero etiqueta
         handlePromos(obj, setPromos) //não posso me basear em promocaoStatus, pois as vezes ela é true e o preço é 0
-    } else if (!docData.promocao && item.promocaoStatus === false && item.promocao === false || //se não houver promoção no DB e no relatório estiver preço promo 0 e promocaoStatus false
-        dataPromocao && item.promocao === false && docData.promocao === true //se houver promoção no DB, o preço promoção == 0 e o item estiver em promo no DB
+    } else if (item.promocaoStatus === false || //se o relatório estiver marcando pra retirar, sempre o preço promo é 0
+        dataPromocao && item.promocao === false && docData.promocao === true || //se houver promoção no DB, o preço promoção == 0 e o item estiver em promo no DB
+        item.promocaoStatus === false
         //em caso de reimpressão, vou precisar salvar uma cópia do relatório de retirada de etiquetas no DB para reimprimir
         ) { //preciso guardar a data de saída de promoção no terceiro caso
         handleForaPromos(obj, setForaPromos) //não está pegando caso o relatório seja do mesmo dia do DB
