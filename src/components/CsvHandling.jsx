@@ -1,4 +1,4 @@
-import { db, collection, doc, getDoc, setDoc, updateDoc } from './firebaseConfig.jsx';
+import { db, collection, doc, getDoc, setDoc, updateDoc, addDoc } from './firebaseConfig.jsx';
 import styles from './CsvHandling.module.css';
 import { ProgressBar } from './ProgressBar.jsx';
 import { useState } from 'react';
@@ -7,22 +7,23 @@ export function CsvHandling() {
 
   const [progress, setProgress] = useState(0);
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => { // Adicione async aqui
     const file = event.target.files[0];
     let csvData = [];
+    let semCodigo = [];
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = async function (e) { // Adicione async aqui
       const contents = e.target.result;
       const lines = contents.split('\n');
       const data = lines.map(line => line.split(','));
       let filial = data[0][0];
       data.splice(0, 2);
       for (let line of data) {
-        if (line.length === 0) {
+        if (line.length === 1) {
           break;
         }
         let obj = {
-          codigo: line[0] ? line[0] : line[4],
+          codigo: line[0],
           localizacao: {
             [filial]: {
               posicao: `${line[2]}`,
@@ -33,20 +34,28 @@ export function CsvHandling() {
           referencia: line[4],
           quantidade: line[5],
         };
-        csvData.push(obj);
+        console.log(obj);
+        if (line[0] === '0') {
+          semCodigo.push(obj);
+        } else {
+          csvData.push(obj);
+        }
       }
-      updateFirebase(csvData);
+      console.log(semCodigo);
+      await updateFirebase(csvData, 'portfolio'); // Adicione await aqui
+      updateFirebase(semCodigo, 'sem-codigo');
     };
     reader.readAsText(file);
   };
 
   //fazer update no Firebase
-  async function updateFirebase(csvData) {
-    const portfolioRef = collection(db, 'portfolio');
+  async function updateFirebase(dados, ref) {
+    const portfolioRef = collection(db, ref);
     let counter = 0;
-    for (let item of csvData) {
+    for (let item of dados) {
       counter++
-      if (item.codigo === '') {
+      if (item.codigo === '0') {
+        await addDoc(portfolioRef, item);
         continue;
       }
       const docRef = doc(portfolioRef, item.codigo);
@@ -57,7 +66,7 @@ export function CsvHandling() {
       } else {
         await setDoc(docRef, item);
       }
-      setProgress(((counter / csvData.length) * 100).toFixed(2));
+      setProgress(((counter / dados.length) * 100).toFixed(2));
     }
     console.log('Dados atualizados com sucesso!')
   }

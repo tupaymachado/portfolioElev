@@ -22,6 +22,7 @@ export function verificaEtiquetasPreco(docData, item, setPrecos) {
                 ...item,
                 unidade: docData.unidade,
                 localizacao: docData.localizacao,
+                quantidade: docData.quantidade,
             }
             handlePrecos(obj, setPrecos)
         }
@@ -34,6 +35,7 @@ export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) 
         ...item,
         unidade: docData.unidade,
         localizacao: docData.localizacao,
+        quantidade: docData.quantidade,
     }
     //sempre que o preço promoção for maior que 0, quero que saia uma etiqueta de promoção, exceto caso o preço não tenha mudado (o que é muito raro)
     //promoções não checam nada relacionado a data também, então podem reimprimir etiquetas

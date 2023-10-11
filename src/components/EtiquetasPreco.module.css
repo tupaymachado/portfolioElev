@@ -6,7 +6,7 @@
     width: 95%;
     margin: auto;
     padding: 1rem;    
-    border-spacing: 0                                                                                               ;
+    border-spacing: 0;
 }
 
 .etiquetasContainer table {
@@ -48,9 +48,9 @@
 
     .etiquetasContainer {
         width:fit-content;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 0.1rem;
+        display: block;
+        column-count: 2;
+        column-gap: 0.1rem;
         margin: auto;
         padding: 1rem;
     }
@@ -61,6 +61,8 @@
         height: 3cm;
         border: 2px dotted black;
         font-family: Arial, Helvetica, sans-serif;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
     
     .etiquetaUnidade {
