@@ -21,6 +21,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
     setForaPromos([]);
     setPrecos([]);
     setProgress(0);
+    console.log('processarDados');
     if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
@@ -47,35 +48,30 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             formato: formato,
             marca: marca,
             categoria: piso ? categoria(row[2]) : 'não definido',
-            promocaoStatus: promocao(row[11]),
-            ultimoPreco: Number(row[7]),
-            dataUltimoPreco: data,
-            precoAtual: Number(row[7]),
-            dataPrecoAtual: data,
-            precoPromocao: Number(row[8]),
-            promocao: Number(row[8]) ? true : false,
-            dataPromocao: data,
+            promocaoStatus: promocao(row[11])
+        };        
+        if (data >= new Date('2023-10-03')) {
+            obj.ultimoPreco = Number(row[7]);
+            obj.dataUltimoPreco = data;
+            obj.precoAtual = Number(row[7]);
+            obj.dataPrecoAtual = data;
+            obj.precoPromocao = Number(row[8]);
+            obj.promocao = Number(row[8]) ? true : false;
+            obj.dataPromocao = data;
         }
         jsonData.push(obj);
     }
-    jsonData.forEach(item => {
-        if (item.promocaoStatus == true && item.promocao == false) {
-            console.log('item com promoçãoStatus sem mudança e promoção true', item);
-        }
-    }
-    );
-    console.log('fim')
-    //setJsonData(newJsonData); // Atualizando o estado aqui 
-    //verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    //setJsonData(newJsonData); // Atualizando o estado aqui
+    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
 
 export function promocao(status) {
     if (status === 'REMOVER ETQ' || status === 'ENCERRADO PROMO') {
-        return false; //nunca tem preço promoção !== 0
+        return false; //preço promo sempre === 0
     } else if (status === 'PRORROGADO PROMO' || status === 'EM PROMO') {
-        return true; //pode ter preço promoção === 0 ou !== 0
+        return true; //pode ter preço promoção === 0 ou > 0
     } else {
-        return 'Sem mudança'; //nunca sai 'sem mudança' e preço !== 0
+        return 'Sem mudança'; //sempre sai com preço === 0
     }
 };
 
@@ -121,7 +117,6 @@ export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos
     if (Object.keys(duplicados).length > 0) {
         alert('Os seguintes itens estão duplicados e foram excluídos da atualização. Confira os dados pelo CISS e adicione manualmente: ' + Object.keys(duplicados).join(', '));
     }
-
     //setJsonData(jsonData); // Atualizando o estado aqui
     updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
