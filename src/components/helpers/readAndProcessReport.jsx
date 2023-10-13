@@ -47,7 +47,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             descricao: row[2],
             formato: formato,
             marca: marca,
-            categoria: piso ? categoria(row[2]) : 'não definido',
+            acabamento: piso ? categoria(row[2]) : 'não definido',
             promocaoStatus: promocao(row[11])
         };        
         if (data >= new Date('2023-10-03')) {

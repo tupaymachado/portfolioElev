@@ -14,7 +14,7 @@ function App() {
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
 
-  const [mostrarPrecos, setMostrarPrecos] = useState(false);
+  const [mostrarPrecos, setMostrarPrecos] = useState(true);
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
@@ -24,7 +24,12 @@ function App() {
 
       <div className='wrapper'>
         <div className="sidebar">
-          <AddEtiqueta />
+          <AddEtiqueta
+            precos={precos}
+            setPrecos={setPrecos}
+            promos={promos}
+            setPromos={setPromos}
+          />
           <XlsxHandling
             setPrecos={setPrecos}
             setPromos={setPromos}

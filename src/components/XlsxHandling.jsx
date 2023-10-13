@@ -37,7 +37,6 @@ export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPr
         setInicioPromos(false);
     };
 
-
     const handleFileChange = async (event) => {
         try {
             const rows = await readFileAndConvertToJson(event);
