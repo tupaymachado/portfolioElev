@@ -31,7 +31,9 @@ export function EtiquetasPreco({ etiquetas = [] }) {
                                     <td className={styles.etiquetaPosicao}>{localizacao.expositor}-{localizacao.posicao}</td>
                                     <td className={styles.etiquetaPreco}>R$ {String(etiqueta.precoAtual).replace('.', ',')}</td>
                                     <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
-                                    <td className={styles.etiquetaData}>{etiqueta.data}</td>
+                                    <td className={styles.etiquetaData}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}
+                                    
+                                    </td>
                                 </tr>
                             ))
                         })}

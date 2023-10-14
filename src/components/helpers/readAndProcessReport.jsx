@@ -51,7 +51,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             promocaoStatus: promocao(row[11])
         };        
         if (data >= new Date('2023-10-03')) {
-            obj.ultimoPreco = Number(row[7]);
+            obj.ultimoPreco = 0;
             obj.dataUltimoPreco = data;
             obj.precoAtual = Number(row[7]);
             obj.dataPrecoAtual = data;
@@ -59,6 +59,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             obj.promocao = Number(row[8]) ? true : false;
             obj.dataPromocao = data;
         }
+        console.log(data)
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui

@@ -17,13 +17,15 @@ export function AddEtiqueta({ precos, setPrecos, promos, setPromos }) {
             codigo,
             descricao,
             precoAtual: Number(preco.replace(',', '.')),
+            precoPromocao: Number(preco.replace(',', '.')),
             localizacao: {
                 Laranjal: {
                     expositor: expositor,
                     posicao: posicao
                 }
             },
-            data: new Date(),
+            dataPromocao: new Date(),
+            dataPrecoAtual: new Date(),
             unidade
         };
         if (tipoEtiqueta === 'preco') {
@@ -60,19 +62,21 @@ export function AddEtiqueta({ precos, setPrecos, promos, setPromos }) {
             />
             <input
                 onChange={(event) => setExpositor(event.target.value)}
-                type="text"
+                type="number"
                 placeholder="Expositor"
             />
             <input
                 onChange={(event) => setPosicao(event.target.value)}
-                type="text"
+                type="number"
                 placeholder="Posição"
             />
-            <input
-                onChange={(event) => setUnidade(event.target.value)}
-                type="text"
-                placeholder="Unidade"
-            />
+            <select onChange={(event) => setUnidade(event.target.value)}>
+                <option value="">Selecione a Unidade</option>
+                <option value="Metro Quadrado">Metro Quadrado</option>
+                <option value="Metro Linear">Metro Linear</option>
+                <option value="Peça">Peça</option>
+                <option value="Conjunto">Conjunto</option>
+            </select>
             <button type="submit">Adicionar</button>
         </form>
     );

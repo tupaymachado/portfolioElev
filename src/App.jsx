@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { XlsxHandling } from './components/XlsxHandling.jsx'
 import { SearchBar } from './components/SearchBar.jsx'
 import { Logo } from './components/Logo.jsx'
@@ -14,7 +14,7 @@ function App() {
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
 
-  const [mostrarPrecos, setMostrarPrecos] = useState(true);
+  const [mostrarPrecos, setMostrarPrecos] = useState(false);
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 

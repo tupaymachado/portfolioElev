@@ -51,6 +51,9 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
 
 export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
     let precosEPromosUpdate = {};
+    if (item.codigo == 1053962) {
+        console.log(item.promocaoStatus, item.promocao)
+    }
     if (!docData.promocao || //caso não exista info sobre promoções, deve-se atualizar o DB
         item.promocaoStatus === false || //caso o status indique saída de promoção
         item.promocaoStatus === true && item.promocao === true //caso o status indique promoção e o preço promocao seja > 0
