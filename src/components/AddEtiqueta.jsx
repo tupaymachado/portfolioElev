@@ -30,6 +30,7 @@ export function AddEtiqueta({ precos, setPrecos, promos, setPromos }) {
         };
         if (tipoEtiqueta === 'preco') {
             setPrecos(prevPrecos => [...prevPrecos, etiqueta]);
+            console.log(etiqueta)
         } else if (tipoEtiqueta === 'promocao') {
             setPromos(prevPromos => [...prevPromos, etiqueta]);
         }
@@ -57,17 +58,18 @@ export function AddEtiqueta({ precos, setPrecos, promos, setPromos }) {
             />
             <input
                 onChange={(event) => setPreco(event.target.value)}
-                type="text"
+                type="number"
+                step="any"
                 placeholder="Preço"
             />
             <input
                 onChange={(event) => setExpositor(event.target.value)}
-                type="number"
+                type="text"
                 placeholder="Expositor"
             />
             <input
                 onChange={(event) => setPosicao(event.target.value)}
-                type="number"
+                type="text"
                 placeholder="Posição"
             />
             <select onChange={(event) => setUnidade(event.target.value)}>
