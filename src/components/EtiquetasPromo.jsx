@@ -22,11 +22,10 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                             <th>Código</th>
                             <th>Descrição</th>
                             <th>Promoção</th>
-                            <th>Unidade</th>
                             <th>Posição</th>
                             <th>Preço</th>
                             <th>Data</th>
-                            <th></th>
+                            <th>Deletar etiquetas</th>
                         </tr>
                     </thead>
                     <tbody>
