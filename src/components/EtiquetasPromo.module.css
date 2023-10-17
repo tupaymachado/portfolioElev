@@ -1,4 +1,4 @@
-.pageBreak {
+/* .pageBreak {
     display: none;
 }
 
@@ -83,7 +83,43 @@
     bottom: 3mm;
     right: 2mm;
     font-size: x-small;
+} */
+
+.pageBreak {
+    display: none;
 }
+
+.etiquetasContainer {
+    width: 95%;
+    margin: auto;
+    padding: 1rem;    
+    border-spacing: 0;
+}
+
+.etiquetasContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.etiquetasContainer th,
+.etiquetasContainer td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.etiquetasContainer tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.etiquetasContainer th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.etiquetaData {
+    display: none;
+}                                                                                                           
 
 .etiquetasPromoWrapper button {
     display: block;
