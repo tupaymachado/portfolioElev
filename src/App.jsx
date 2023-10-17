@@ -47,7 +47,10 @@ function App() {
             promos={promos}
             setPromos={setPromos}
           />
-          {mostrarPrecos && <EtiquetasPreco etiquetas={precos} />}
+          {mostrarPrecos && <EtiquetasPreco
+            etiquetas={precos}
+            setEtiquetas={setPrecos}
+          />}
           {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
           {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
         </div>

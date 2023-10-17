@@ -17,8 +17,7 @@ function handleForaPromos(foraPromos, setForaPromos) {
 export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
     const portfolioRef = collection(db, 'portfolio');
     let dataUltimaAtualizacao = await getDoc(doc(portfolioRef, 'dataAtualizacao'));
-    if (!dataUltimaAtualizacao.exists() || dataUltimaAtualizacao.data().data.toMillis() <= data.getTime()) { //
-        console.log('relatório mais novo ou não existe')
+    if (!dataUltimaAtualizacao.exists() || dataUltimaAtualizacao.data().data.toMillis() <= data.getTime()) {
         let counter = 0;
         await setDoc(doc(portfolioRef, 'dataAtualizacao'), { data: data }, { merge: true });
         for (const item of jsonData) {

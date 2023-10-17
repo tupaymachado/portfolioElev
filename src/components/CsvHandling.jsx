@@ -34,14 +34,12 @@ export function CsvHandling() {
           referencia: line[4],
           quantidade: line[5],
         };
-        console.log(obj);
         if (line[0] === '0') {
           semCodigo.push(obj);
         } else {
           csvData.push(obj);
         }
       }
-      console.log(semCodigo);
       await updateFirebase(csvData, 'portfolio'); // Adicione await aqui
       updateFirebase(semCodigo, 'sem-codigo');
     };

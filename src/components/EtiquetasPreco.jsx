@@ -1,8 +1,14 @@
 import styles from './EtiquetasPreco.module.css';
 
-export function EtiquetasPreco({ etiquetas = [] }) {
-    const handlePrint = () => {
+export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
+    function handlePrint() {
         window.print();
+    }
+
+    function handleDelete(index) {
+        const newEtiquetas = [...etiquetas];
+        newEtiquetas.splice(index, 1);
+        setEtiquetas(newEtiquetas);
     }
 
     return (
@@ -18,6 +24,7 @@ export function EtiquetasPreco({ etiquetas = [] }) {
                             <th>Posição</th>
                             <th>Preço</th>
                             <th>Unidade</th>
+                            <th>Deletar etiqueta</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,6 +39,7 @@ export function EtiquetasPreco({ etiquetas = [] }) {
                                     <td className={styles.etiquetaPreco}>R$ {etiqueta.precoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                                     <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
                                     <td className={styles.etiquetaData}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</td>
+                                    <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
                                 </tr>
                             ))
                         })}

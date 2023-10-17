@@ -1,69 +1,54 @@
 import styles from './EtiquetasPromo.module.css';
 
-export const EtiquetasPromo = ({ etiquetas }) => {
+export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
     const handlePrint = () => {
         window.print();
     }
 
-    return (
-        <div className={styles.etiquetasPromoWrapper}>
-            <h1>ETIQUETAS PROMOÇÃO:</h1>
-            <button onClick={handlePrint}>Imprimir Etiquetas de Promoção</button>
-            <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
-
-                {etiquetas.map((etiqueta, index) => {
-                    return (
-                        <>
-                            <div className={styles.etiqueta} key={etiqueta.codigo}>
-                                <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>
-                                <div className={styles.etiquetaDescricao}>{etiqueta.descricao}</div>
-                                <div className={styles.etiquetaPromocao}>PROMOÇÃO</div>
-                                <div className={styles.etiquetaUnidade}>{etiqueta.unidade}</div>
-                                <div className={styles.etiquetaPosicao}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</div>
-                                <div className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</div>
-                                <p className={styles.etiquetaAVista}>À Vista</p>
-                                <p className={styles.etiquetaAviso}>Promoção válida enquanto durarem os estoques</p>
-                                <div className={styles.etiquetaData}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</div>
-                            </div>
-                            {(index + 1) % 8 === 0 && <div className={styles.pageBreak}></div>}
-                        </>
-                    )
-                }
-                )}
-            </div>
-        </div>
-    )
-}
-
-/* import styles from './EtiquetasPromo.module.css';
-
-export const EtiquetasPromo = ({ etiquetas }) => {
-    const handlePrint = () => {
-        window.print();
+    const handleDelete = (index) => {
+        const newEtiquetas = [...etiquetas];
+        newEtiquetas.splice(index, 1);
+        setEtiquetas(newEtiquetas);
     }
 
     return (
         <>
+            <h1>ETIQUETAS PROMOÇÃO:</h1>
             <button onClick={handlePrint}>Imprimir Etiquetas de Promoção</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
-
-                {etiquetas.map((etiqueta, index) => {
-                    return (
-                        <div className={styles.etiqueta} key={etiqueta.codigo}>
-                            <div className={styles.etiquetaPromocao}>PROMOÇÃO</div>
-                            <div className={styles.etiquetaUnidade}>{etiqueta.unidade == 'm2' ? 'Metro Quadrado' : 'Derp'}</div>
-                            <div className={styles.etiquetaPosicao}>{etiqueta.expositor}-{etiqueta.posicao}</div>
-                            <div className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</div>
-                            <p className={styles.etiquetaAVista}>À Vista</p>
-                            <div className={styles.etiquetaCodigo}>{etiqueta.codigo}</div>
-                            <div className={styles.etiquetaDescricao}>{etiqueta.descricao}</div>
-                            <p className={styles.etiquetaAviso}>Promoção válida enquanto durarem os estoques</p>
-                            <div className={styles.etiquetaData}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</div>
-                            {(index + 1) % 8 === 0 && <div className={styles.pageBreak}></div>}
-                        </div>
-                    )
-                })}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Promoção</th>
+                            <th>Unidade</th>
+                            <th>Posição</th>
+                            <th>Preço</th>
+                            <th>Data</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {etiquetas.flatMap((etiqueta, index) => {
+                            const quantidade = etiqueta.quantidade || 1;
+                            const localizacao = etiqueta.localizacao?.Laranjal || {};
+                            return Array.from({ length: quantidade }, (_, i) => (
+                                <tr key={`${etiqueta.codigo}-${i}`} className={styles.etiqueta}>
+                                    <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
+                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
+                                    <td className={styles.etiquetaPromocao}>PROMOÇÃO</td>
+                                    <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
+                                    <td className={styles.etiquetaPosicao}>{localizacao.expositor} - {localizacao.posicao}</td>
+                                    <td className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</td>
+                                    <td className={styles.etiquetaData}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</td>
+                                    <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
+                                </tr>
+                            ))
+                        })}
+                    </tbody>
+                </table>
             </div>
         </>
     )
-} */
+}

@@ -21,7 +21,6 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
     setForaPromos([]);
     setPrecos([]);
     setProgress(0);
-    console.log('processarDados');
     if (rows[0][0] !== '10449 - Preços Alterados nas últimas 24 horas II') { //verifica se o arquivo é o correto
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
@@ -59,7 +58,6 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
             obj.promocao = Number(row[8]) ? true : false;
             obj.dataPromocao = data;
         }
-        console.log(data)
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui
