@@ -1,13 +1,12 @@
 import styles from './AddEtiqueta.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export function AddEtiqueta({ precos, setPrecos, promos, setPromos }) {
+export function AddEtiqueta({ setPrecos, setPromos }) {
     const [codigo, setCodigo] = useState('');
     const [descricao, setDescricao] = useState('');
     const [preco, setPreco] = useState('');
     const [expositor, setExpositor] = useState('');
     const [posicao, setPosicao] = useState('');
-    const [data, setData] = useState('');
     const [unidade, setUnidade] = useState('');
     const [tipoEtiqueta, setTipoEtiqueta] = useState('preco');
 

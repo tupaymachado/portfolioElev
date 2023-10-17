@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { collection, query, where, getDocs, db } from './firebaseConfig.jsx';
 import styles from './SearchBar.module.css';
+import { set } from 'react-hook-form';
 
-export function SearchBar() {
+export function SearchBar({ setPrecos, setPromos }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('');
 
@@ -14,7 +15,10 @@ export function SearchBar() {
     const queryTerm = await query(collectionRef, where(filter, '==', searchTerm));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+      let data = doc.data();
+      data.dataPrecoAtual = data.dataPrecoAtual.toDate();
+      data.dataPromocao = data.dataPromocao.toDate();
+      setPrecos(prevPrecos => [...prevPrecos, data]);
     })
   }
 

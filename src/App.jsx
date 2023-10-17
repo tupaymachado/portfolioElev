@@ -41,7 +41,12 @@ function App() {
           <CsvHandling />
         </div>
         <div className='main'>
-          <SearchBar />
+          <SearchBar
+            precos={precos}
+            setPrecos={setPrecos}
+            promos={promos}
+            setPromos={setPromos}
+          />
           {mostrarPrecos && <EtiquetasPreco etiquetas={precos} />}
           {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
           {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
