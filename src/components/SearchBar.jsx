@@ -12,12 +12,13 @@ export function SearchBar({ setPrecos, setPromos }) {
     console.log(`SearchTerm: ${searchTerm}`);
     console.log(`filter: ${filter}`);
     const collectionRef = collection(db, 'portfolio');
-    const queryTerm = await query(collectionRef, where(filter, '==', true));
+    const queryTerm = await query(collectionRef, where(filter, '==', searchTerm));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       let data = doc.data();
-      data.dataPrecoAtual = data.dataPrecoAtual.toDate();
-      data.dataPromocao = data.dataPromocao.toDate();
+      console.log(data.codigo)
+      data.dataPrecoAtual = data.dataPrecoAtual ? data.dataPrecoAtual.toDate() : null;
+      data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate(): null;
       if (data.precoAtual) {
       setPrecos(prevPrecos => [...prevPrecos, data]);
       }

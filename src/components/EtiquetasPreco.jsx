@@ -29,21 +29,19 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                     </thead>
                     <tbody>
                         {etiquetas.flatMap((etiqueta, index) => {
+                            console.log(index)
                             const quantidade = etiqueta.quantidade || 1;
                             const localizacao = etiqueta.localizacao?.Laranjal || {};
                             return Array.from({ length: quantidade }, (_, i) => (
-                                <>
-                                    <tr key={`${etiqueta.codigo}-${i}`} className={styles.etiqueta}>
-                                        <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
-                                        <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
-                                        <td className={styles.etiquetaPosicao}>{localizacao.expositor} - {localizacao.posicao}</td>
-                                        <td className={styles.etiquetaPreco}>R$ {etiqueta.precoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-                                        <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
-                                        <td className={styles.etiquetaData}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</td>
-                                        <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
-                                    </tr>
-                                    {(index + 1) % 18 === 0 && <tr className={styles.pageBreak}></tr>}
-                                </>
+                                <tr key={`${etiqueta.codigo}-${i}`} className={styles.etiqueta}>
+                                    <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
+                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
+                                    <td className={styles.etiquetaPosicao}>{localizacao.expositor} - {localizacao.posicao}</td>
+                                    <td className={styles.etiquetaPreco}>R$ {etiqueta.precoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                                    <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
+                                    <td className={styles.etiquetaData}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</td>
+                                    <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
+                                </tr>
                             ))
                         })}
                     </tbody>

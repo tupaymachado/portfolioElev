@@ -1,11 +1,7 @@
-.pageBreak {
-    display: none;
-}
-
 .etiquetasContainer {
     width: 95%;
     margin: auto;
-    padding: 1rem;    
+    padding: 1rem;
     border-spacing: 0;
 }
 
@@ -35,26 +31,15 @@
 }
 
 @media print {
-    .pageBreak {
-        display: block;
-        page-break-before: always;
-        height: 5mm;
-        grid-column: 2 span;
-    }
-
-    button {
-        display: block;
-    }
-
     .etiquetasContainer {
-        width:fit-content;
+        width: fit-content;
         display: block;
         column-count: 2;
         column-gap: 0.1rem;
         margin: auto;
         padding: 1rem;
     }
-    
+
     .etiqueta {
         position: relative;
         width: 10cm;
@@ -64,14 +49,14 @@
         break-inside: avoid;
         page-break-inside: avoid;
     }
-    
+
     .etiquetaUnidade {
         position: absolute;
         top: 2mm;
         left: 2mm;
         font-weight: bold;
     }
-    
+
     .etiquetaPosicao {
         position: absolute;
         top: 7.5mm;
@@ -79,7 +64,7 @@
         font-weight: bold;
         font-size: 90%;
     }
-    
+
     .etiquetaPreco {
         position: absolute;
         top: 3mm;
@@ -87,7 +72,7 @@
         font-weight: bolder;
         font-size: x-large;
     }
-    
+
     .etiquetaCodigo {
         position: absolute;
         top: 1.3cm;
@@ -95,7 +80,7 @@
         font-weight: bold;
         font-size: 90%;
     }
-    
+
     .etiquetaDescricao {
         position: absolute;
         top: 1.8cm;
@@ -105,13 +90,13 @@
         padding-right: 1mm;
         text-transform: uppercase;
     }
-    
+
     .etiquetaData {
         position: absolute;
         bottom: 3mm;
         right: 2mm;
         font-size: x-small;
-    } 
+    }
 
     .etiqueta,
     .etiqueta thead,
