@@ -23,7 +23,6 @@ export function SearchBar({ setPrecos, setPromos }) {
       setPrecos(prevPrecos => [...prevPrecos, data]);
       }
       if (data.promocao === true) {
-      console.log(data)
       setPromos(prevPromos => [...prevPromos, data]);
       }
     })
@@ -45,6 +44,7 @@ export function SearchBar({ setPrecos, setPromos }) {
         <option value='acabamento'>Acabamento</option>
         <option value='promocao'>Em promoção</option>
         <option value='precoAtual'>Preço Atual</option>
+        <option value='localizacao.Laranjal.expositor'>Expositor</option>
       </select>
       <button type="submit">Pesquisar</button>
     </form>
