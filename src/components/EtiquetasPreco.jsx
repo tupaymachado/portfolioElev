@@ -29,7 +29,6 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                     </thead>
                     <tbody>
                         {etiquetas.flatMap((etiqueta, index) => {
-                            console.log(index)
                             const quantidade = etiqueta.quantidade || 1;
                             const localizacao = etiqueta.localizacao?.Laranjal || {};
                             return Array.from({ length: quantidade }, (_, i) => (
