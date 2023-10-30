@@ -3,7 +3,7 @@
     grid-template-columns: 256px 1fr;
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 20px;
+    padding: 0 20px;
     grid-gap: 10px;
 }
 

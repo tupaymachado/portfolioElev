@@ -7,7 +7,6 @@ import { EtiquetasPreco } from './components/EtiquetasPreco.jsx'
 import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
 import { AddEtiqueta } from './components/AddEtiqueta.jsx'
 import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
-import { DataAtt } from './components/DataAtt.jsx'
 import './App.css'
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
   return (
     <div>
       <Logo />
-      <DataAtt />
       <div className='wrapper'>
         <div className="sidebar">
           <AddEtiqueta

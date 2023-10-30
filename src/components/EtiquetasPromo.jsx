@@ -11,6 +11,29 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
         setEtiquetas(newEtiquetas);
     }
 
+    const ordenarEtiquetas = (a, b) => {
+        const expositorA = Number(a.localizacao?.Laranjal?.expositor);
+        const expositorB = Number(b.localizacao?.Laranjal?.expositor);
+        const posicaoA = Number(a.localizacao?.Laranjal?.posicao);
+        const posicaoB = Number(b.localizacao?.Laranjal?.posicao);
+
+        if (expositorA < expositorB) {
+            return -1;
+        }
+        if (expositorA > expositorB) {
+            return 1;
+        }
+        if (posicaoA < posicaoB) {
+            return -1;
+        }
+        if (posicaoA > posicaoB) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
+
     return (
         <>
             <h1>ETIQUETAS PROMOÇÃO:</h1>
@@ -27,13 +50,13 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {etiquetas.flatMap((etiqueta, index) => {
+                        {etiquetasOrdenadas.flatMap((etiqueta, index) => {
                             const quantidade = etiqueta.quantidade || 1;
                             const localizacao = etiqueta.localizacao?.Laranjal || {};
                             return Array.from({ length: quantidade }, (_, i) => (
                                 <tr key={`${etiqueta.codigo}-${i}`} className={styles.etiqueta}>
                                     <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
-                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>                                    
+                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
                                     <td className={styles.etiquetaPosicao}>{localizacao.expositor} - {localizacao.posicao}</td>
                                     <td className={styles.etiquetaPromocao}>PROMOÇÃO</td>
                                     <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
