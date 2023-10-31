@@ -44,3 +44,7 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.ligado {
+    background-color:#3680ef !important;
+}

@@ -24,8 +24,8 @@ export function DataAtt() {
 
     return (
         <div className={styles.DataAtt}>
-                <h4>Data da última atualização:</h4>
-                <p>{dataAtt ? dataAtt : 'Carregando...'}</p>
-            </div>
+            <h4>Data da última atualização:</h4>
+            <p>{dataAtt ? dataAtt : 'Carregando...'}</p>
+        </div>
     )
 }

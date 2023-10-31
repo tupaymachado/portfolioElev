@@ -1,6 +1,8 @@
-import styles from './EtiquetasForaPromo.module.css';
+import styles from './EtiquetasForaPromo.module.css'; 
+import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 
 export function EtiquetasForaPromo({ etiquetas }) {
+    const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
         <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
@@ -14,7 +16,7 @@ export function EtiquetasForaPromo({ etiquetas }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {etiquetas.map((etiqueta) => {
+                    {etiquetasOrdenadas.map((etiqueta) => {
                         return (
                             <tr className={styles.etiqueta} key={etiqueta.codigo}>
                                 <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>

@@ -1,43 +1,36 @@
 import styles from './EtiquetasPromo.module.css';
+import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
+import { doc, deleteDoc, db } from './firebaseConfig.jsx';
 
 export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
     const handlePrint = () => {
         window.print();
     }
 
-    const handleDelete = (index) => {
+    function handleDelete(index) {
         const newEtiquetas = [...etiquetas];
         newEtiquetas.splice(index, 1);
         setEtiquetas(newEtiquetas);
     }
 
-    const ordenarEtiquetas = (a, b) => {
-        const expositorA = Number(a.localizacao?.Laranjal?.expositor);
-        const expositorB = Number(b.localizacao?.Laranjal?.expositor);
-        const posicaoA = Number(a.localizacao?.Laranjal?.posicao);
-        const posicaoB = Number(b.localizacao?.Laranjal?.posicao);
-
-        if (expositorA < expositorB) {
-            return -1;
+    function handleExclusao(codigo, index) {
+        confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`)
+        if (confirm) {
+            const newEtiquetas = [...etiquetas];
+            newEtiquetas.splice(index, 1);
+            setEtiquetas(newEtiquetas);
+            const docRef = doc(db, 'portfolio', codigo);
+            deleteDoc(docRef);
+            console.log(`Amostra ${codigo} excluída.`)
         }
-        if (expositorA > expositorB) {
-            return 1;
-        }
-        if (posicaoA < posicaoB) {
-            return -1;
-        }
-        if (posicaoA > posicaoB) {
-            return 1;
-        }
-        return 0;
     }
 
     const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
-        <>
+        <div className={styles.promoWrapper}>
             <h1>ETIQUETAS PROMOÇÃO:</h1>
-            <button onClick={handlePrint}>Imprimir Etiquetas de Promoção</button>
+            <button onClick={handlePrint} className={styles.printButton}>Imprimir Etiquetas de Promoção</button>
             <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
                 <table>
                     <thead>
@@ -46,7 +39,8 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                             <th>Descrição</th>
                             <th>Posição</th>
                             <th>Preço</th>
-                            <th>Deletar etiquetas</th>
+                            <th>Deletar etiqueta</th>
+                            <th>Excluir amostra</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,12 +59,13 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                                     <td className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</td>
                                     <td className={styles.etiquetaData}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</td>
                                     <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
+                                    <td><button onClick={() => handleExclusao(etiqueta.codigo, index)}>Excluir amostra</button></td>
                                 </tr>
                             ))
                         })}
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     )
 }

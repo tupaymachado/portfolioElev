@@ -37,6 +37,9 @@ function App() {
             setMostrarPrecos={setMostrarPrecos}
             setMostrarPromos={setMostrarPromos}
             setMostrarForaPromos={setMostrarForaPromos}
+            mostrarPrecos={mostrarPrecos}
+            mostrarPromos={mostrarPromos}
+            mostrarForaPromos={mostrarForaPromos}
           />
           <CsvHandling />
         </div>
@@ -52,8 +55,14 @@ function App() {
             etiquetas={precos}
             setEtiquetas={setPrecos}
           />}
-          {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
-          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
+          {mostrarPromos && <EtiquetasPromo 
+          etiquetas={promos} 
+          setEtiquetas={setPromos}
+          />}
+          {mostrarForaPromos && <EtiquetasForaPromo 
+          etiquetas={foraPromos} 
+          setEtiquetas={setForaPromos}
+          />}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import styles from './Logo.module.css';
-import LogoImg from './imgs/GrupoElevato_Logo_RGB_Color.svg';
+import LogoImg from './imgs/logo.svg';
 
 export function Logo() {
     
