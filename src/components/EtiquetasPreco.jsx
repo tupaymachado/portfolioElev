@@ -23,7 +23,6 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                             <th>Descrição</th>
                             <th>Posição</th>
                             <th>Preço</th>
-                            <th>Unidade</th>
                             <th>Deletar etiqueta</th>
                         </tr>
                     </thead>

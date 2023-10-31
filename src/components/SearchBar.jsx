@@ -5,7 +5,7 @@ import { set } from 'react-hook-form';
 
 export function SearchBar({ setPrecos, setPromos }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('codigo');
 
   async function handleSearch(event) {
     event.preventDefault();

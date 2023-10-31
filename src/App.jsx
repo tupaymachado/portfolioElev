@@ -7,6 +7,7 @@ import { EtiquetasPreco } from './components/EtiquetasPreco.jsx'
 import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
 import { AddEtiqueta } from './components/AddEtiqueta.jsx'
 import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
+import { DataAtt } from './components/DataAtt.jsx'
 import './App.css'
 
 function App() {
@@ -20,9 +21,9 @@ function App() {
 
   return (
     <div>
-      <Logo />
       <div className='wrapper'>
         <div className="sidebar">
+          <DataAtt />
           <AddEtiqueta
             precos={precos}
             setPrecos={setPrecos}
@@ -40,6 +41,7 @@ function App() {
           <CsvHandling />
         </div>
         <div className='main'>
+          <Logo />
           <SearchBar
             precos={precos}
             setPrecos={setPrecos}
