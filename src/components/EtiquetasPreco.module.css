@@ -4,7 +4,6 @@
 }
 
 .etiquetasContainer table {
-    margin-top: 10px;
     width: 100%;
     border-collapse: collapse;
 }
@@ -85,7 +84,7 @@
 .printButton {
     color: black !important;
     background-color: #f0eeee !important;
-    margin: 0 !important;
+    margin: 0 0 10px 0 !important;
 
     &:hover {
         background-color: #e0e0e0 !important;
@@ -97,6 +96,14 @@
 }
 
 @media print {
+    button {
+        display: none;
+    }
+
+    .etiquetasContainer td {
+        text-align: left;
+    }
+
     .etiquetasContainer {
         width: fit-content;
         display: block;
@@ -110,7 +117,7 @@
         position: relative;
         width: 10cm;
         height: 3cm;
-        border: 2px dotted black;
+        border: 1px dotted black;
         font-family: Arial, Helvetica, sans-serif;
         break-inside: avoid;
         page-break-inside: avoid;

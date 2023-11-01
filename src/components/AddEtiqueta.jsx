@@ -1,5 +1,5 @@
 import styles from './AddEtiqueta.module.css';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export function AddEtiqueta({ setPrecos, setPromos }) {
     const [codigo, setCodigo] = useState('');
@@ -9,6 +9,7 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
     const [posicao, setPosicao] = useState('');
     const [unidade, setUnidade] = useState('');
     const [tipoEtiqueta, setTipoEtiqueta] = useState('preco');
+    const codigoRef = useRef();
 
     function handleAddEtiqueta(event) {
         event.preventDefault();
@@ -33,6 +34,13 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
         } else if (tipoEtiqueta === 'promocao') {
             setPromos(prevPromos => [...prevPromos, etiqueta]);
         }
+        setCodigo('');
+        setDescricao('');
+        setPreco('');
+        setExpositor('');
+        setPosicao('');
+        setUnidade('');
+        codigoRef.current.focus();
     }
 
     return (
@@ -46,32 +54,38 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
             </div>
 
             <input
+                ref={codigoRef}
+                value={codigo}
                 onChange={(event) => setCodigo(event.target.value)}
                 type="number"
                 placeholder="Código"
             />
             <input
+                value={descricao}
                 onChange={(event) => setDescricao(event.target.value)}
                 type="text"
                 placeholder="Descrição"
             />
             <input
+                value={preco}
                 onChange={(event) => setPreco(event.target.value)}
                 type="number"
                 step="any"
                 placeholder="Preço"
             />
             <input
+                value={expositor}
                 onChange={(event) => setExpositor(event.target.value)}
                 type="text"
                 placeholder="Expositor"
             />
             <input
+                value={posicao}
                 onChange={(event) => setPosicao(event.target.value)}
                 type="text"
                 placeholder="Posição"
             />
-            <select onChange={(event) => setUnidade(event.target.value)}>
+            <select value={unidade} onChange={(event) => setUnidade(event.target.value)}>
                 <option value="">Selecione a Unidade</option>
                 <option value="Metro Quadrado">Metro Quadrado</option>
                 <option value="Metro Linear">Metro Linear</option>

@@ -19,7 +19,7 @@ export function EtiquetasForaPromo({ etiquetas }) {
                     {etiquetasOrdenadas.map((etiqueta) => {
                         return (
                             <tr className={styles.etiqueta} key={etiqueta.codigo}>
-                                <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
+                                <td className={styles.etiquetaCodigo}>{etiqueta.codigo == '0' ? etiqueta.referencia : etiqueta.codigo}</td>
                                 <td className={styles.etiquetaPosicao}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</td>
                                 <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
                             </tr>

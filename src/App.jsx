@@ -50,6 +50,8 @@ function App() {
             setPrecos={setPrecos}
             promos={promos}
             setPromos={setPromos}
+            foraPromos={foraPromos}
+            setForaPromos={setForaPromos}
           />
           {mostrarPrecos && <EtiquetasPreco
             etiquetas={precos}
