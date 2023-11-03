@@ -8,9 +8,14 @@ import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
 import { AddEtiqueta } from './components/AddEtiqueta.jsx'
 import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
 import { DataAtt } from './components/DataAtt.jsx'
+import { Login } from './components/Login.jsx'
+import { Logout } from './components/Logout.jsx'
+import { auth, onAuthStateChanged } from './components/FirebaseConfig.jsx'
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState(null);
+
   const [precos, setPrecos] = useState([]);
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
@@ -19,10 +24,26 @@ function App() {
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log(currentUser)
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (user === null) {
+    // User is not logged in, show login form
+    return <Login />;
+  }
+
   return (
     <div>
       <div className='wrapper'>
         <div className="sidebar">
+          <Logout />
           <DataAtt />
           <AddEtiqueta
             precos={precos}
@@ -57,13 +78,13 @@ function App() {
             etiquetas={precos}
             setEtiquetas={setPrecos}
           />}
-          {mostrarPromos && <EtiquetasPromo 
-          etiquetas={promos} 
-          setEtiquetas={setPromos}
+          {mostrarPromos && <EtiquetasPromo
+            etiquetas={promos}
+            setEtiquetas={setPromos}
           />}
-          {mostrarForaPromos && <EtiquetasForaPromo 
-          etiquetas={foraPromos} 
-          setEtiquetas={setForaPromos}
+          {mostrarForaPromos && <EtiquetasForaPromo
+            etiquetas={foraPromos}
+            setEtiquetas={setForaPromos}
           />}
         </div>
       </div>
