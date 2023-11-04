@@ -10,7 +10,7 @@ import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
 import { DataAtt } from './components/DataAtt.jsx'
 import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
-import { auth, onAuthStateChanged } from './components/FirebaseConfig.jsx'
+import { auth, onAuthStateChanged } from './components/firebaseConfig.jsx'
 import './App.css'
 
 function App() {

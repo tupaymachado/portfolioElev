@@ -1,6 +1,6 @@
 // src/components/Logout.jsx
 import React from 'react';
-import { auth, signOut } from './FirebaseConfig.jsx';
+import { auth, signOut } from './firebaseConfig.jsx';
 
 export function Logout() {
   const handleLogout = async () => {
