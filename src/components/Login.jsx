@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { auth, signInWithEmailAndPassword } from './firebaseConfig.jsx';
+import { auth, signInWithEmailAndPassword, sendPasswordResetEmail } from './firebaseConfig.jsx';
+import styles from './Login.module.css';
 
 export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password);
@@ -14,11 +15,19 @@ export function Login() {
         }
     };
 
+    function forgotPassword(email) { //crie uma função para recuperar a senha com sendPasswordResetEmail(auth, email)
+        sendPasswordResetEmail(auth, email)
+    }
+
+
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-            <button type="submit">Login</button>
-        </form>
+        <div className={styles.loginContainer}>
+            <form onSubmit={handleSubmit} className={styles.loginForm}>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" required />
+                <button type="submit">Login</button>
+                <button type="button" onClick={() => forgotPassword(email)}>Esqueci a senha</button>
+            </form>
+        </div>
     );
 }
