@@ -1,5 +1,6 @@
 import styles from './DataAtt.module.css';
 import { collection, doc, getDoc, db } from './firebaseConfig.jsx';
+import { realtime, ref, get } from './firebaseConfig.jsx';
 import { useState, useEffect } from 'react';
 
 export function DataAtt() {
@@ -7,7 +8,12 @@ export function DataAtt() {
 
     useEffect(() => {
         async function getDataAtt() {
-            const portfolioCollection = collection(db, 'portfolio');
+            const dataAttRef = ref(realtime, 'dataAtt');
+            const dataAttSnapshot = await get(dataAttRef);
+            const dataAtt = new Date(dataAttSnapshot.val());
+            console.log(dataAttSnapshot.val())
+            setDataAtt(dataAtt.toLocaleDateString('pt-BR'));
+            /* const portfolioCollection = collection(db, 'portfolio');
             const docRef = doc(portfolioCollection, 'dataAtualizacao');
             const docSnap = await getDoc(docRef);
 
@@ -16,7 +22,7 @@ export function DataAtt() {
                 setDataAtt(dataAtt.toLocaleDateString('pt-BR'));
             } else {
                 console.log('No such document!');
-            }
+            } */
         }
 
         getDataAtt();

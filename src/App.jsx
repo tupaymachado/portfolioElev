@@ -30,12 +30,10 @@ function App() {
       console.log(currentUser)
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
   if (user === null) {
-    // User is not logged in, show login form
     return <Login />;
   }
 

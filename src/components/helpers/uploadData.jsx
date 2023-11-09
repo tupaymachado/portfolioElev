@@ -1,13 +1,17 @@
 import { db } from '../firebaseConfig.jsx';
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { realtime, ref, set, get } from '../firebaseConfig.jsx';
 import { verificaEtiquetasPreco, verificaEtiquetasPromo } from './gerarEtiquetas';
 
 export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
     const portfolioRef = collection(db, 'portfolio');
-    let dataUltimaAtualizacao = await getDoc(doc(portfolioRef, 'dataAtualizacao'));
-    if (!dataUltimaAtualizacao.exists() || dataUltimaAtualizacao.data().data.toMillis() <= data.getTime()) {
+    const dataAttRef = ref(realtime, 'dataAtt');
+    const dataUltimaAtualizacaoSnapshot = await get(dataAttRef);
+    const dataUltimaAtualizacaoVal = dataUltimaAtualizacaoSnapshot.val();
+    const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
+    if (dataUltimaAtualizacao.getTime() <= data.getTime()) {
         let counter = 0;
-        await setDoc(doc(portfolioRef, 'dataAtualizacao'), { data: data }, { merge: true });
+        await set(dataAttRef, data.getTime());
         for (const item of jsonData) {
             counter++;
             const codigo = item.codigo;
