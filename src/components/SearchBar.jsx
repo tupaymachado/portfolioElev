@@ -3,48 +3,86 @@ import { collection, query, where, getDocs, db } from './firebaseConfig.jsx';
 import styles from './SearchBar.module.css';
 
 export function SearchBar({ setPrecos, setPromos }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('');
+  let [searchTerm, setSearchTerm] = useState('');
+  let [filter, setFilter] = useState('codigo');
+  let [operator, setOperator] = useState('==');
 
   async function handleSearch(event) {
     event.preventDefault();
     console.log(`SearchTerm: ${searchTerm}`);
     console.log(`filter: ${filter}`);
     const collectionRef = collection(db, 'portfolio');
-    const queryTerm = await query(collectionRef, where(filter, '==', searchTerm));
+    if (filter === 'precoAtual') {
+      searchTerm = Number(searchTerm.replace(',', '.'));
+    }
+    const queryTerm = await query(collectionRef, where(filter, operator, searchTerm));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       let data = doc.data();
       console.log(data.codigo)
       data.dataPrecoAtual = data.dataPrecoAtual ? data.dataPrecoAtual.toDate() : null;
-      data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate(): null;
-      if (data.precoAtual) {
-      setPrecos(prevPrecos => [...prevPrecos, data]);
-      }
-      if (data.promocao === true) {
-      setPromos(prevPromos => [...prevPromos, data]);
+      data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate() : null;
+      if (data.localizacao) {
+        if (data.precoAtual) {
+          setPrecos(prevPrecos => [...prevPrecos, data]);
+        }
+        if (data.promocao === true) {
+          setPromos(prevPromos => [...prevPromos, data]);
+        }
+      } else {
+        alert('O item não consta em mostruário e/ou não tem informações de preço e promoção.')
       }
     })
   }
 
+  function renderInput() {
+    switch (filter) {
+      case 'promocao':
+        return (
+          <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
+            <option value='true'>Sim</option>
+            <option value='false'>Não</option>
+          </select>
+        );
+      case 'precoAtual':
+        return (
+          <div>
+            <select>
+              <option value='=='>Igual à</option>
+              <option value='>'>Maior que</option>
+              <option value='<'>Menor que</option>
+            </select>
+          <input
+              onChange={(event) => setSearchTerm(event.target.value)}
+              type="text"
+              placeholder="Pesquisar"
+            />
+          </div>
+        );
+      default:
+        return (
+          <input
+            onChange={(event) => setSearchTerm(event.target.value)}
+            type="text"
+            placeholder="Pesquisar"
+          />
+        );
+    }
+  }
+
   return (
     <form onSubmit={handleSearch}>
-      <input
-        onChange={function handleSearch(event) {
-          setSearchTerm(event.target.value)
-        }
-        }
-        type="text"
-        placeholder="Pesquisar"
-      />
-
-      <select onChange={() => setFilter(event.target.value)}>
+      <label htmlFor="search">Campo de busca:</label>
+      &nbsp;
+      <select onChange={(event) => setFilter(event.target.value)} className={styles.selectFilter}>
         <option value='codigo'>Código</option>
-        <option value='acabamento'>Acabamento</option>
         <option value='promocao'>Em promoção</option>
         <option value='precoAtual'>Preço Atual</option>
         <option value='localizacao.Laranjal.expositor'>Expositor</option>
       </select>
+      &nbsp;
+      {renderInput()}
+      &nbsp;
       <button type="submit">Pesquisar</button>
     </form>
   );

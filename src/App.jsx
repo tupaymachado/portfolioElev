@@ -7,9 +7,15 @@ import { EtiquetasPreco } from './components/EtiquetasPreco.jsx'
 import { EtiquetasPromo } from './components/EtiquetasPromo.jsx'
 import { AddEtiqueta } from './components/AddEtiqueta.jsx'
 import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
+import { DataAtt } from './components/DataAtt.jsx'
+import { Login } from './components/Login.jsx'
+import { Logout } from './components/Logout.jsx'
+import { auth, onAuthStateChanged } from './components/firebaseConfig.jsx'
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState(null);
+
   const [precos, setPrecos] = useState([]);
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
@@ -18,11 +24,25 @@ function App() {
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log(currentUser)
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (user === null) {
+    return <Login />;
+  }
+
   return (
     <div>
-      <Logo />
       <div className='wrapper'>
         <div className="sidebar">
+          <Logout />
+          <DataAtt />
           <AddEtiqueta
             precos={precos}
             setPrecos={setPrecos}
@@ -36,22 +56,34 @@ function App() {
             setMostrarPrecos={setMostrarPrecos}
             setMostrarPromos={setMostrarPromos}
             setMostrarForaPromos={setMostrarForaPromos}
+            mostrarPrecos={mostrarPrecos}
+            mostrarPromos={mostrarPromos}
+            mostrarForaPromos={mostrarForaPromos}
           />
           <CsvHandling />
         </div>
         <div className='main'>
+          <Logo />
           <SearchBar
             precos={precos}
             setPrecos={setPrecos}
             promos={promos}
             setPromos={setPromos}
+            foraPromos={foraPromos}
+            setForaPromos={setForaPromos}
           />
           {mostrarPrecos && <EtiquetasPreco
             etiquetas={precos}
             setEtiquetas={setPrecos}
           />}
-          {mostrarPromos && <EtiquetasPromo etiquetas={promos} />}
-          {mostrarForaPromos && <EtiquetasForaPromo etiquetas={foraPromos} />}
+          {mostrarPromos && <EtiquetasPromo
+            etiquetas={promos}
+            setEtiquetas={setPromos}
+          />}
+          {mostrarForaPromos && <EtiquetasForaPromo
+            etiquetas={foraPromos}
+            setEtiquetas={setForaPromos}
+          />}
         </div>
       </div>
     </div>

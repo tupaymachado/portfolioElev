@@ -1,21 +1,37 @@
 .etiquetasContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Alterado para 3 colunas para acomodar os 3 tipos de etiquetas */
-    gap: 10px; /* Adicionado um espaço entre as células */
+    width: 100%;
     margin: auto;
-    padding: 1rem;
-    border: 1px solid black; /* Adicionado uma borda ao redor do container para delimitar a planilha */
+    border-spacing: 0;
 }
 
-.etiqueta {
-    display: flex;
-    justify-content: space-between; /* Adicionado para alinhar os itens horizontalmente */
-    border-bottom: 1px solid black; /* Adicionado uma borda inferior para separar as linhas */
-    padding: 10px; /* Adicionado um padding para dar um pouco de espaço ao redor do texto */
+.etiquetasContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
 }
 
-.etiquetaPosicao, .etiquetaCodigo, .etiquetaDescricao {
-    flex-grow: 1; /* Adicionado para permitir que os itens cresçam para preencher o espaço disponível */
-    text-align: center; /* Adicionado para centralizar o texto */
-    border: 1px solid black; /* Adicionado uma borda para cada célula */
+.etiquetasContainer table td {
+    border: 1px solid #000;
+    padding: 0.5rem;
+}
+
+.etiquetasContainer table th {
+    border: 1px solid #000;
+    padding: 0.5rem;
+}
+
+.etiquetasContainer tr:nth-child(even) {
+    background-color: #e9e7e7;
+}
+
+.etiquetasContainer th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+@media print {
+    .etiquetasContainer th {
+        background-color: #ccc;
+        color: black;
+    }
 }

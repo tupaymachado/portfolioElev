@@ -3,7 +3,7 @@ import { readFileAndConvertToJson, processarDados } from './helpers/readAndProce
 import { ProgressBar } from './ProgressBar.jsx';
 import styles from './XlsxHandling.module.css';
 
-export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPrecos, setMostrarPromos, setMostrarForaPromos }) {
+export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPrecos, setMostrarPromos, setMostrarForaPromos, mostrarPrecos, mostrarPromos, mostrarForaPromos }) {
     const [progress, setProgress] = useState(0);
 
     const [inicioPrecos, setInicioPrecos] = useState(false);
@@ -48,12 +48,12 @@ export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPr
 
     return (
         <div className={styles.xlsxHandling}>
-            <h4>Insira o Relatório '10449 - Preços Alterados nas Últimas 24 horas II' em formato .xls</h4>
+            <h4>Insira um relatório em formato .xls</h4>
             <input type="file" id="fileInput" onChange={handleFileChange} />
             <ProgressBar progress={progress} />
-            <button onClick={handlePrecos}>Mudanças de Preço</button>
-            <button onClick={handlePromos}>Entrada em Promoção</button>
-            <button onClick={handleForaPromos}>Saída de promoção</button>
+            <button onClick={handlePrecos} className={`${mostrarPrecos ? styles.ligado : styles.desligado}`}>Mudanças de Preço</button>
+            <button onClick={handlePromos} className={`${mostrarPromos ? styles.ligado : styles.desligado}`}>Entrada em Promoção</button>
+            <button onClick={handleForaPromos} className={`${mostrarForaPromos ? styles.ligado : styles.desligado}`}>Saída de promoção</button>
         </div>
     );
 }

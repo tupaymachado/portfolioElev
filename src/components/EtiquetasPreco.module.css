@@ -1,7 +1,5 @@
 .etiquetasContainer {
-    width: 95%;
     margin: auto;
-    padding: 1rem;
     border-spacing: 0;
 }
 
@@ -14,7 +12,7 @@
 .etiquetasContainer td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 .etiquetasContainer tr:nth-child(even) {
@@ -30,7 +28,82 @@
     display: none;
 }
 
+.etiquetaUnidade {
+    display: none;
+}
+
+.etiquetasContainer th:last-child {
+    background-color: crimson;
+}
+
+.etiquetasContainer tr td:last-child button {
+    background-color: rgb(243, 42, 82);
+    color: white;
+
+    &:hover {
+        background-color: rgb(188, 2, 39);
+    }
+
+    &:active {
+        background-color: #d0d0d0;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.precosWrapper button {
+    display: block;
+
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #22459d;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+        background-color: #0c1a4b;
+    }
+
+    &:active {
+        background-color: #d0d0d0;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.printButton {
+    color: black !important;
+    background-color: #f0eeee !important;
+    margin: 0 0 10px 0 !important;
+
+    &:hover {
+        background-color: #e0e0e0 !important;
+    }
+
+    &:active {
+        background-color: #d0d0d0 !important;
+    }
+}
+
 @media print {
+    button {
+        display: none;
+    }
+
+    .etiquetasContainer td {
+        text-align: left;
+    }
+
     .etiquetasContainer {
         width: fit-content;
         display: block;
@@ -44,7 +117,7 @@
         position: relative;
         width: 10cm;
         height: 3cm;
-        border: 2px dotted black;
+        border: 1px dotted black;
         font-family: Arial, Helvetica, sans-serif;
         break-inside: avoid;
         page-break-inside: avoid;

@@ -14,7 +14,7 @@ menores de 10 centavos cada. Nesse caso, o preço pode ir subindo sem parar e nu
 export function verificaEtiquetasPreco(docData, item, setPrecos) {
     if (item.precoAtual > 0) {
         const dataPrecoAtual = item.dataPrecoAtual.getTime();
-        const dataPrecoAtualDoc = docData.dataPrecoAtual && docData.dataPrecoAtual.toDate().getTime();
+        const dataPrecoAtualDoc = docData.dataPrecoAtual && docData.dataPrecoAtual.toDate().getTime(); //
         if (!docData.precoAtual || //caso não tenha nenhuma info de preço no DB, é obrigatório a sair etiqueta
             dataPrecoAtual === dataPrecoAtualDoc && Math.abs(item.precoAtual - docData.ultimoPreco) > 0.1 || //Se a data for igual, as infos do relatório já devem constar no DB. Portanto, o preçoAtual será igual para relatório e DB, assim deve ser verificado com ultimoPreco
             Math.abs(item.precoAtual - docData.precoAtual) > 0.1) { //se já houver infos no DB, verifica se o preço tem diferença maior que 10 centavos
