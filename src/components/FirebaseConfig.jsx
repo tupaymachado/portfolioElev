@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyBRjWsAAB5gaQgf5MgHvGj5yZ7hg_bSJ7c",
   authDomain: "portfolioelevato.firebaseapp.com",
+  databaseURL: "https://portfolioelevato-default-rtdb.firebaseio.com",
   projectId: "portfolioelevato",
   storageBucket: "portfolioelevato.appspot.com",
   messagingSenderId: "716144958454",
