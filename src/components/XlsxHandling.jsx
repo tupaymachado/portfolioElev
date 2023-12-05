@@ -48,7 +48,7 @@ export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPr
 
     return (
         <div className={styles.xlsxHandling}>
-            <h4>Insira o Relatório '10449 - Preços Alterados nas Últimas 24 horas II' em formato .xls</h4>
+            <h4>Insira um relatório em formato .xls</h4>
             <input type="file" id="fileInput" onChange={handleFileChange} />
             <ProgressBar progress={progress} />
             <button onClick={handlePrecos} className={`${mostrarPrecos ? styles.ligado : styles.desligado}`}>Mudanças de Preço</button>
