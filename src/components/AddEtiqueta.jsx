@@ -10,7 +10,6 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
     const [unidade, setUnidade] = useState('');
     const [tipoEtiqueta, setTipoEtiqueta] = useState('preco');
     const codigoRef = useRef();
-    teste
     const [showForm, setShowForm] = useState(false);
 
     function handleAddEtiqueta(event) {
