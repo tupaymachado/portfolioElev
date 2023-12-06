@@ -4,7 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { getDatabase, ref, set, get } from 'firebase/database';
 
-const firebaseConfig = {
+const firestoreConfig = {
   apiKey: "AIzaSyBRjWsAAB5gaQgf5MgHvGj5yZ7hg_bSJ7c",
   authDomain: "portfolioelevato.firebaseapp.com",
   databaseURL: "https://portfolioelevato-default-rtdb.firebaseio.com",
