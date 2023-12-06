@@ -1,5 +1,6 @@
 // src/components/Logout.jsx
 import React from 'react';
+import styles from './Logout.module.css';
 import { auth, signOut } from './firebaseConfig.jsx';
 
 export function Logout() {
@@ -12,6 +13,6 @@ export function Logout() {
   };
 
   return (
-    <button onClick={handleLogout}>Logout</button>
+    <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
   );
 }

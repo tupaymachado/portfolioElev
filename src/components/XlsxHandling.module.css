@@ -1,6 +1,4 @@
 .xlsxHandling {
-    background-color: #f3f3f3;
-    border-radius: 5px;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -45,5 +43,5 @@
 }
 
 .ligado {
-    background-color:#3680ef !important;
+    background-color:#ef3642 !important;
 }

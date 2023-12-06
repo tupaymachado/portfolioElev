@@ -1,7 +1,18 @@
+.formContainer {
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, visibility 0.5s, opacity 0.5s;
+}
+
+.formVisible {
+    max-height: 500px; /* Ajuste este valor conforme necessário para acomodar o conteúdo */
+    visibility: visible;
+    opacity: 1;
+}
+
 .addEtiqueta {
-    background-color: #ddd;
-    border: 1px solid black;
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
