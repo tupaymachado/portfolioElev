@@ -51,6 +51,10 @@
     border: 1px solid black;
 }
 
+.addEtiqueta button {
+    margin-top: 5px;
+}
+
 .ligado {
     background-color:rgb(29, 135, 255) !important;
 }

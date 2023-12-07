@@ -1,33 +1,3 @@
-.etiquetasContainer {
-    margin: auto;
-    border-spacing: 0;
-}
-
-.etiquetasContainer table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.etiquetasContainer th,
-.etiquetasContainer td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.etiquetasContainer tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.etiquetasContainer th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.etiquetasContainer th:last-child {
-    background-color: crimson;
-}
-
 .etiquetaData {
     display: none;
 }
@@ -46,65 +16,6 @@
 
 .etiquetaAviso {
     display: none;
-}
-
-.etiquetasContainer tr td:last-child button {
-    background-color: rgb(219, 39, 75);
-    color: white;
-
-    &:hover {
-        background-color: rgb(188, 2, 39);
-    }
-
-    &:active {
-        background-color: #d0d0d0;
-    }
-
-    &:focus {
-        outline: none;
-    }
-}
-
-.promoWrapper button {
-    display: block;
-
-    margin: 0 auto;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    background-color: #22459d;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        background-color: #0c1a4b;
-    }
-
-    &:active {
-        background-color: #d0d0d0;
-    }
-
-    &:focus {
-        outline: none;
-    }
-}
-
-.printButton {
-    color: black !important;
-    background-color: #f0eeee !important;
-    margin: 0px 0px 10px 0px !important;
-
-    &:hover {
-        background-color: #e0e0e0 !important;
-    }
-
-    &:active {
-        background-color: #d0d0d0 !important;
-    }
 }
 
 @media print {

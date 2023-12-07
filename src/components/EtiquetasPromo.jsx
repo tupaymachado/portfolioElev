@@ -1,4 +1,5 @@
 import styles from './EtiquetasPromo.module.css';
+import tabelaStyles from './Tabelas.module.css';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 import { doc, deleteDoc, db } from './firebaseConfig.jsx';
 
@@ -28,10 +29,10 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
     const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
-        <div className={styles.promoWrapper}>
+        <div className={`${styles.promoWrapper} ${tabelaStyles.promoWrapper}`}>
             <h1>ETIQUETAS PROMOÇÃO:</h1>
-            <button onClick={handlePrint} className={styles.printButton}>Imprimir Etiquetas de Promoção</button>
-            <div className={`${styles.etiquetasContainer} etiquetasContainer`}>
+            <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Promoção</button>
+            <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} etiquetasContainer`}>
                 <table>
                     <thead>
                         <tr>
@@ -48,16 +49,16 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                             const quantidade = etiqueta.quantidade || 1;
                             const localizacao = etiqueta.localizacao?.Laranjal || {};
                             return Array.from({ length: quantidade }, (_, i) => (
-                                <tr key={`${etiqueta.codigo}-${i}`} className={styles.etiqueta}>
-                                    <td className={styles.etiquetaCodigo}>{etiqueta.codigo}</td>
-                                    <td className={styles.etiquetaDescricao}>{etiqueta.descricao}</td>
-                                    <td className={styles.etiquetaPosicao}>{localizacao.expositor} - {localizacao.posicao}</td>
-                                    <td className={styles.etiquetaPromocao}>PROMOÇÃO</td>
-                                    <td className={styles.etiquetaUnidade}>{etiqueta.unidade}</td>
-                                    <td className={styles.etiquetaAviso}>Promoção válida enquanto durarem os estoques</td>
-                                    <td className={styles.etiquetaAVista}>À Vista</td>
-                                    <td className={styles.etiquetaPreco}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</td>
-                                    <td className={styles.etiquetaData}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</td>
+                                <tr key={`${etiqueta.codigo}-${i}`} className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`}>
+                                    <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo}</td>
+                                    <td className={`${styles.etiquetaDescricao} ${tabelaStyles.etiquetaDescricao}`}>{etiqueta.descricao}</td>
+                                    <td className={`${styles.etiquetaPosicao} ${tabelaStyles.etiquetaPosicao}`}>{localizacao.expositor} - {localizacao.posicao}</td>
+                                    <td className={`${styles.etiquetaPromocao} ${tabelaStyles.etiquetaPromocao}`}>PROMOÇÃO</td>
+                                    <td className={`${styles.etiquetaUnidade} ${tabelaStyles.etiquetaUnidade}`}>{etiqueta.unidade}</td>
+                                    <td className={`${styles.etiquetaAviso} ${tabelaStyles.etiquetaAviso}`}>Promoção válida enquanto durarem os estoques</td>
+                                    <td className={`${styles.etiquetaAVista} ${tabelaStyles.etiquetaAVista}`}>À Vista</td>
+                                    <td className={`${styles.etiquetaPreco} ${tabelaStyles.etiquetaPreco}`}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</td>
+                                    <td className={`${styles.etiquetaData} ${tabelaStyles.etiquetaData}`}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</td>
                                     <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
                                     <td><button onClick={() => handleExclusao(etiqueta.codigo, index)}>Excluir amostra</button></td>
                                 </tr>

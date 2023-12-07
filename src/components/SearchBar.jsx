@@ -71,7 +71,7 @@ export function SearchBar({ setPrecos, setPromos }) {
   }
 
   return (
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSearch} className={styles.searchForm}>
       <label htmlFor="search">Campo de busca:</label>
       &nbsp;
       <select onChange={(event) => setFilter(event.target.value)} className={styles.selectFilter}>

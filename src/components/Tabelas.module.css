@@ -1,0 +1,57 @@
+.etiquetasContainer {
+    margin: auto;
+    border-spacing: 0;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.etiquetasContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.etiquetasContainer th,
+.etiquetasContainer td {
+    padding: 8px;
+    text-align: center;
+}
+
+.etiquetasContainer tr {
+    border-top: 1px solid #ddd;
+}
+
+.etiquetasContainer tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.etiquetasContainer th {
+    background-color: #1976d2;
+    color: white;
+}
+
+.etiquetasContainer th:last-child {
+    background-color: crimson;
+}
+
+.etiquetasContainer tr td:last-child button {
+    background-color: rgb(243, 42, 82);
+    color: white;
+
+    &:hover {
+        background-color: rgb(188, 2, 39);
+    }
+
+    &:active {
+        background-color: #d0d0d0;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.printButton {
+    margin-left: 12px;
+    margin-bottom: 4px;
+}

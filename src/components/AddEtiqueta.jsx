@@ -56,6 +56,7 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
                     <div className={styles.radial}>
                         <input type="radio" id="preco" name="tipoEtiqueta" value="preco" checked={tipoEtiqueta === 'preco'} onChange={(e) => setTipoEtiqueta(e.target.value)} />
                         <label htmlFor="preco">Preço</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio" id="promocao" name="tipoEtiqueta" value="promocao" checked={tipoEtiqueta === 'promocao'} onChange={(e) => setTipoEtiqueta(e.target.value)} />
                         <label htmlFor="promocao">Promoção</label>
                     </div>
