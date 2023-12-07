@@ -1,4 +1,5 @@
 .formContainer {
+    border-top: 0 !important;
     max-height: 0;
     overflow: hidden;
     visibility: hidden;
@@ -7,17 +8,25 @@
 }
 
 .formVisible {
-    max-height: 500px; /* Ajuste este valor conforme necessário para acomodar o conteúdo */
+    max-height: 500px;
+    /* Ajuste este valor conforme necessário para acomodar o conteúdo */
     visibility: visible;
     opacity: 1;
+}
+
+.addEtiquetaContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
 }
 
 .addEtiqueta {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px;/* 
-    border-top: 0 !important; */
+    padding: 5px;
 }
 
 .addEtiqueta input {

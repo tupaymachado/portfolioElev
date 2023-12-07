@@ -45,7 +45,7 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
     }
 
     return (
-        <>
+        <div className={styles.addEtiquetaContainer}>
             <button onClick={() => setShowForm(!showForm)}>
                 {showForm ? 'Esconder' : 'Adicionar Etiqueta Manualmente'}
             </button>
@@ -101,6 +101,6 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
                     <button type="submit">Adicionar</button>
                 </form>
             </div>
-        </>
+        </div>
     );
 }
