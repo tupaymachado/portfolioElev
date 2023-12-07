@@ -5,13 +5,13 @@ import { signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendP
 import { getDatabase, ref, set, get } from 'firebase/database';
 
 const firestoreConfig = {
-  apiKey: "AIzaSyCkGKoV1nzylCOQu7l48cxjehhQveZsDqw",
-  authDomain: "portfolioportfolio-95534.firebaseapp.com",
-  projectId: "portfolioportfolio-95534",
-  storageBucket: "portfolioportfolio-95534.appspot.com",
-  messagingSenderId: "1025417886211",
-  appId: "1:1025417886211:web:04c550866131025c1e6c36",
-  measurementId: "G-PR1E4LY8WT"
+  apiKey: "AIzaSyBRjWsAAB5gaQgf5MgHvGj5yZ7hg_bSJ7c",
+  authDomain: "portfolioelevato.firebaseapp.com",
+  databaseURL: "https://portfolioelevato-default-rtdb.firebaseio.com",
+  projectId: "portfolioelevato",
+  storageBucket: "portfolioelevato.appspot.com",
+  messagingSenderId: "716144958454",
+  appId: "1:716144958454:web:57bf0401b1cd41625005d7"
 };
 
 const app = initializeApp(firestoreConfig);
