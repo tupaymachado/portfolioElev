@@ -44,9 +44,10 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
         codigoRef.current.focus();
     }
 
-    return (
-        <div className={styles.addEtiquetaContainer}>
-            <button onClick={() => setShowForm(!showForm)}>
+    return ( 
+        <div className={styles.addEtiquetaContainer}> 
+
+            <button onClick={() => setShowForm(!showForm)} className={`${showForm ? styles.ligado : ''}`}>
                 {showForm ? 'Esconder' : 'Adicionar Etiqueta Manualmente'}
             </button>
             <div className={`${styles.formContainer} ${showForm ? styles.formVisible : ''}`}>
