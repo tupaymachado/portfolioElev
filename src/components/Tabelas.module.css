@@ -1,5 +1,9 @@
+.precosWrapper {
+    background-color: transparent;
+}
+
 .etiquetasContainer {
-    margin: auto;
+    margin-bottom: 10px;
     border-spacing: 0;
     padding: 10px;
     border-radius: 10px;
