@@ -1,14 +1,67 @@
+:root {
+    --azul_elevato: #294260;
+    --amarelo_elevato: #EEB310;
+    --cinza_elevato: #5A5B5D;
+}
+
+body > * {
+    background-color: white;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Helvetica;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
 .wrapper {
+    min-height: 100vh;
     display: grid;
-    grid-template-columns: 256px 1fr;
+    grid-template-columns: max-content 1fr;
     position: relative;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 0 20px;
-    grid-gap: 10px;
+    background-color: #f5f5f5;
+}
+
+.main {
+    margin: 0 10px;
+}
+
+.sidebar {
+    height: 100%;
+    max-height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar>*:not(:first-child) {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.sidebar>* {
+    padding: 20px 0px;
 }
 
 button {
-    transition: all 0.2s ease-in-out;
+    border: 0px;
+    width: fit-content;
+    padding: 8px;
+    cursor: pointer;
+    margin: 2px;
+    background-color: rgb(25, 118, 210);
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+        rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: rgb(21, 101, 192);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+    color: white;
 }
 
 @media print {

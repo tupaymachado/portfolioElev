@@ -1,17 +1,12 @@
 .xlsxHandling {
-    background-color: #f3f3f3;
-    border-radius: 5px;
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .xlsxHandling h4 {
-    margin: 5px;
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .xlsxHandling input {
@@ -24,26 +19,9 @@
 }
 
 .xlsxHandling button {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid black;
-    width: 95%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    background-color: #0343c3;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-}
-
-.xlsxHandling button:hover {
-    background-color: #3680ef;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    cursor: pointer;
+    width: 161.09px;
 }
 
 .ligado {
-    background-color:#3680ef !important;
+    background-color:rgb(29, 135, 255) !important;
 }

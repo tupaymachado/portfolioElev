@@ -1,10 +1,6 @@
 .DataAtt {
     text-align: center;
     height: 3rem;
-    margin-bottom: 10px;
-    background-color: #ddd;
-    border: 1px solid black;
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
