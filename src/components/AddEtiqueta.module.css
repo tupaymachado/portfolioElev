@@ -22,6 +22,10 @@
     padding: 5px;
 }
 
+.addEtiquetaContainer button {
+    width: 162px;
+}
+
 .addEtiqueta {
     display: flex;
     flex-direction: column;
