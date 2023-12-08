@@ -43,7 +43,7 @@ export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) 
     //promoções não checam nada relacionado a data também, então podem reimprimir etiquetas
     if (item.promocao === true && !docData.promocao || //se o preço promocao > 0, e o item não estiver em promoção no DB, quero que saia uma etiqueta de promoção
         item.promocao === true && item.precoPromocao !== docData.precoPromocao && dataPromocao ||
-        item.promocao === true && dataPromocao == docData.dataPromocao.toDate().getTime() && item.precoPromocao !== docData.precoPromocao
+        item.promocao === true && dataPromocao == docData.dataPromocao.toDate().getTime() && item.precoPromocao !== docData.ultimoPrecoPromocao
         ) { //se promocao > 0 e os preços forem diferentes, também quero etiqueta
         handlePromos(obj, setPromos)
     } else if (item.promocaoStatus === false || //se o relatório estiver marcando pra retirar, sempre o preço promo é 0

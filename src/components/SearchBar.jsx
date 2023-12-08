@@ -4,7 +4,7 @@ import styles from './SearchBar.module.css';
 
 export function SearchBar({ setPrecos, setPromos }) {
   let [searchTerm, setSearchTerm] = useState('');
-  let [filter, setFilter] = useState('');
+  let [filter, setFilter] = useState('codigo');
   let [operator, setOperator] = useState('==');
 
   async function handleSearch(event) {
@@ -37,10 +37,14 @@ export function SearchBar({ setPrecos, setPromos }) {
     switch (filter) {
       case 'promocao':
         return (
-          <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
-            <option value='true'>Sim</option>
-            <option value='false'>Não</option>
-          </select>
+          <div>
+            <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
+              <option value='true'>Sim</option>
+              <option value='false'>Não</option>
+            </select>
+            &nbsp;
+            <input />
+          </div>
         );
       case 'precoAtual':
         return (
@@ -51,7 +55,7 @@ export function SearchBar({ setPrecos, setPromos }) {
               <option value='<'>Menor que</option>
             </select>
             &nbsp;
-          <input
+            <input
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"
               placeholder="Pesquisar"
