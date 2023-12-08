@@ -49,6 +49,7 @@ export function SearchBar({ setPrecos, setPromos }) {
               <option value='>'>Maior que</option>
               <option value='<'>Menor que</option>
             </select>
+            &nbsp;
           <input
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"

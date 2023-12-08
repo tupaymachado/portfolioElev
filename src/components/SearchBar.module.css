@@ -1,7 +1,30 @@
+.searchForm {
+    display: flex;;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+
 .searchForm button {
     background-color: rgb(3, 161, 95);
+    width: 80px;
+    height: 25px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .searchForm button:hover {
     background-color: rgb(2, 122, 72);
+}
+
+.searchForm {
+    display: flex;
+}
+
+/* .searchForm input and select */
+.searchForm input, .searchForm select {
+    box-sizing: border-box;
+    height: 22px;
 }
