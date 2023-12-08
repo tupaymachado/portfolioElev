@@ -4,7 +4,7 @@ import styles from './SearchBar.module.css';
 
 export function SearchBar({ setPrecos, setPromos }) {
   let [searchTerm, setSearchTerm] = useState('');
-  let [filter, setFilter] = useState('codigo');
+  let [filter, setFilter] = useState('');
   let [operator, setOperator] = useState('==');
 
   async function handleSearch(event) {
@@ -13,6 +13,7 @@ export function SearchBar({ setPrecos, setPromos }) {
     if (filter === 'precoAtual') {
       searchTerm = Number(searchTerm.replace(',', '.'));
     }
+    console.log(searchTerm, filter)
     const queryTerm = await query(collectionRef, where(filter, operator, searchTerm));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
