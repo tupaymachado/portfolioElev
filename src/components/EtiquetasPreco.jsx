@@ -8,17 +8,15 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
         window.print();
     }
 
-    function handleDelete(index) {
-        const newEtiquetas = [...etiquetas];
-        newEtiquetas.splice(index, 1);
+    function handleDelete(codigo) {
+        const newEtiquetas = etiquetas.filter(etiqueta => etiqueta.codigo !== codigo);
         setEtiquetas(newEtiquetas);
     }
 
-    function handleExclusao(codigo, index) {
+    function handleExclusao(codigo) {
         confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`)
         if (confirm) {
-            const newEtiquetas = [...etiquetas];
-            newEtiquetas.splice(index, 1);
+            const newEtiquetas = etiquetas.filter(etiqueta => etiqueta.codigo !== codigo);
             setEtiquetas(newEtiquetas);
             const docRef = doc(db, 'portfolio', codigo);
             deleteDoc(docRef);
@@ -29,10 +27,10 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
     const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
-        <div className={`${styles.precosWrapper} ${tabelaStyles.precosWrapper}`}>
-            <h1>ETIQUETAS PREÇO:</h1>
+        <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper}`}>
+            <p>Etiquetas Preço</p>
             <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Preço</button>
-            <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} etiquetasContainer`}>
+            <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
                 <table>
                     <thead>
                         <tr>
@@ -45,7 +43,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {etiquetasOrdenadas.flatMap((etiqueta, index) => {
+                        {etiquetasOrdenadas.flatMap((etiqueta) => {
                             const quantidade = etiqueta.quantidade || 1;
                             const localizacao = etiqueta.localizacao?.Laranjal || {};
                             return Array.from({ length: quantidade }, (_, i) => (
@@ -56,8 +54,8 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                                     <td className={`${styles.etiquetaPreco} ${tabelaStyles.etiqueta}`}>R$ {etiqueta.precoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                                     <td className={`${styles.etiquetaUnidade} ${tabelaStyles.etiqueta}`}>{etiqueta.unidade}</td>
                                     <td className={`${styles.etiquetaData} ${tabelaStyles.etiqueta}`}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</td>
-                                    <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
-                                    <td><button onClick={() => handleExclusao(etiqueta.codigo, index)}>Excluir amostra</button></td>
+                                    <td><button onClick={() => handleDelete(etiqueta.codigo)}>Deletar</button></td>
+                                    <td><button onClick={() => handleExclusao(etiqueta.codigo)}>Excluir amostra</button></td>
                                 </tr>
                             ))
                         })}

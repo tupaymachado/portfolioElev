@@ -9,8 +9,6 @@ export function SearchBar({ setPrecos, setPromos }) {
 
   async function handleSearch(event) {
     event.preventDefault();
-    console.log(`SearchTerm: ${searchTerm}`);
-    console.log(`filter: ${filter}`);
     const collectionRef = collection(db, 'portfolio');
     if (filter === 'precoAtual') {
       searchTerm = Number(searchTerm.replace(',', '.'));
@@ -19,7 +17,6 @@ export function SearchBar({ setPrecos, setPromos }) {
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       let data = doc.data();
-      console.log(data.codigo)
       data.dataPrecoAtual = data.dataPrecoAtual ? data.dataPrecoAtual.toDate() : null;
       data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate() : null;
       if (data.localizacao) {

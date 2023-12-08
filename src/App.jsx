@@ -20,14 +20,13 @@ function App() {
   const [promos, setPromos] = useState([]);
   const [foraPromos, setForaPromos] = useState([]);
 
-  const [mostrarPrecos, setMostrarPrecos] = useState(false);
+  const [mostrarPrecos, setMostrarPrecos] = useState(true);
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser)
     });
 
     return () => unsubscribe();
@@ -41,7 +40,7 @@ function App() {
     <div>
       <div className='wrapper'>
         <div className="sidebar">
-          <Logout />
+          <Logo />
           <DataAtt />
           <AddEtiqueta
             precos={precos}
@@ -64,7 +63,6 @@ function App() {
         </div>
         <div className='main'>
           <div className='topo'>
-            <Logo />
             <SearchBar
               precos={precos}
               setPrecos={setPrecos}
@@ -73,6 +71,7 @@ function App() {
               foraPromos={foraPromos}
               setForaPromos={setForaPromos}
             />
+            <Logout />
           </div>
           {mostrarPrecos && <EtiquetasPreco
             etiquetas={precos}
