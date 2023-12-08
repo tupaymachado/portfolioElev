@@ -39,8 +39,6 @@ export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) 
         quantidade: docData.quantidade,
     }
 
-
-    
     //sempre que o preço promoção for maior que 0, quero que saia uma etiqueta de promoção, exceto caso o preço não tenha mudado (o que é muito raro)
     //promoções não checam nada relacionado a data também, então podem reimprimir etiquetas
     if (item.promocao === true && !docData.promocao || //se o preço promocao > 0, e o item não estiver em promoção no DB, quero que saia uma etiqueta de promoção

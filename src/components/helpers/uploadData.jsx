@@ -46,12 +46,11 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
         item.promocaoStatus === false || //caso o status indique saída de promoção
         item.promocaoStatus === true && item.promocao === true //caso o status indique promoção e o preço promocao seja > 0
     ) {
-        docData.codigo === '1062359' ? console.log('1') : null;
-        docData.codigo === '1062359' ? console.log(item.promocaoStatus, item.promocao) : null;
         precosEPromosUpdate = {
             promocao: item.promocao,
             precoPromocao: item.precoPromocao,
-            dataPromocao: item.dataPromocao
+            dataPromocao: item.dataPromocao,
+            ultimoPrecoPromocao: docData.precoPromocao,
         }
     };
     if (!docData.precoAtual) { //caso não exista info sobre o preço atual, ultimoPreco === precoAtual e dataUltimoPreco === dataPrecoAtual
