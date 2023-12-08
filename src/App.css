@@ -59,6 +59,7 @@ body {
 .sidebar>* {
     padding: 20px 0px;
     width: 100%;
+    max-width: 272px;
 }
 
 td {

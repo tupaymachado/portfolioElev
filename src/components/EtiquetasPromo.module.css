@@ -30,6 +30,7 @@
         column-gap: 0.1rem;
         margin: auto;
         padding: 1rem;
+        box-shadow: none;
     }
 
     .etiqueta {

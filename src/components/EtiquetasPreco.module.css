@@ -15,10 +15,6 @@
         display: none;
     }
 
-    .etiquetasContainer td {
-        text-align: left;
-    }
-
     .etiquetasContainer {
         width: fit-content;
         display: block;
@@ -26,6 +22,7 @@
         column-gap: 0.1rem;
         margin: auto;
         padding: 1rem;
+        box-shadow: none;
     }
 
     .etiqueta {

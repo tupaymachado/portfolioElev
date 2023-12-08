@@ -11,13 +11,10 @@
     font-weight: 650;
     font-size: 1.3rem;
     letter-spacing: 0.0075em;
-    box-shadow:
-        0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-        0px 4px 5px 0px rgba(0, 0, 0, 0.14);
     height: 50px;
     line-height: 50px;
     padding-left: 22px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .etiquetasContainer {
@@ -85,4 +82,16 @@
 .printButton {
     margin-left: 12px;
     margin-bottom: 4px;
+}
+
+@media print {
+    .etiquetasContainer {
+        box-shadow: none;
+    }
+
+    .etiquetasContainer td,
+    .etiquetasContainer th {
+        padding: 0px;
+        text-align: left;
+    }
 }

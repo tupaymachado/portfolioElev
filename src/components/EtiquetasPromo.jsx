@@ -27,7 +27,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
     const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
-        <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper}`}>
+        <div className={`${tabelaStyles.etiquetasWrapper} ${styles.etiquetasWrapper} `}>
             <p>Etiquetas Promoção</p>
             <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Promoção</button>
             <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
