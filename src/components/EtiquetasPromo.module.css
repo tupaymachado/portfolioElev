@@ -136,4 +136,8 @@
         right: 2mm;
         font-size: x-small;
     }
+
+    .etiquetasContainer tr {
+        background-color: white;
+    }
 }

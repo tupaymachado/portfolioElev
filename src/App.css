@@ -86,19 +86,15 @@ button:hover {
 }
 
 @media print {
-
-    /* Esconde todos os elementos */
     body * {
         visibility: hidden;
     }
 
-    /* Mostra apenas o componente EtiquetasPreco e seus filhos */
     .etiquetasContainer,
     .etiquetasContainer * {
         visibility: visible;
     }
 
-    /* Posiciona o componente EtiquetasPreco no topo da página */
     .etiquetasContainer {
         position: absolute;
         left: 0;
