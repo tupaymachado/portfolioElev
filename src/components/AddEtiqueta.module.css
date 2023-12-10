@@ -9,7 +9,6 @@
 
 .formVisible {
     max-height: 500px;
-    /* Ajuste este valor conforme necessário para acomodar o conteúdo */
     visibility: visible;
     opacity: 1;
 }

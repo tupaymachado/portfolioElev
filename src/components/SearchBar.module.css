@@ -23,8 +23,11 @@
     display: flex;
 }
 
-/* .searchForm input and select */
 .searchForm input, .searchForm select {
     box-sizing: border-box;
     height: 22px;
+}
+
+.searchForm input:focus {
+    outline: none;
 }

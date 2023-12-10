@@ -7,12 +7,12 @@ export function CsvHandling() {
 
   const [progress, setProgress] = useState(0);
 
-  const handleFileUpload = async (event) => { // Adicione async aqui
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     let csvData = [];
     let semCodigo = [];
     const reader = new FileReader();
-    reader.onload = async function (e) { // Adicione async aqui
+    reader.onload = async function (e) {
       const contents = e.target.result;
       const lines = contents.split('\n');
       const data = lines.map(line => line.split(','));
@@ -40,11 +40,28 @@ export function CsvHandling() {
           csvData.push(obj);
         }
       }
-      await updateFirebase(csvData, 'portfolio'); // Adicione await aqui
-      updateFirebase(semCodigo, 'sem-codigo');
+      verificarRepetidos(csvData);
     };
     reader.readAsText(file);
   };
+
+  async function verificarRepetidos(dados) {
+    let repetidos = [];
+    let counter = 0;
+    for (let item of dados) {
+      counter++;
+      let codigo = item.codigo;
+      let index = dados.findIndex(item => item.codigo === codigo);
+      if (index !== counter - 1) {
+        repetidos.push(item);
+        dados.splice(index, 1);
+      }
+    }
+    console.log('Repetidos: ', repetidos);
+    console.log('Dados: ', dados);
+    await updateFirebase(dados, 'portfolio');
+    updateFirebase(semCodigo, 'sem-codigo');
+  }
 
   //fazer update no Firebase
   async function updateFirebase(dados, ref) {
@@ -72,7 +89,7 @@ export function CsvHandling() {
   return (
     <div className={styles.CsvHandling}>
       <h4>Insira um arquivo CSV padronizado</h4>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />      
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
       <ProgressBar progress={progress} />
     </div>
   )

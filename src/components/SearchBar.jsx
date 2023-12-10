@@ -13,7 +13,6 @@ export function SearchBar({ setPrecos, setPromos }) {
     if (filter === 'precoAtual') {
       searchTerm = Number(searchTerm.replace(',', '.'));
     }
-    console.log(searchTerm, filter)
     const queryTerm = await query(collectionRef, where(filter, operator, searchTerm));
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
@@ -37,14 +36,10 @@ export function SearchBar({ setPrecos, setPromos }) {
     switch (filter) {
       case 'promocao':
         return (
-          <div>
-            <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
-              <option value='true'>Sim</option>
-              <option value='false'>Não</option>
-            </select>
-            &nbsp;
-            <input />
-          </div>
+          <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
+            <option value='true'>Sim</option>
+            <option value='false'>Não</option>
+          </select>
         );
       case 'precoAtual':
         return (
@@ -55,7 +50,7 @@ export function SearchBar({ setPrecos, setPromos }) {
               <option value='<'>Menor que</option>
             </select>
             &nbsp;
-            <input
+          <input
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"
               placeholder="Pesquisar"
