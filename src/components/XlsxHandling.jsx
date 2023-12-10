@@ -6,7 +6,7 @@ import styles from './XlsxHandling.module.css';
 export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPrecos, setMostrarPromos, setMostrarForaPromos, mostrarPrecos, mostrarPromos, mostrarForaPromos }) {
     const [progress, setProgress] = useState(0);
 
-    const [inicioPrecos, setInicioPrecos] = useState(false);
+    const [inicioPrecos, setInicioPrecos] = useState(true);
     const [inicioPromos, setInicioPromos] = useState(false);
     const [inicioForaPromos, setInicioForaPromos] = useState(false);
 
