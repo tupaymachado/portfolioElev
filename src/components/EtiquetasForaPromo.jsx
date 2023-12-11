@@ -1,5 +1,5 @@
-import styles from './EtiquetasForaPromo.module.css';
 import tabelaStyles from './Tabelas.module.css';
+import styles from './EtiquetasForaPromo.module.css';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 
 export function EtiquetasForaPromo({ etiquetas }) {

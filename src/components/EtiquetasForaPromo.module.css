@@ -3,8 +3,17 @@
 }
 
 @media print {
+    .etiquetaWrapper {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+    }
+
+    .etiquetasContainer {
+        display: block;
+    }
+
     .etiquetasContainer th {
-        background-color: #ccc;
-        color: black;
+        display: none;
     }
 }
