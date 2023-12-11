@@ -3,17 +3,27 @@
 }
 
 @media print {
-    .etiquetaWrapper {
-        position: absolute !important;
-        top: 0;
-        left: 0;
-    }
-
     .etiquetasContainer {
         display: block;
     }
 
-    .etiquetasContainer th {
-        display: none;
+    .etiquetasContainer thead th {
+        width: max-content;
+        padding: 0.1rem 1rem;
+        color: black;
+    }
+
+    .etiquetasContainer tbody td {
+        width: max-content;
+        padding: 0.2rem 1rem;
+    }
+
+    .etiquetasContainer td {
+        background-color: transparent;
+    }
+
+    .etiquetasContainer table {
+        border: 1px solid black !important;
+        border-collapse: revert;
     }
 }

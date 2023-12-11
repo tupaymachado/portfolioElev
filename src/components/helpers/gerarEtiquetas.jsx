@@ -42,9 +42,9 @@ export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) 
     //sempre que o preço promoção for maior que 0, quero que saia uma etiqueta de promoção, exceto caso o preço não tenha mudado (o que é muito raro)
     //promoções não checam nada relacionado a data também, então podem reimprimir etiquetas
     if (item.promocao === true && !docData.promocao || //se o preço promocao > 0, e o item não estiver em promoção no DB, quero que saia uma etiqueta de promoção
-        item.promocao === true && item.precoPromocao !== docData.precoPromocao && dataPromocao ||
-        item.promocao === true && dataPromocao == docData.dataPromocao.toDate().getTime() && item.precoPromocao !== docData.ultimoPrecoPromocao
-        ) { //se promocao > 0 e os preços forem diferentes, também quero etiqueta
+        item.promocao === true && item.precoPromocao !== docData.precoPromocao && dataPromocao || //preco promo > 0, precos diferentes relatorio e db e dataPromocao existente
+        item.promocao === true && dataPromocao == docData.dataPromocao.toDate().getTime() && item.precoPromocao !== docData.ultimoPrecoPromocao //preco promo > 0, mesma data de promoção (segunda vez que o relatório entra no sistema), preco item.promo diferente de ultimoPrecoPromo
+        ) {
         handlePromos(obj, setPromos)
     } else if (item.promocaoStatus === false || //se o relatório estiver marcando pra retirar, sempre o preço promo é 0
         dataPromocao && item.promocao === false && item.promocaoStatus === true //se houver promoção no DB, o preço promoção == 0 e o item estiver em promo no DB

@@ -42,7 +42,15 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
 
 export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
     let precosEPromosUpdate = {};
-    if (docData.promocao === undefined || //caso não exista info sobre promoções, deve-se atualizar o DB
+
+    if (!docData.promocao) {
+        precosEPromosUpdate = {
+            promocao: item.promocao,
+            precoPromocao: item.precoPromocao,
+            dataPromocao: item.dataPromocao,
+            ultimoPrecoPromocao: 0,
+        }
+    } else if (
         item.promocaoStatus === false || //caso o status indique saída de promoção
         item.promocaoStatus === true && item.promocao === true //caso o status indique promoção e o preço promocao seja > 0
     ) {
@@ -54,7 +62,6 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
         }
     };
     if (!docData.precoAtual) { //caso não exista info sobre o preço atual, ultimoPreco === precoAtual e dataUltimoPreco === dataPrecoAtual
-        docData.codigo === '1062359' ? console.log('2') : null;
         precosEPromosUpdate = {
             ...precosEPromosUpdate,
             precoAtual: item.precoAtual,
@@ -63,7 +70,6 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
             dataUltimoPreco: item.dataPrecoAtual
         }
     } else if (item.precoAtual > 0 && item.precoAtual !== docData.precoAtual) { //se preço varejo for maior que 0 e diferente do preço atual no DB
-        docData.codigo === '1062359' ? console.log('3') : null;
         precosEPromosUpdate = { //atualiza o preço atual, data do preço atual e anexa o último preço e data do último preço para update
             ...precosEPromosUpdate,
             precoAtual: item.precoAtual,

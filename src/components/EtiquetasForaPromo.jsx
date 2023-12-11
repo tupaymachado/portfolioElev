@@ -10,10 +10,10 @@ export function EtiquetasForaPromo({ etiquetas }) {
     }
 
     return (
-        <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper} etiquetasContainer`}>
+        <div className={`${tabelaStyles.etiquetasWrapper} ${styles.etiquetasWrapper} `}>
             <p>Itens Fora de Promoção</p>
-            <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Preço</button>
-            <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
+            <button onClick={handlePrint} className={`${tabelaStyles.printButton} ${styles.printButton}`}>Imprimir Etiquetas de Preço</button>
+            <div className={` ${tabelaStyles.etiquetasContainer} ${styles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
                 <table>
                     <thead>
                         <tr>
@@ -26,9 +26,9 @@ export function EtiquetasForaPromo({ etiquetas }) {
                         {etiquetasOrdenadas.map((etiqueta) => {
                             return (
                                 <tr className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`} key={etiqueta.codigo}>
-                                    <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo == '0' ? etiqueta.referencia : etiqueta.codigo}</td>
-                                    <td className={`${styles.etiquetaPosicao} ${tabelaStyles.etiquetaPosicao}`}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</td>
-                                    <td className={`${styles.etiquetaDescricao} ${tabelaStyles.etiquetaDescricao}`}>{etiqueta.descricao}</td>
+                                    <td className={`${tabelaStyles.etiquetaCodigo} ${styles.etiquetaCodigo}`}>{etiqueta.codigo == '0' ? etiqueta.referencia : etiqueta.codigo}</td>
+                                    <td className={`${tabelaStyles.etiquetaPosicao} ${styles.etiquetaPosicao}`}>{etiqueta.localizacao.Laranjal.expositor}-{etiqueta.localizacao.Laranjal.posicao}</td>
+                                    <td className={`${tabelaStyles.etiquetaDescricao} ${styles.etiquetaDescricao}`}>{etiqueta.descricao}</td>
                                 </tr>
                             )
                         })}
