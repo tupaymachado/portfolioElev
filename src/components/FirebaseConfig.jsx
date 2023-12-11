@@ -1,7 +1,7 @@
 import { getFirestore, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set, get } from 'firebase/database';
 
 const firestoreConfig = {
@@ -20,5 +20,6 @@ const realtime = getDatabase(app);
 const auth = getAuth(app);
 
 export { app, db, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, 
-  getDocs, query, where, deleteDoc, signInWithEmailAndPassword, getAuth, auth, onAuthStateChanged, signOut, sendPasswordResetEmail, realtime, ref, set, get
+  getDocs, query, where, deleteDoc, signInWithEmailAndPassword, getAuth, auth, onAuthStateChanged, signOut, sendPasswordResetEmail, realtime, ref, set, get,
+  createUserWithEmailAndPassword
 };
