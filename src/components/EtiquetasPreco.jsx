@@ -20,7 +20,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
             try {
                 const docRef = doc(db, 'portfolio', codigo);
                 await updateDoc(docRef, {
-                    'localizacao.Laranjal': deleteField()
+                    'localizacao.derp': deleteField()
                 });
                 console.log(`Amostra ${codigo} excluída com sucesso.`);
                 /* const docSnapshot = await getDoc(docRef);
