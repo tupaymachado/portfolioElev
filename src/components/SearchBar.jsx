@@ -14,6 +14,7 @@ export function SearchBar({ setPrecos, setPromos }) {
       searchTerm = Number(searchTerm.replace(',', '.'));
     }
     const queryTerm = await query(collectionRef, where(filter, operator, searchTerm));
+    console.log(filter, operator, searchTerm);
     const docs = await getDocs(queryTerm);
     docs.forEach((doc) => {
       let data = doc.data();

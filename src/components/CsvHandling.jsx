@@ -60,7 +60,7 @@ export function CsvHandling() {
     console.log('Repetidos: ', repetidos);
     console.log('Dados: ', dados);
     await updateFirebase(dados, 'portfolio');
-    updateFirebase(semCodigo, 'sem-codigo');
+    /* updateFirebase(semCodigo, 'sem-codigo'); */
   }
 
   //fazer update no Firebase

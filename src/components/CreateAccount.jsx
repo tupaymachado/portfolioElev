@@ -1,5 +1,5 @@
 import styles from './CreateAccount.module.css';
-import { auth, createUserWithEmailAndPassword } from './firebaseConfig.jsx';
+import { auth, createUserWithEmailAndPassword, db, setDoc, doc } from './firebaseConfig.jsx';
 import { useState } from 'react';
 
 export function CreateAccount() {
@@ -8,17 +8,18 @@ export function CreateAccount() {
     const [nome, setNome] = useState('');
     const [filial, setFilial] = useState('');
     const [cargo, setCargo] = useState('');
-    
+
     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await firestore.collection('users').doc(userCredential.user.uid).set({ //
+            await setDoc(doc(db, 'users', userCredential.user.uid), {
                 email: email,
                 nome: nome,
                 filial: filial,
                 cargo: cargo,
                 isApproved: false,
+                isAdmin: false,
             });
         } catch (error) {
             console.error(error);
@@ -30,7 +31,7 @@ export function CreateAccount() {
             <div className={styles.iconBg}>
             </div>
             <p>Crie sua conta</p>
-            <form onSubmit={handleSubmit(email, nome)} className={styles.loginForm}>
+            <form onSubmit={(e) => handleSubmit(e)} className={styles.loginForm}>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' required />
                 <label>Email</label>
                 <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder='' required />
@@ -43,6 +44,7 @@ export function CreateAccount() {
                 </select>
                 <label>Filial</label>
                 <input type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} placeholder='' required />
+                <label>Cargo</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
                 <label>Senha</label>
                 <button type="submit">Criar conta</button>

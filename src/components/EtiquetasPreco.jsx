@@ -1,7 +1,7 @@
 import styles from './EtiquetasPreco.module.css';
 import tabelaStyles from './Tabelas.module.css';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
-import { doc, deleteDoc, db } from './firebaseConfig.jsx';
+import { doc, deleteDoc, db, getDoc, updateDoc, deleteField } from './firebaseConfig.jsx';
 
 export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
     function handlePrint() {
@@ -13,14 +13,30 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
         setEtiquetas(newEtiquetas);
     }
 
-    function handleExclusao(codigo) {
-        confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`)
-        if (confirm) {
-            const newEtiquetas = etiquetas.filter(etiqueta => etiqueta.codigo !== codigo);
-            setEtiquetas(newEtiquetas);
-            const docRef = doc(db, 'portfolio', codigo);
-            deleteDoc(docRef);
-            console.log(`Amostra ${codigo} excluída.`)
+    async function handleExclusao(codigo) {
+        const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
+
+        if (userConfirmed) {
+            try {
+                const docRef = doc(db, 'portfolio', codigo);
+                await updateDoc(docRef, {
+                    'localizacao.Laranjal': deleteField()
+                });
+                console.log(`Amostra ${codigo} excluída com sucesso.`);
+                /* const docSnapshot = await getDoc(docRef);
+                const existingData = docSnapshot.data();
+                if (docSnapshot.exists()) {
+                  const newData = { ...existingData };
+                  console.log(newData.localizacao.Laranjal);
+                  delete newData.localizacao.Laranjal;
+                  console.log(newData);
+                  await updateDoc(docRef, newData);
+                } else {
+                  console.log(`Amostra ${codigo} não encontrada.`);
+                }*/
+            } catch (error) {
+                console.error('Erro ao excluir o campo "acabamento":', error);
+            }
         }
     }
 
