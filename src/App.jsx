@@ -10,7 +10,7 @@ import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
 import { DataAtt } from './components/DataAtt.jsx'
 import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
-import { auth, onAuthStateChanged } from './components/firebaseConfig.jsx'
+import { auth, onAuthStateChanged, doc, getDoc, db } from './components/firebaseConfig.jsx'
 import './App.css'
 
 function App() {
@@ -26,12 +26,24 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log(currentUser.uid);
+      if (currentUser) {
+        let uid = currentUser.uid;
+        setUser(currentUser);
+        const userDocRef = doc(db, 'users', uid);
+        getDoc(userDocRef).then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log(docSnap.data());
+          } else {
+            console.log("No such document!");
+          }
+        });
+      }
     });
 
-    return () => unsubscribe();
+    // Retorna a função de limpeza
+    return unsubscribe;
   }, []);
+
 
   if (user === null) {
     return <Login />;
