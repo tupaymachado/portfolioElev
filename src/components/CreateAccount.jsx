@@ -1,4 +1,4 @@
-import styles from './CreateAccount.module.css';
+import styles from './Login.module.css';
 import { auth, createUserWithEmailAndPassword, db, setDoc, doc } from './firebaseConfig.jsx';
 import { useState } from 'react';
 
@@ -36,13 +36,15 @@ export function CreateAccount() {
                 <label>Email</label>
                 <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder='' required />
                 <label>Nome</label>
-                <select value={filial} onChange={(e) => setFilial(e.target.value)} placeholder='' required >
-                    <option value=''>Selecione</option>
-                    <option value='Pelotas'>Pelotas</option>
-                    <option value='Cassino'>Cassino</option>
-                    <option value='Laranjal'>Laranjal</option>
-                </select>
-                <label>Filial</label>
+                <div>
+                    <select value={filial} onChange={(e) => setFilial(e.target.value)} placeholder='' required >
+                        <option value=''>Selecione</option>
+                        <option value='Pelotas'>Pelotas</option>
+                        <option value='Cassino'>Cassino</option>
+                        <option value='Laranjal'>Laranjal</option>
+                    </select>
+                    <label className={styles.labelFilial}>Filial</label>
+                </div>
                 <input type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} placeholder='' required />
                 <label>Cargo</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />

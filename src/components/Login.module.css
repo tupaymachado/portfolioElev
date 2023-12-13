@@ -1,5 +1,5 @@
 :-webkit-autofill {
-    filter:none;
+    filter: none;
     box-shadow: 0 0 0 100px white inset;
 }
 
@@ -43,15 +43,17 @@
     transition: all 0.3s ease-in-out;
 }
 
-.loginForm input:focus+label, .loginForm input:valid+label {
+.loginForm input:focus+label,
+.loginForm input:valid+label {
     background-color: white;
     padding: 0 0.5rem;
     transform: translateY(-100%) scale(0.8);
     color: #1a73e8;
 }
 
-.loginForm input:-webkit-autofill+label, .loginForm input:focus + label,
-.loginForm input:not(:placeholder-shown) + label {
+.loginForm input:-webkit-autofill+label,
+.loginForm input:focus+label,
+.loginForm input:not(:placeholder-shown)+label {
     background-color: white;
     padding: 0 0.5rem;
     transform: translateY(-100%) scale(0.8);
@@ -59,7 +61,9 @@
     color: #1a73e8;
 }
 
-.loginForm input:-webkit-autofill, .loginForm input:valid, .loginForm input:not(:placeholder-shown) {
+.loginForm input:-webkit-autofill,
+.loginForm input:valid,
+.loginForm input:not(:placeholder-shown) {
     border: solid 1px #1a73e8;
 }
 
@@ -91,4 +95,11 @@
     font-size: 1em;
     color: #1a73e8;
     text-decoration: none;
+}
+
+.loginForm .labelFilial {
+    position:initial; 
+    font-size: 1.2rem;
+    font-weight: 100;
+    transition: all 0.3s ease-in-out;
 }
