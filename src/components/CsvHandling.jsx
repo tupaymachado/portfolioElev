@@ -19,6 +19,7 @@ export function CsvHandling() {
       let filial = data[0][0];
       data.splice(0, 2);
       for (let line of data) {
+        console.log(line)
         if (line.length === 1) {
           break;
         }
@@ -40,6 +41,7 @@ export function CsvHandling() {
           csvData.push(obj);
         }
       }
+      console.log(csvData);
       verificarRepetidos(csvData);
     };
     reader.readAsText(file);
