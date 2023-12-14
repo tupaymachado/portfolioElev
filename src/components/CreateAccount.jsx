@@ -5,12 +5,17 @@ import { useState } from 'react';
 export function CreateAccount() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [nome, setNome] = useState('');
     const [filial, setFilial] = useState('');
     const [cargo, setCargo] = useState('');
 
     async function handleSubmit(e) {
         e.preventDefault();
+        if (password !== passwordConfirm) {
+            alert('As senhas não são iguais, confira e tente novamente');
+            return;
+        }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             await setDoc(doc(db, 'users', userCredential.user.uid), {
@@ -36,20 +41,19 @@ export function CreateAccount() {
                 <label>Email</label>
                 <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder='' required />
                 <label>Nome</label>
-                <div>
-                    <select value={filial} onChange={(e) => setFilial(e.target.value)} placeholder='' required >
-                        <option value=''>Selecione</option>
-                        <option value='Pelotas'>Pelotas</option>
-                        <option value='Cassino'>Cassino</option>
-                        <option value='Laranjal'>Laranjal</option>
-                    </select>
-                    <label className={styles.labelFilial}>Filial</label>
-                </div>
+                <select value={filial} onChange={(e) => setFilial(e.target.value)} placeholder='' required >
+                    <option value=''>Selecione sua filial</option>
+                    <option value='Pelotas'>Pelotas</option>
+                    <option value='Cassino'>Cassino</option>
+                    <option value='Laranjal'>Laranjal</option>
+                </select>
                 <input type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} placeholder='' required />
                 <label>Cargo</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
                 <label>Senha</label>
-                <button type="submit">Criar conta</button>
+                <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder='' required />
+                <label>Confirme a senha</label>
+                <button type="submit" onClick>Criar conta</button>
             </form>
         </div>
     )

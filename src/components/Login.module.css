@@ -101,5 +101,28 @@
     position:initial; 
     font-size: 1.2rem;
     font-weight: 100;
+}
+
+.loginForm select {
+    width: 353.81px;
+    height: 41.82px;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 22.73px;
+}
+
+.loginForm select:focus{
+    border: solid 2px #1568d5;
+}
+
+.loginForm label:last-of-type {
+    position: relative;
+    top: -2.1rem;
+    left: -5.5rem;
+    font-size: 1.2rem;
+    font-weight: 100;
     transition: all 0.3s ease-in-out;
 }
