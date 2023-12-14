@@ -53,7 +53,7 @@ export function CreateAccount() {
                 <label>Senha</label>
                 <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder='' required />
                 <label>Confirme a senha</label>
-                <button type="submit" onClick>Criar conta</button>
+                <button type="submit">Criar conta</button>
             </form>
         </div>
     )
