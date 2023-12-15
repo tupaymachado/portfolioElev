@@ -2,7 +2,7 @@ import styles from './Login.module.css';
 import { auth, createUserWithEmailAndPassword, db, setDoc, doc } from './firebaseConfig.jsx';
 import { useState } from 'react';
 
-export function CreateAccount() {
+export function CreateAccount( {showAviso, setShowAviso} ) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -26,6 +26,8 @@ export function CreateAccount() {
                 isApproved: false,
                 isAdmin: false,
             });
+            console.log(typeof setShowAviso);
+            setShowAviso(true);
         } catch (error) {
             console.error(error);
         }
@@ -37,22 +39,22 @@ export function CreateAccount() {
             </div>
             <p>Crie sua conta</p>
             <form onSubmit={(e) => handleSubmit(e)} className={styles.loginForm}>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' required />
-                <label>Email</label>
-                <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder='' required />
-                <label>Nome</label>
+                <input id='emailCreateAcc' type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' required />
+                <label htmlFor='emailCreateAcc'>Email</label>
+                <input id='nomeCreateAcc' type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder='' required />
+                <label htmlFor='nomeCreateAcc'>Nome</label>
                 <select value={filial} onChange={(e) => setFilial(e.target.value)} placeholder='' required >
                     <option value=''>Selecione sua filial</option>
                     <option value='Pelotas'>Pelotas</option>
                     <option value='Cassino'>Cassino</option>
                     <option value='Laranjal'>Laranjal</option>
                 </select>
-                <input type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} placeholder='' required />
-                <label>Cargo</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
-                <label>Senha</label>
-                <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder='' required />
-                <label>Confirme a senha</label>
+                <input id='cargoCreateAcc' type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} placeholder='' required />
+                <label htmlFor='cargoCreateAcc'>Cargo</label>
+                <input id='passwordCreateAcc' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
+                <label htmlFor='passwordCreateAcc'>Senha</label>
+                <input id='passwordConfirmCreateAcc' type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder='' required />
+                <label className={styles.passwordConfirmLabel} htmlFor='passwordConfirmCreateAcc'>Confirme a senha</label>
                 <button type="submit">Criar conta</button>
             </form>
         </div>

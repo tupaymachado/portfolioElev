@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
-import { auth, signInWithEmailAndPassword, sendPasswordResetEmail } from './firebaseConfig.jsx';
+import { auth, signInWithEmailAndPassword, sendPasswordResetEmail, doc, getDoc, db } from './firebaseConfig.jsx';
 import styles from './Login.module.css';
 import { CreateAccount } from './CreateAccount.jsx';
 
-export function Login() {
+export function Login({ setShowAviso, showAviso, aviso, setAviso }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [creatingAccount, setCreatingAccount] = useState(false);
+    const [userTest, setUserTest] = useState(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            const currentUser = auth.currentUser;
+            let uid = currentUser.uid;
+            const userDocRef = doc(db, 'users', uid);
+            getDoc(userDocRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    setUserTest(docSnap.data());
+                }
+                if (userTest?.isApproved === false) {
+                    setShowAviso(true);
+                    setAviso('Você ainda não foi aprovado, aguarde a aprovação de um administrador');
+                    return;
+                }
+            });
         } catch (error) {
-            console.error(error);
+            console.error(error.code);
+            setShowAviso(true);            
+            if (error.code === 'auth/invalid-login-credentials') {
+                setAviso('Senha ou e-mail incorretos, tente novamente');
+            }
         }
     };
 
@@ -22,11 +40,15 @@ export function Login() {
     }
 
     function createAccount() {
+        console.log(typeof setShowAviso);
         setCreatingAccount(true);
     }
 
     if (creatingAccount) {
-        return <CreateAccount />;
+        return <CreateAccount
+            setShowAviso={setShowAviso}
+            showAviso={showAviso}
+        />;
     }
 
     if (creatingAccount === false) {
@@ -39,11 +61,11 @@ export function Login() {
                     </svg>
                 </div>
                 <p>Login</p>
-                <form onSubmit={handleSubmit} className={styles.loginForm}>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' required />
-                    <label>Email</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
-                    <label>Senha</label>
+                <form autoComplete="off" onSubmit={handleSubmit} className={styles.loginForm}>
+                    <input id='cadastro' type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='' required />
+                    <label htmlFor='cadastro'>Email</label>
+                    <input autoComplete="new-password" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='' required />
+                    <label htmlFor="password">Senha</label>
                     <button type="submit">Login</button>
                     <div className={styles.links}>
                         <a onClick={() => forgotPassword(email)} href='#' >Esqueceu a senha?</a>

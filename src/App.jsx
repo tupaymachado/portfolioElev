@@ -11,10 +11,13 @@ import { DataAtt } from './components/DataAtt.jsx'
 import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
 import { auth, onAuthStateChanged, doc, getDoc, db, set } from './components/firebaseConfig.jsx'
+import { Aviso } from './components/AvisoCreateAcc.jsx'
 import './App.css'
 
 function App() {
   const [user, setUser] = useState(null);
+  const [showAviso, setShowAviso] = useState(false);
+  const [aviso, setAviso] = useState('');
 
   const [precos, setPrecos] = useState([]);
   const [promos, setPromos] = useState([]);
@@ -43,10 +46,25 @@ function App() {
     return unsubscribe;
   }, []);
 
-
-  if (user === null || user.isApproved === false) {
-    console.log(user);
-    return <Login />;
+  if (user === null || user.isApproved === false) { //caso o usuário ainda não esteja aprovado, abra um alert avisando-o sobre isso
+    if (user?.isApproved === false) {
+      return (
+        <>
+          <Aviso
+            aviso={aviso}
+            setShowAviso={setShowAviso}
+            showAviso={showAviso}
+          />
+          <Login
+            aviso={aviso}
+            setAviso={setAviso}
+            setShowAviso={setShowAviso}
+            showAviso={showAviso}
+          />
+        </>
+      )
+    }
+    return <Login />
   }
 
   if (user.isApproved === true) {
