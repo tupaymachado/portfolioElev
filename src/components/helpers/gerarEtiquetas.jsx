@@ -11,7 +11,7 @@ function handleForaPromos(foraPromos, setForaPromos) {
 }
 /* Há um problema com essa forma de verificar, no caso de haver diversas mudanças de preço sucessivas que sejam 
 menores de 10 centavos cada. Nesse caso, o preço pode ir subindo sem parar e nunca vai sair uma etiqueta */
-export function verificaEtiquetasPreco(docData, item, setPrecos) {
+export function verificaEtiquetasPreco(user, docData, item, setPrecos) {
     if (item.precoAtual > 0) {
         const dataPrecoAtual = item.dataPrecoAtual.getTime();
         const dataPrecoAtualDoc = docData.dataPrecoAtual && docData.dataPrecoAtual.toDate().getTime(); //
@@ -29,7 +29,7 @@ export function verificaEtiquetasPreco(docData, item, setPrecos) {
     }
 };
 
-export function verificaEtiquetasPromo(docData, item, setPromos, setForaPromos) {
+export function verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos) {
     const dataPromocao = item.dataPromocao.getTime();
 
     let obj = {

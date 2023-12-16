@@ -47,24 +47,24 @@ function App() {
   }, []);
 
   if (user === null || user.isApproved === false) { //caso o usuário ainda não esteja aprovado, abra um alert avisando-o sobre isso
-    if (user?.isApproved === false) {
-      return (
-        <>
-          <Aviso
-            aviso={aviso}
-            setShowAviso={setShowAviso}
-            showAviso={showAviso}
-          />
-          <Login
-            aviso={aviso}
-            setAviso={setAviso}
-            setShowAviso={setShowAviso}
-            showAviso={showAviso}
-          />
-        </>
-      )
-    }
-    return <Login />
+
+    return (
+      <>
+        <Aviso
+          aviso={aviso}
+          setShowAviso={setShowAviso}
+          showAviso={showAviso}
+        />
+        <Login
+          aviso={aviso}
+          setAviso={setAviso}
+          setShowAviso={setShowAviso}
+          showAviso={showAviso}
+          user={user}
+          setUser={setUser}
+        />
+      </>
+    )
   }
 
   if (user.isApproved === true) {
@@ -90,8 +90,11 @@ function App() {
               mostrarPrecos={mostrarPrecos}
               mostrarPromos={mostrarPromos}
               mostrarForaPromos={mostrarForaPromos}
+              user={user.filial}
             />
-            <CsvHandling />
+            <CsvHandling
+              user={user.filial}
+            />
           </div>
           <div className='main'>
             <div className='topo'>
@@ -106,14 +109,17 @@ function App() {
               <Logout />
             </div>
             {mostrarPrecos && <EtiquetasPreco
+              user={user.filial}
               etiquetas={precos}
               setEtiquetas={setPrecos}
             />}
             {mostrarPromos && <EtiquetasPromo
+              user={user.filial}
               etiquetas={promos}
               setEtiquetas={setPromos}
             />}
             {mostrarForaPromos && <EtiquetasForaPromo
+              user={user.filial}
               etiquetas={foraPromos}
               setEtiquetas={setForaPromos}
             />}

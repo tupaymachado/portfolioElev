@@ -3,7 +3,7 @@ import { readFileAndConvertToJson, processarDados } from './helpers/readAndProce
 import { ProgressBar } from './ProgressBar.jsx';
 import styles from './XlsxHandling.module.css';
 
-export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPrecos, setMostrarPromos, setMostrarForaPromos, mostrarPrecos, mostrarPromos, mostrarForaPromos }) {
+export function XlsxHandling({ user, setPrecos, setPromos, setForaPromos, setMostrarPrecos, setMostrarPromos, setMostrarForaPromos, mostrarPrecos, mostrarPromos, mostrarForaPromos }) {
     const [progress, setProgress] = useState(0);
 
     const [inicioPrecos, setInicioPrecos] = useState(true);
@@ -40,7 +40,8 @@ export function XlsxHandling({ setPrecos, setPromos, setForaPromos, setMostrarPr
     const handleFileChange = async (event) => {
         try {
             const rows = await readFileAndConvertToJson(event);
-            processarDados(rows, setPrecos, setPromos, setForaPromos, setProgress);
+            console.log(user);
+            processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress);
         } catch (error) {
             console.error('Erro ao ler o arquivo:', error);
         }

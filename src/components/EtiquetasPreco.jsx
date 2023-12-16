@@ -3,7 +3,7 @@ import tabelaStyles from './Tabelas.module.css';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 import { doc, deleteDoc, db, getDoc, updateDoc, deleteField } from './firebaseConfig.jsx';
 
-export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
+export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
     function handlePrint() {
         window.print();
     }
@@ -15,25 +15,15 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
 
     async function handleExclusao(codigo) {
         const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
-
+        console.log()
         if (userConfirmed) {
             try {
                 const docRef = doc(db, 'portfolio', codigo);
-                await updateDoc(docRef, {
-                    'localizacao.derp': deleteField()
-                });
+                const updateObject = {}; // Criar um objeto vazio
+                updateObject[`localizacao.${user}`] = deleteField(); // Usar a sintaxe de colchetes para definir a propriedade
+                await updateDoc(docRef, updateObject);
+                handleDelete(codigo);
                 console.log(`Amostra ${codigo} excluída com sucesso.`);
-                /* const docSnapshot = await getDoc(docRef);
-                const existingData = docSnapshot.data();
-                if (docSnapshot.exists()) {
-                  const newData = { ...existingData };
-                  console.log(newData.localizacao.Laranjal);
-                  delete newData.localizacao.Laranjal;
-                  console.log(newData);
-                  await updateDoc(docRef, newData);
-                } else {
-                  console.log(`Amostra ${codigo} não encontrada.`);
-                }*/
             } catch (error) {
                 console.error('Erro ao excluir o campo "acabamento":', error);
             }
@@ -61,7 +51,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas }) {
                     <tbody>
                         {etiquetasOrdenadas.flatMap((etiqueta) => {
                             const quantidade = etiqueta.quantidade || 1;
-                            const localizacao = etiqueta.localizacao?.Laranjal || {};
+                            const localizacao = etiqueta.localizacao?.[user] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
                                 <tr key={`${etiqueta.codigo}-${i}`} className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`}>
                                     <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo}</td>

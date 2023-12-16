@@ -3,7 +3,7 @@ import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { realtime, ref, set, get } from '../firebaseConfig.jsx';
 import { verificaEtiquetasPreco, verificaEtiquetasPromo } from './gerarEtiquetas';
 
-export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
+export async function updateData(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
     const portfolioRef = collection(db, 'portfolio');
     const dataAttRef = ref(realtime, 'dataAtt');
     const dataUltimaAtualizacaoSnapshot = await get(dataAttRef);
@@ -11,6 +11,7 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
     const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
     if (dataUltimaAtualizacao.getTime() <= data.getTime()) {
         let counter = 0;
+        console.log(data)
         await set(dataAttRef, data.getTime());
         for (const item of jsonData) {
             counter++;
@@ -25,9 +26,10 @@ export async function updateData(jsonData, setPrecos, setPromos, setForaPromos, 
                 } else {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
-                if (docData.localizacao && item.dataPrecoAtual) {
-                    verificaEtiquetasPreco(docData, item, setPrecos);
-                    verificaEtiquetasPromo(docData, item, setPromos, setForaPromos);
+                if (docData.localizacao?.[user] && item.dataPrecoAtual) {
+                    console.log(docData.localizacao[user])
+                    verificaEtiquetasPreco(user, docData, item, setPrecos);
+                    verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos);
                 }
             } else {
                 await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório

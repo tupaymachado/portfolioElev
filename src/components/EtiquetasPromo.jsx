@@ -3,7 +3,7 @@ import tabelaStyles from './Tabelas.module.css';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 import { doc, deleteDoc, db } from './firebaseConfig.jsx';
 
-export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
+export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
     const handlePrint = () => {
         window.print();
     }
@@ -13,14 +13,20 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
         setEtiquetas(newEtiquetas);
     }
 
-    function handleExclusao(codigo) {
-        confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`)
-        if (confirm) {
-            const newEtiquetas = etiquetas.filter(etiqueta => etiqueta.codigo !== codigo);
-            setEtiquetas(newEtiquetas);
-            const docRef = doc(db, 'portfolio', codigo);
-            deleteDoc(docRef);
-            console.log(`Amostra ${codigo} excluída.`)
+    async function handleExclusao(codigo) {
+        const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
+        console.log()
+        if (userConfirmed) {
+            try {
+                const docRef = doc(db, 'portfolio', codigo);
+                const updateObject = {}; // Criar um objeto vazio
+                updateObject[`localizacao.${user}`] = deleteField(); // Usar a sintaxe de colchetes para definir a propriedade
+                await updateDoc(docRef, updateObject);
+                handleDelete(codigo);
+                console.log(`Amostra ${codigo} excluída com sucesso.`);
+            } catch (error) {
+                console.error('Erro ao excluir o campo "acabamento":', error);
+            }
         }
     }
 
@@ -45,7 +51,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas }) => {
                     <tbody>
                         {etiquetasOrdenadas.flatMap((etiqueta) => {
                             const quantidade = etiqueta.quantidade || 1;
-                            const localizacao = etiqueta.localizacao?.Laranjal || {};
+                            const localizacao = etiqueta.localizacao?.[user] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
                                 <tr key={`${etiqueta.codigo}-${i}`} className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`}>
                                     <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo}</td>

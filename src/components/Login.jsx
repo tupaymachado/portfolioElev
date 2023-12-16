@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { auth, signInWithEmailAndPassword, sendPasswordResetEmail, doc, getDoc, db } from './firebaseConfig.jsx';
+import { auth, signInWithEmailAndPassword, sendPasswordResetEmail, doc, getDoc, db, set } from './firebaseConfig.jsx';
 import styles from './Login.module.css';
 import { CreateAccount } from './CreateAccount.jsx';
 
-export function Login({ setShowAviso, showAviso, aviso, setAviso }) {
+export function Login({ setShowAviso, showAviso, aviso, setAviso, user, setUser }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [creatingAccount, setCreatingAccount] = useState(false);
-    const [userTest, setUserTest] = useState(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -16,20 +15,22 @@ export function Login({ setShowAviso, showAviso, aviso, setAviso }) {
             const currentUser = auth.currentUser;
             let uid = currentUser.uid;
             const userDocRef = doc(db, 'users', uid);
-            getDoc(userDocRef).then((docSnap) => {
+            await getDoc(userDocRef).then((docSnap) => {
                 if (docSnap.exists()) {
-                    setUserTest(docSnap.data());
-                }
-                if (userTest?.isApproved === false) {
-                    setShowAviso(true);
-                    setAviso('Você ainda não foi aprovado, aguarde a aprovação de um administrador');
-                    return;
-                }
+                    setUser(docSnap.data());
+                    console.log('user:')
+                    console.log(user);
+                }                
             });
+            if (user?.isApproved === false) {
+                setShowAviso(true);
+                setAviso('Você ainda não foi aprovado, aguarde a aprovação de um administrador');
+                return;
+            }
         } catch (error) {
             console.error(error.code);
             setShowAviso(true);            
-            if (error.code === 'auth/invalid-login-credentials') {
+            if (error.code === 'auth/invalid-login-credentials') {                
                 setAviso('Senha ou e-mail incorretos, tente novamente');
             }
         }

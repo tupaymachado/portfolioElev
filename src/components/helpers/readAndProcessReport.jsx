@@ -16,7 +16,7 @@ export function readFileAndConvertToJson(event) {
     });
 };
 
-export function processarDados(rows, setPrecos, setPromos, setForaPromos, setProgress) {
+export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress) {
     setPromos([]);
     setForaPromos([]);
     setPrecos([]);
@@ -61,7 +61,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
         jsonData.push(obj);
     }
     //setJsonData(newJsonData); // Atualizando o estado aqui
-    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    verificarRepetidos(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
 
 export function promocao(status) {
@@ -99,7 +99,7 @@ export function categoria(descricao) {
     }
 };
 
-export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) {
+export function verificarRepetidos(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) {
     let mapa = {};
     let duplicados = {};
     // Primeiro, identifique todos os itens duplicados
@@ -117,5 +117,5 @@ export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos
         alert('Os seguintes itens estão duplicados e foram excluídos da atualização. Confira os dados pelo CISS e adicione manualmente: ' + Object.keys(duplicados).join(', '));
     }
     //setJsonData(jsonData); // Atualizando o estado aqui
-    updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    updateData(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
