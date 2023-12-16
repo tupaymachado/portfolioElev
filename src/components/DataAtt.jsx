@@ -1,20 +1,21 @@
 import styles from './DataAtt.module.css';
-import { collection, doc, getDoc, db } from './firebaseConfig.jsx';
-import { realtime, ref, get } from './firebaseConfig.jsx';
+import { realtime, ref, onValue } from './firebaseConfig.jsx';
 import { useState, useEffect } from 'react';
 
 export function DataAtt() {
     const [dataAtt, setDataAtt] = useState(null);
 
     useEffect(() => {
-        async function getDataAtt() {
-            const dataAttRef = ref(realtime, 'dataAtt');
-            const dataAttSnapshot = await get(dataAttRef);
-            const dataAtt = new Date(dataAttSnapshot.val());
-            setDataAtt(dataAtt.toLocaleDateString('pt-BR'));
-        }
+        const dataAttRef = ref(realtime, 'dataAtt');
 
-        getDataAtt();
+        // Configurando um ouvinte para atualizações em tempo real
+        const unsubscribe = onValue(dataAttRef, (snapshot) => {
+            const dataAtt = new Date(snapshot.val());
+            setDataAtt(dataAtt.toLocaleDateString('pt-BR'));
+        });
+
+        // Retornando uma função de limpeza para desligar o ouvinte
+        return () => unsubscribe();
     }, []);
 
     return (

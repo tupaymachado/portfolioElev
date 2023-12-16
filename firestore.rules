@@ -1,8 +1,48 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null && request.auth.token.email != null;
+    // Regras para a coleção portfolio
+    match /portfolio/{portfolioId} {
+      allow read: if isUserApproved() && request.auth != null;
+      allow write: if isAdmin() && request.auth != null;
+
+      // Match com a subcoleção localizacao
+      match /localizacao/{filial} {
+        allow write: if isUserApproved() && request.auth.uid != null && filial == getUserFilial();
+      }
+    
+    allow create, update: if request.auth != null
+                      && isUserApproved()
+                      && request.resource.data.keys().hasAll(['localizacao', 'codigo', 'unidade', 'referencia'])
+                      && request.resource.data.localizacao.keys().hasOnly([getUserFilial()])
+                      && request.resource.data.localizacao[getUserFilial()].keys().hasAll(['expositor', 'posicao']);
+}
+    // Regras para a coleção users
+    match /users/{userId} {
+      allow create: if request.auth == null && request.resource.data.isApproved == false && request.resource.data.isAdmin == false;
+      allow read: if request.auth.uid == userId || isAdmin();
+      allow write: if request.auth.uid == userId || (isAdmin() && (request.resource.data.isApproved != null || request.resource.data.isAdmin != null));
+    }
+
+    // Regras para a coleção sem-codigo
+    match /sem-codigo/{documentId} {
+      allow read, write: if isUserApproved() && request.auth != null;
+    }
+
+    // Funções auxiliares
+    function isUserApproved() {
+      let userRef = /databases/$(database)/documents/users/$(request.auth.uid);
+      return request.auth != null && exists(userRef) && get(userRef).data.isApproved == true;
+    }
+
+    function isAdmin() {
+      let userRef = /databases/$(database)/documents/users/$(request.auth.uid);
+      return request.auth != null && exists(userRef) && get(userRef).data.isAdmin == true;
+    }
+
+    function getUserFilial() {
+      let userRef = /databases/$(database)/documents/users/$(request.auth.uid);
+      return get(userRef).data.filial;
     }
   }
 }

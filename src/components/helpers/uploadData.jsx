@@ -21,7 +21,8 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             let docData;
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data(); //inserir verificação de erro para users isAdmin = false
-               if (docData.descricao && data >= new Date('2023-10-03')) {
+                
+                if (docData.descricao && data >= new Date('2023-10-03')) {
                     await updateDoc(docRef, precoEPromo(docData, item)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
                 } else {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
