@@ -90,10 +90,10 @@ function App() {
               mostrarPrecos={mostrarPrecos}
               mostrarPromos={mostrarPromos}
               mostrarForaPromos={mostrarForaPromos}
-              user={user.filial}
+              user={user}
             />
             <CsvHandling
-              user={user.filial}
+              user={user}
             />
           </div>
           <div className='main'>
@@ -109,17 +109,17 @@ function App() {
               <Logout />
             </div>
             {mostrarPrecos && <EtiquetasPreco
-              user={user.filial}
+              user={user}
               etiquetas={precos}
               setEtiquetas={setPrecos}
             />}
             {mostrarPromos && <EtiquetasPromo
-              user={user.filial}
+              user={user}
               etiquetas={promos}
               setEtiquetas={setPromos}
             />}
             {mostrarForaPromos && <EtiquetasForaPromo
-              user={user.filial}
+              user={user}
               etiquetas={foraPromos}
               setEtiquetas={setForaPromos}
             />}

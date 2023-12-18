@@ -20,7 +20,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
             try {
                 const docRef = doc(db, 'portfolio', codigo);
                 const updateObject = {}; // Criar um objeto vazio
-                updateObject[`localizacao.${user}`] = deleteField(); // Usar a sintaxe de colchetes para definir a propriedade
+                updateObject[`localizacao.${user.filial}`] = deleteField(); // Usar a sintaxe de colchetes para definir a propriedade
                 await updateDoc(docRef, updateObject);
                 handleDelete(codigo);
                 console.log(`Amostra ${codigo} excluída com sucesso.`);
@@ -50,7 +50,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
                     </thead>
                     <tbody>
                         {etiquetasOrdenadas.flatMap((etiqueta) => {
-                            const quantidade = etiqueta.quantidade || 1;
+                            const quantidade = etiqueta.localizacao?.[user.filial]?.quantidade ? etiqueta.localizacao[user.filial].quantidade : 1;
                             const localizacao = etiqueta.localizacao?.[user] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
                                 <tr key={`${etiqueta.codigo}-${i}`} className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`}>

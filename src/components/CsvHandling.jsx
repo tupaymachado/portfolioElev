@@ -28,12 +28,12 @@ export function CsvHandling() {
           localizacao: {
             [filial]: {
               posicao: `${line[2]}`,
-              expositor: `${line[1]}`
+              expositor: `${line[1]}`,
+              quantidade: `${line[5]}`
             }
           },
           unidade: line[3],
-          referencia: line[4],
-          quantidade: line[5],
+          referencia: line[4],          
         };
         if (line[0] === '0') {
           semCodigo.push(obj);
