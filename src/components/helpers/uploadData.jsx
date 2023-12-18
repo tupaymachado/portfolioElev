@@ -11,7 +11,6 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
     const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
     if (dataUltimaAtualizacao.getTime() <= data.getTime()) {
         let counter = 0;
-        console.log(data)
         await set(dataAttRef, data.getTime());
         for (const item of jsonData) {
             counter++;
@@ -27,7 +26,6 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
                 if (docData.localizacao?.[user.filial] && item.dataPrecoAtual) {
-                    console.log(docData.localizacao[user.filial])
                     verificaEtiquetasPreco(user, docData, item, setPrecos);
                     verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos);
                 }

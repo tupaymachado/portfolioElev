@@ -18,8 +18,6 @@ export function Login({ setShowAviso, showAviso, aviso, setAviso, user, setUser 
             await getDoc(userDocRef).then((docSnap) => {
                 if (docSnap.exists()) {
                     setUser(docSnap.data());
-                    console.log('user:')
-                    console.log(user);
                 }                
             });
             if (user?.isApproved === false) {
@@ -28,7 +26,6 @@ export function Login({ setShowAviso, showAviso, aviso, setAviso, user, setUser 
                 return;
             }
         } catch (error) {
-            console.error(error.code);
             setShowAviso(true);            
             if (error.code === 'auth/invalid-login-credentials') {                
                 setAviso('Senha ou e-mail incorretos, tente novamente');
@@ -41,7 +38,6 @@ export function Login({ setShowAviso, showAviso, aviso, setAviso, user, setUser 
     }
 
     function createAccount() {
-        console.log(typeof setShowAviso);
         setCreatingAccount(true);
     }
 

@@ -31,7 +31,6 @@ export function AddEtiqueta({ setPrecos, setPromos }) {
         };
         if (tipoEtiqueta === 'preco') {
             setPrecos(prevPrecos => [...prevPrecos, etiqueta]);
-            console.log(etiqueta)
         } else if (tipoEtiqueta === 'promocao') {
             setPromos(prevPromos => [...prevPromos, etiqueta]);
         }

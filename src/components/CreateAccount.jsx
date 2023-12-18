@@ -26,7 +26,6 @@ export function CreateAccount( {showAviso, setShowAviso} ) {
                 isApproved: false,
                 isAdmin: false,
             });
-            console.log(typeof setShowAviso);
             setShowAviso(true);
         } catch (error) {
             console.error(error);

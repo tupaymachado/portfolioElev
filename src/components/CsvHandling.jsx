@@ -19,7 +19,6 @@ export function CsvHandling() {
       let filial = data[0][0];
       data.splice(0, 2);
       for (let line of data) {
-        console.log(line)
         if (line.length === 1) {
           break;
         }
@@ -33,7 +32,7 @@ export function CsvHandling() {
             }
           },
           unidade: line[3],
-          referencia: line[4],          
+          referencia: line[4],
         };
         if (line[0] === '0') {
           semCodigo.push(obj);
@@ -41,7 +40,6 @@ export function CsvHandling() {
           csvData.push(obj);
         }
       }
-      console.log(csvData);
       verificarRepetidos(csvData);
     };
     reader.readAsText(file);
@@ -59,10 +57,8 @@ export function CsvHandling() {
         dados.splice(index, 1);
       }
     }
-    console.log('Repetidos: ', repetidos);
-    console.log('Dados: ', dados);
-    await updateFirebase(dados, 'portfolio');
-    /* updateFirebase(semCodigo, 'sem-codigo'); */
+    await updateFirebase(dados, 'portfolio');/* 
+    await updateFirebase(semCodigo, 'sem-codigo'); */
   }
 
   //fazer update no Firebase
@@ -70,23 +66,20 @@ export function CsvHandling() {
     const portfolioRef = collection(db, ref);
     let counter = 0;
     for (let item of dados) {
-      counter++
+      counter++;
       if (item.codigo === '0') {
         await addDoc(portfolioRef, item);
         continue;
       }
       const docRef = doc(portfolioRef, item.codigo);
-      const docSnapshot = await getDoc(docRef);
-      if (docSnapshot.exists()) {
-        delete item.codigo;
-        await updateDoc(docRef, item);
-      } else {
-        await setDoc(docRef, item);
-      }
+      const updateData = {...item};
+      delete updateData.codigo; // Remova 'codigo' do objeto de atualização
+      await setDoc(docRef, updateData, { merge: true }); // Mescla os dados ao invés de sobrescrever
       setProgress(((counter / dados.length) * 100).toFixed(2));
     }
-    console.log('Dados atualizados com sucesso!')
+    console.log('Dados atualizados com sucesso!');
   }
+  
 
   return (
     <div className={styles.CsvHandling}>

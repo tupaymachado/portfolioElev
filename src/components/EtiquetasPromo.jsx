@@ -15,7 +15,6 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
 
     async function handleExclusao(codigo) {
         const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
-        console.log()
         if (userConfirmed) {
             try {
                 const docRef = doc(db, 'portfolio', codigo);

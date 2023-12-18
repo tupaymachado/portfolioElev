@@ -40,7 +40,6 @@ export function XlsxHandling({ user, setPrecos, setPromos, setForaPromos, setMos
     const handleFileChange = async (event) => {
         try {
             const rows = await readFileAndConvertToJson(event);
-            console.log(user);
             processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress);
         } catch (error) {
             console.error('Erro ao ler o arquivo:', error);
