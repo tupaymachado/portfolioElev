@@ -46,8 +46,6 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
         }
     }
 
-    const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
-
     return (
         <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper}`}>
             <p>Etiquetas Preço</p>
@@ -65,7 +63,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {etiquetasOrdenadas.flatMap((etiqueta) => {
+                        {etiquetasAtuais.flatMap((etiqueta) => {
                             const quantidade = etiqueta.localizacao?.[user.filial]?.quantidade ? etiqueta.localizacao[user.filial].quantidade : 1;
                             const localizacao = etiqueta.localizacao?.[user.filial] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
