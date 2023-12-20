@@ -52,7 +52,7 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
         }
     } else if (
         item.promocaoStatus === false || //caso o status indique saída de promoção
-        item.promocaoStatus === true && item.promocao === true //caso o status indique promoção e o preço promocao seja > 0
+        item.promocaoStatus === true && item.precoPromocao !== docData.precoPromocao //caso o status indique promoção e os preços sejam diferentes
     ) {
         precosEPromosUpdate = {
             promocao: item.promocao,

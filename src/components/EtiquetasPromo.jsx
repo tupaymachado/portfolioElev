@@ -1,26 +1,9 @@
 import styles from './EtiquetasPromo.module.css';
 import tabelaStyles from './Tabelas.module.css';
-import { useState } from 'react';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 import { doc, deleteDoc, db } from './firebaseConfig.jsx';
 
 export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
-    const [paginaAtual, setPaginaAtual] = useState(1);
-    const etiquetasPorPagina = 10;
-    const indiceUltimaEtiqueta = paginaAtual * etiquetasPorPagina;
-    const indicePrimeiraEtiqueta = indiceUltimaEtiqueta - etiquetasPorPagina;
-    const etiquetasAtuais = etiquetas.slice(indicePrimeiraEtiqueta, indiceUltimaEtiqueta);
-    const totalPaginas = Math.ceil(etiquetas.length / etiquetasPorPagina);
-
-    const renderizarBotoesPaginacao = () => {
-        const botoes = [];
-        for (let i = 1; i <= totalPaginas; i++) {
-            botoes.push(<button key={i} onClick={() => setPaginaAtual(i)}>{i}</button>);
-        }
-        return botoes;
-    };
-
-
     const handlePrint = () => {
         window.print();
     }
@@ -32,6 +15,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
 
     async function handleExclusao(codigo) {
         const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
+        console.log()
         if (userConfirmed) {
             try {
                 const docRef = doc(db, 'portfolio', codigo);
@@ -45,6 +29,8 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
             }
         }
     }
+
+    const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
         <div className={`${tabelaStyles.etiquetasWrapper} ${styles.etiquetasWrapper} `}>
@@ -63,9 +49,9 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {etiquetasAtuais.flatMap((etiqueta) => {
+                        {etiquetasOrdenadas.flatMap((etiqueta) => {
                             const quantidade = etiqueta.localizacao?.[user.filial]?.quantidade ? etiqueta.localizacao[user.filial].quantidade : 1;
-                            const localizacao = etiqueta.localizacao?.[user] || {};
+                            const localizacao = etiqueta.localizacao?.[user.filial] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
                                 <tr key={`${etiqueta.codigo}-${i}`} className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`}>
                                     <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo}</td>
@@ -84,9 +70,6 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
                         })}
                     </tbody>
                 </table>
-                <div>
-                    {renderizarBotoesPaginacao()}
-                </div>
             </div>
         </div>
     )

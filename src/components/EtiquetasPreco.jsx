@@ -1,26 +1,9 @@
 import styles from './EtiquetasPreco.module.css';
 import tabelaStyles from './Tabelas.module.css';
-import { useState } from 'react';
 import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 import { doc, deleteDoc, db, getDoc, updateDoc, deleteField } from './firebaseConfig.jsx';
 
 export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
-    const [paginaAtual, setPaginaAtual] = useState(1);
-    const etiquetasPorPagina = 10;
-    const indiceUltimaEtiqueta = paginaAtual * etiquetasPorPagina;
-    const indicePrimeiraEtiqueta = indiceUltimaEtiqueta - etiquetasPorPagina;
-    const etiquetasAtuais = etiquetas.slice(indicePrimeiraEtiqueta, indiceUltimaEtiqueta);
-    const totalPaginas = Math.ceil(etiquetas.length / etiquetasPorPagina);
-
-    const renderizarBotoesPaginacao = () => {
-        const botoes = [];
-        for (let i = 1; i <= totalPaginas; i++) {
-            botoes.push(<button key={i} onClick={() => setPaginaAtual(i)}>{i}</button>);
-        }
-        return botoes;
-    };
-
-
     function handlePrint() {
         window.print();
     }
@@ -32,6 +15,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
 
     async function handleExclusao(codigo) {
         const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
+        console.log()
         if (userConfirmed) {
             try {
                 const docRef = doc(db, 'portfolio', codigo);
@@ -45,6 +29,8 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
             }
         }
     }
+
+    const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
 
     return (
         <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper}`}>
@@ -63,7 +49,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {etiquetasAtuais.flatMap((etiqueta) => {
+                        {etiquetasOrdenadas.flatMap((etiqueta) => {
                             const quantidade = etiqueta.localizacao?.[user.filial]?.quantidade ? etiqueta.localizacao[user.filial].quantidade : 1;
                             const localizacao = etiqueta.localizacao?.[user.filial] || {};
                             return Array.from({ length: quantidade }, (_, i) => (
@@ -81,9 +67,6 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
                         })}
                     </tbody>
                 </table>
-                <div>
-                    {renderizarBotoesPaginacao()}
-                </div>
             </div>
         </div>
     )
