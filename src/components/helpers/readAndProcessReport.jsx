@@ -17,6 +17,7 @@ export function readFileAndConvertToJson(event) {
 };
 
 export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress) {
+    
     setPromos([]);
     setForaPromos([]);
     setPrecos([]);
@@ -25,10 +26,12 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
     }
-    let data = formatarData(rows[4][6]); //data da atualização, serve para preços e promoções
+    console.log(rows[4][7])
+    let data = formatarData(rows[4][7]); //data da atualização, serve para preços e promoções
     rows = rows.slice(7);
     let marca = '';
     const jsonData = [];
+    console.log('teste 2')
     for (let row of rows) {
         if (row.length <= 1) {
             break;
@@ -36,7 +39,7 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
         if (row[0] === 'Marca/Fabricante') {
             marca = row[3];
             continue;
-        }
+        }        
         let piso = row[2].split(' ')[0] === 'PISO' ? true : false;
         let formatoRegex = /(\d+,\d+|\d+)X(\d+,\d+|\d+)/;
         let formatoMatch = row[2].match(formatoRegex);
@@ -75,6 +78,7 @@ export function promocao(status) {
 };
 
 export function formatarData(dataString) {
+    console.log(dataString)
     const [data, hora] = dataString.split(' ');
     const [dia, mes, ano] = data.split('/');
     const [horas, minutos, segundos] = hora.split(':');
