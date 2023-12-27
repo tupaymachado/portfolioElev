@@ -4,6 +4,7 @@ import { realtime, ref, set, get } from '../firebaseConfig.jsx';
 import { verificaEtiquetasPreco, verificaEtiquetasPromo } from './gerarEtiquetas';
 
 export async function updateData(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
+    console.log(jsonData[0]); //controle para ver se o relatório está sendo lido corretamente por conta de mudanças no formato
     const portfolioRef = collection(db, 'portfolio');
     const dataAttRef = ref(realtime, 'dataAtt');
     const dataUltimaAtualizacaoSnapshot = await get(dataAttRef);
