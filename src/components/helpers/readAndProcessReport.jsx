@@ -50,12 +50,12 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
             formato: formato,
             marca: marca,
             acabamento: piso ? categoria(row[2]) : 'não definido',
-            promocaoStatus: promocao(row[11])
+            promocaoStatus: promocao(row[10])
         };        
         if (data >= new Date('2023-10-03')) {
             obj.ultimoPreco = 0;
             obj.dataUltimoPreco = data;
-            obj.precoAtual = Number(row[7]);
+            obj.precoAtual = Number(row[6]);
             obj.dataPrecoAtual = data;
             obj.precoPromocao = Number(row[8]);
             obj.promocao = Number(row[8]) ? true : false;
