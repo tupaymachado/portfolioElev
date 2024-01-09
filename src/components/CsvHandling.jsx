@@ -73,9 +73,9 @@ export function CsvHandling() {
         continue;
       }
       const docRef = doc(portfolioRef, item.codigo);
-      const updateData = { ...item };
-      console.log(updateData);
+      const updateData = { ...item };    
       await setDoc(docRef, updateData, { merge: true }); // Mescla os dados ao invés de sobrescrever
+      console.log(updateData);
       setProgress(((counter / dados.length) * 100).toFixed(2));
     }
     console.log('Dados atualizados com sucesso!');

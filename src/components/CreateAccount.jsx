@@ -1,5 +1,5 @@
 import styles from './Login.module.css';
-import { auth, createUserWithEmailAndPassword, db, setDoc, doc } from './firebaseConfig.jsx';
+import { auth, createUserWithEmailAndPassword, db, setDoc, doc, sendEmailVerification } from './firebaseConfig.jsx';
 import { useState } from 'react';
 
 export function CreateAccount( {showAviso, setShowAviso} ) {
@@ -18,6 +18,7 @@ export function CreateAccount( {showAviso, setShowAviso} ) {
         }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(userCredential.user);
             await setDoc(doc(db, 'users', userCredential.user.uid), {
                 email: email,
                 nome: nome,

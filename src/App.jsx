@@ -32,8 +32,8 @@ function App() {
       if (currentUser) {
         let uid = currentUser.uid;
         setUser(currentUser);
-        console.log(currentUser);
         const userDocRef = doc(db, 'users', uid);
+        console.log(uid);
         getDoc(userDocRef).then((docSnap) => {
           if (docSnap.exists()) {
             setUser(docSnap.data());

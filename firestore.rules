@@ -14,7 +14,7 @@ service cloud.firestore {
                       && isUserApproved()
                       && request.resource.data.keys().hasAll(['localizacao', 'unidade', 'referencia', 'codigo', 'pf'])
                       && request.resource.data.localizacao.keys().hasOnly([getUserFilial()])
-                      && request.resource.data.localizacao[getUserFilial()].keys().hasAll(['expositor', 'posicao']);
+                      && request.resource.data.localizacao[getUserFilial()].keys().hasAll(['expositor', 'posicao', 'quantidade']);
 }
     // Regras para a coleção users
     match /users/{userId} {
