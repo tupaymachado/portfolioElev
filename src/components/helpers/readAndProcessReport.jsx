@@ -31,7 +31,6 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
     rows = rows.slice(7);
     let marca = '';
     const jsonData = [];
-    console.log('teste 2')
     for (let row of rows) {
         if (row.length <= 1) {
             break;
