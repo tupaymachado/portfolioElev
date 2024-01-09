@@ -1,6 +1,6 @@
-import { getFirestore, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, getDocs, query, where, deleteDoc, deleteField } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, getDocs, query, where, deleteDoc, deleteField } from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
-import { signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
+import { connectAuthEmulator, signInWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set, get, onValue } from 'firebase/database';
 
 const firestoreConfig = {
@@ -15,10 +15,17 @@ const firestoreConfig = {
 
 const app = initializeApp(firestoreConfig);
 const db = getFirestore(app);
+
 const realtime = getDatabase(app);
 const auth = getAuth(app);
+if (window.location.hostname === "localhost") {
+  connectFirestoreEmulator(db, 'localhost', 8080);
+}
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
 
-export { app, db, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, deleteField,
+export { connectAuthEmulator, connectFirestoreEmulator, app, db, collection, addDoc, writeBatch, doc, runTransaction, getDoc, updateDoc, setDoc, deleteField,
   getDocs, query, where, deleteDoc, signInWithEmailAndPassword, getAuth, auth, onAuthStateChanged, signOut, sendPasswordResetEmail, realtime, ref, set, get,
   createUserWithEmailAndPassword, onValue
 };

@@ -10,7 +10,7 @@ import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
 import { DataAtt } from './components/DataAtt.jsx'
 import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
-import { auth, onAuthStateChanged, doc, getDoc, db, set } from './components/firebaseConfig.jsx'
+import { auth, onAuthStateChanged, doc, getDoc, db, set } from './components/FirebaseConfig.jsx'
 import { Aviso } from './components/AvisoCreateAcc.jsx'
 import './App.css'
 
@@ -32,6 +32,7 @@ function App() {
       if (currentUser) {
         let uid = currentUser.uid;
         setUser(currentUser);
+        console.log(currentUser);
         const userDocRef = doc(db, 'users', uid);
         getDoc(userDocRef).then((docSnap) => {
           if (docSnap.exists()) {

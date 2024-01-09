@@ -1,4 +1,4 @@
-import { db, collection, doc, getDoc, setDoc, updateDoc, addDoc } from './firebaseConfig.jsx';
+import { db, collection, doc, getDoc, setDoc, updateDoc, addDoc } from './FirebaseConfig.jsx';
 import styles from './CsvHandling.module.css';
 import { ProgressBar } from './ProgressBar.jsx';
 import { useState } from 'react';
@@ -27,12 +27,13 @@ export function CsvHandling() {
           localizacao: {
             [filial]: {
               posicao: `${line[2]}`,
-              expositor: `${line[1]}`,
+              expositor: `${line[1]}` ,
               quantidade: `${line[5]}`
             }
           },
-          unidade: line[3],
-          referencia: line[4],
+          unidade: line[3], 
+          referencia: line[4], 
+          pf: Number(line[6]) ? Number(line[6]) : 0,
         };
         if (line[0] === '0') {
           semCodigo.push(obj);
@@ -72,14 +73,14 @@ export function CsvHandling() {
         continue;
       }
       const docRef = doc(portfolioRef, item.codigo);
-      const updateData = {...item};
-      delete updateData.codigo; // Remova 'codigo' do objeto de atualização
+      const updateData = { ...item };
+      console.log(updateData);
       await setDoc(docRef, updateData, { merge: true }); // Mescla os dados ao invés de sobrescrever
       setProgress(((counter / dados.length) * 100).toFixed(2));
     }
     console.log('Dados atualizados com sucesso!');
   }
-  
+
 
   return (
     <div className={styles.CsvHandling}>
