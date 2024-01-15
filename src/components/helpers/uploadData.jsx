@@ -20,17 +20,20 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             const docSnapshot = await getDoc(docRef);
             let docData;
             if (docSnapshot.exists()) {
+                console.log(user.isAdmin);
                 docData = docSnapshot.data(); //inserir verificação de erro para users isAdmin = false                
                 if (docData.descricao && data >= new Date('2023-10-03') && user.isAdmin === true) {
+                    console.log("ué", user.isAdmin);
                     await updateDoc(docRef, precoEPromo(docData, item)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
                 } else if (user.isAdmin === true) {
+                    console.log('user.isAdmin === true', item.codigo);
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
                 if (docData.localizacao?.[user.filial] && item.dataPrecoAtual) {
                     verificaEtiquetasPreco(user, docData, item, setPrecos);
                     verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos);
                 }
-            } else {
+            } else if (user.isAdmin === true) {
                 await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
             }
             setProgress(((counter / jsonData.length) * 100).toFixed(2));
