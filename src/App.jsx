@@ -12,6 +12,7 @@ import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
 import { auth, onAuthStateChanged, doc, getDoc, db, set } from './components/FirebaseConfig.jsx'
 import { Aviso } from './components/AvisoCreateAcc.jsx'
+import { SolicitacaoAmostras } from './components/SolicitacaoAmostras.jsx'
 import './App.css'
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
             <CsvHandling
               user={user}
             />
+            <SolicitacaoAmostras use={user}/>
           </div>
           <div className='main'>
             <div className='topo'>

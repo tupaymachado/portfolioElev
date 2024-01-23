@@ -16,8 +16,7 @@ export function readFileAndConvertToJson(event) {
     });
 };
 
-export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress) {
-    
+export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress) {    
     setPromos([]);
     setForaPromos([]);
     setPrecos([]);

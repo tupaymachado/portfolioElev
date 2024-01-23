@@ -16,7 +16,7 @@ export function EtiquetasForaPromo({ etiquetas, user }) {
     return (
         <div className={`${tabelaStyles.etiquetasWrapper} ${styles.etiquetasWrapper} `}>
             <p>Itens Fora de Promoção</p>
-            <button onClick={handlePrint} className={`${tabelaStyles.printButton} ${styles.printButton}`}>Imprimir Etiquetas de Preço</button>
+            <button onClick={handlePrint} className={`${tabelaStyles.printButton} ${styles.printButton}`}>Imprimir Relatório de Fora de Promoção</button>
             <div className={` ${tabelaStyles.etiquetasContainer} ${styles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
                 <table>
                     <thead>
