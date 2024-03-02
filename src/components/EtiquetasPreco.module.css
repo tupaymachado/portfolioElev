@@ -19,10 +19,11 @@
         width: fit-content;
         display: block;
         column-count: 2;
-        column-gap: 0.1rem;
+        column-gap: 0;
         margin: auto;
-        padding: 1rem;
         box-shadow: none;
+        margin: 4mm !important;
+        padding: 0px !important;
     }
 
     .etiqueta {

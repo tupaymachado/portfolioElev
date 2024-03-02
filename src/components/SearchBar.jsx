@@ -34,6 +34,14 @@ export function SearchBar({ setPrecos, setPromos }) {
 
   function renderInput() {
     switch (filter) {
+      case 'marca':
+        return (
+          <input
+            onChange={(event) => setSearchTerm(event.target.value)}
+            type="text"
+            placeholder="Pesquisar"
+          />
+        );
       case 'promocao':
         return (
           <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
@@ -74,6 +82,7 @@ export function SearchBar({ setPrecos, setPromos }) {
       &nbsp;
       <select onChange={(event) => setFilter(event.target.value)} className={styles.selectFilter}>
         <option value='codigo'>Código</option>
+        <option value='marca'>Marca</option>
         <option value='promocao'>Em promoção</option>
         <option value='precoAtual'>Preço Atual</option>
         <option value='localizacao.Laranjal.expositor'>Expositor</option>
