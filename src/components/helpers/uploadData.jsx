@@ -10,8 +10,10 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
     const dataUltimaAtualizacaoSnapshot = await get(dataAttRef);
     const dataUltimaAtualizacaoVal = dataUltimaAtualizacaoSnapshot.val();
     const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
-    const umaHoraEmMilissegundos = 3600000;
-    if (data.getTime() - dataUltimaAtualizacao.getTime() <= umaHoraEmMilissegundos) {
+    const diff = data.getTime() - dataUltimaAtualizacao.getTime();
+    const diffInHours = diff / 1000 / 60 / 60;
+    console.log(diffInHours);
+    if (diffInHours >= -1) {
         let counter = 0;
         await set(dataAttRef, data.getTime());
         for (const item of jsonData) {
