@@ -5,6 +5,7 @@ import { doc, deleteDoc, db, getDoc, updateDoc, deleteField } from './firebaseCo
 
 export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
     function handlePrint() {
+        console.log(etiquetasOrdenadas);
         window.print();
     }
 
@@ -56,7 +57,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
                                     <td className={`${styles.etiquetaCodigo} ${tabelaStyles.etiquetaCodigo}`}>{etiqueta.codigo}</td>
                                     <td className={`${styles.etiquetaDescricao} ${tabelaStyles.etiquetaDescricao}`}>{etiqueta.descricao}</td>
                                     <td className={`${styles.etiquetaPosicao} ${tabelaStyles.etiqueta}`}>{localizacao.expositor} - {localizacao.posicao}</td>
-                                    <td className={`${styles.etiquetaPreco} ${tabelaStyles.etiqueta}`}>R$ {etiqueta.precoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                                    <td className={`${styles.etiquetaPreco} ${tabelaStyles.etiqueta}`}>R$ {etiqueta.precoAtual?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                                     <td className={`${styles.etiquetaUnidade} ${tabelaStyles.etiqueta}`}>{etiqueta.unidade}</td>
                                     <td className={`${styles.etiquetaData} ${tabelaStyles.etiqueta}`}>{new Date(etiqueta.dataPrecoAtual).toLocaleDateString('pt-BR')}</td>
                                     <td><button onClick={() => handleDelete(etiqueta.codigo)}>Deletar</button></td>

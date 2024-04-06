@@ -20,9 +20,7 @@ export function SearchBar({ setPrecos, setPromos }) {
       data.dataPrecoAtual = data.dataPrecoAtual ? data.dataPrecoAtual.toDate() : null;
       data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate() : null;
       if (data.localizacao) {
-        if (data.precoAtual) {
-          setPrecos(prevPrecos => [...prevPrecos, data]);
-        }
+        setPrecos(prevPrecos => [...prevPrecos, data]);
         if (data.promocao === true) {
           setPromos(prevPromos => [...prevPromos, data]);
         }
@@ -58,7 +56,7 @@ export function SearchBar({ setPrecos, setPromos }) {
               <option value='<'>Menor que</option>
             </select>
             &nbsp;
-          <input
+            <input
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"
               placeholder="Pesquisar"
