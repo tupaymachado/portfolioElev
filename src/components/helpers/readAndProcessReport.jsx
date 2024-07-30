@@ -44,20 +44,21 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
         let formato = formatoMatch ? formatoMatch[0] : false;
         let obj = {
             codigo: row[1].toString(),
-            descricao: row[2],
+            descricao: row[4],
             formato: formato,
             marca: marca,
-            acabamento: piso ? categoria(row[2]) : 'não definido',
-            promocaoStatus: promocao(row[10])
+            acabamento: piso ? categoria(row[4]) : 'não definido',
+            promocaoStatus: promocao(row[12])
         };        
         if (data >= new Date('2023-10-03')) {
             obj.ultimoPreco = 0;
             obj.dataUltimoPreco = data;
-            obj.precoAtual = Number(row[6]);
+            obj.precoAtual = Number(row[8]);
             obj.dataPrecoAtual = data;
-            obj.precoPromocao = Number(row[8]);
-            obj.promocao = Number(row[8]) ? true : false;
+            obj.precoPromocao = Number(row[10]);
+            obj.promocao = Number(row[10]) ? true : false;
             obj.dataPromocao = data;
+            obj.referencia = row[2];
         }
         jsonData.push(obj);
     }
@@ -76,7 +77,6 @@ export function promocao(status) {
 };
 
 export function formatarData(dataString) {
-    console.log(dataString)
     const [data, hora] = dataString.split(' ');
     const [dia, mes, ano] = data.split('/');
     const [horas, minutos, segundos] = hora.split(':');

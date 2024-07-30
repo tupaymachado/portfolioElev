@@ -1,6 +1,5 @@
-import { db } from '../firebaseConfig.jsx';
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import { realtime, ref, set, get } from '../firebaseConfig.jsx';
+import { db, realtime, ref, set, query, where, get, deleteDoc } from '../firebaseConfig.jsx';
 import { verificaEtiquetasPreco, verificaEtiquetasPromo } from './gerarEtiquetas';
 
 export async function updateData(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) { //aproveita o loop para já separar a intersecção entre jsonData e dadosDB
@@ -15,7 +14,7 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
     console.log(diffInHours);
     if (diffInHours >= -1) {
         let counter = 0;
-        await set(dataAttRef, data.getTime());
+        await set(dataAttRef, data.getTime()); //atualiza o realtime db com a data de atualização
         for (const item of jsonData) {
             counter++;
             const codigo = item.codigo;
@@ -25,17 +24,20 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data(); //inserir verificação de erro para users isAdmin = false                
                 if (docData.descricao && data >= new Date('2023-10-03') && user.isAdmin === true) {
-                    await updateDoc(docRef, precoEPromo(docData, item)); //se o item já tiver sido gravado a partir do relatório, apenas atualiza os preços e promoções
+                    let updatePayload = precoEPromo(docData, item);
+                    updatePayload = !docData.referencia ? { ...updatePayload, referencia: item.referencia } : updatePayload;
+                    await updateDoc(docRef, updatePayload);
                 } else if (user.isAdmin === true) {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
-                if (docData.localizacao?.[user.filial] && item.dataPrecoAtual) {
+                if (docData.localizacao?.[user.filial]) {
                     verificaEtiquetasPreco(user, docData, item, setPrecos);
                     verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos);
                 }
             } else if (user.isAdmin === true) {
                 await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
             }
+            procuraRef(item);
             setProgress(((counter / jsonData.length) * 100).toFixed(2));
         }
         console.log('Dados atualizados com sucesso!');
@@ -43,6 +45,22 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
         alert('O relatório selecionado é mais antigo que o último relatório carregado.')
     }
 };
+
+async function procuraRef(item) {
+    const searchTerm = item.referencia;
+    const semCadastroRef = collection(db, 'semcadastro');
+    const portfolioRef = collection(db, 'portfolio');
+    const queryTerm = await query(semCadastroRef, where('referencia', '==', searchTerm));
+    const docs = await getDoc(queryTerm);
+    if (docs.exists()) {
+        const docData = docs.data();
+        const updatePayload = {...item, ...docData};
+        const docRef = doc(portfolioRef, codigo);
+        await updateDoc(docRef, updatePayload);
+        await deleteDoc(docs.ref);
+    }
+}
+
 
 export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
     let precosEPromosUpdate = {};

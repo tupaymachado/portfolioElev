@@ -13,19 +13,22 @@ export function SearchBar({ setPrecos, setPromos }) {
     if (filter === 'precoAtual') {
       searchTerm = Number(searchTerm.replace(',', '.'));
     }
+    console.log(searchTerm, filter, operator);
     const queryTerm = await query(collectionRef, where(filter, operator, searchTerm));
     const docs = await getDocs(queryTerm);
+    if (docs.empty) {
+      alert('A busca não retornou resultados');
+      return;
+    }
     docs.forEach((doc) => {
       let data = doc.data();
       data.dataPrecoAtual = data.dataPrecoAtual ? data.dataPrecoAtual.toDate() : null;
       data.dataPromocao = data.dataPromocao ? data.dataPromocao.toDate() : null;
-      if (data.localizacao) {
+      if (data.localizacao) { //configurar pra pegar a filial específica do usuário, e não todas
         setPrecos(prevPrecos => [...prevPrecos, data]);
         if (data.promocao === true) {
           setPromos(prevPromos => [...prevPromos, data]);
         }
-      } else {
-        alert('O item não consta em mostruário e/ou não tem informações de preço e promoção.')
       }
     })
   }
