@@ -4,10 +4,6 @@ import { ordenarEtiquetas } from './helpers/ordenarEtiquetas.jsx';
 
 export function EtiquetasForaPromo({ etiquetas, user }) {
     const etiquetasOrdenadas = [...etiquetas].sort(ordenarEtiquetas);
-    
-    for (let i = 0; i < etiquetasOrdenadas.length; i++) {
-        console.log(etiquetasOrdenadas[i].codigo);
-    }
 
     function handlePrint() {
         window.print();

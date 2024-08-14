@@ -94,10 +94,7 @@ function App() {
               mostrarForaPromos={mostrarForaPromos}
               user={user}
             />
-            <CsvHandling
-              user={user}
-            />
-            <SolicitacaoAmostras use={user}/>
+            <SolicitacaoAmostras use={user} />
           </div>
           <div className='main'>
             <div className='topo'>
@@ -110,22 +107,28 @@ function App() {
                 setForaPromos={setForaPromos}
               />
               <Logout />
+            </div> {/* Mudar lógica sobre o que mostrar no "main" */}
+            <div className='content'>
+              {mostrarPrecos && <EtiquetasPreco
+                user={user}
+                etiquetas={precos}
+                setEtiquetas={setPrecos}
+              />}
+              {mostrarPromos && <EtiquetasPromo
+                user={user}
+                etiquetas={promos}
+                setEtiquetas={setPromos}
+              />}
+              {mostrarForaPromos && <EtiquetasForaPromo
+                user={user}
+                etiquetas={foraPromos}
+                setEtiquetas={setForaPromos}
+              />}
+              {register && <CsvHandling 
+                user={user}
+              />}
             </div>
-            {mostrarPrecos && <EtiquetasPreco
-              user={user}
-              etiquetas={precos}
-              setEtiquetas={setPrecos}
-            />}
-            {mostrarPromos && <EtiquetasPromo
-              user={user}
-              etiquetas={promos}
-              setEtiquetas={setPromos}
-            />}
-            {mostrarForaPromos && <EtiquetasForaPromo
-              user={user}
-              etiquetas={foraPromos}
-              setEtiquetas={setForaPromos}
-            />}
+
           </div>
         </div>
       </div>

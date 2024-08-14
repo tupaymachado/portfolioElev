@@ -25,8 +25,8 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
     }
-    console.log(rows[4][7])
-    let data = formatarData(rows[4][7]); //data da atualização, serve para preços e promoções
+    console.log(rows[4][6])
+    let data = formatarData(rows[4][6]); //data da atualização, serve para preços e promoções
     rows = rows.slice(7);
     let marca = '';
     const jsonData = [];
@@ -48,20 +48,21 @@ export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, 
             formato: formato,
             marca: marca,
             acabamento: piso ? categoria(row[4]) : 'não definido',
-            promocaoStatus: promocao(row[12])
+            promocaoStatus: promocao(row[11])
         };        
         if (data >= new Date('2023-10-03')) {
             obj.ultimoPreco = 0;
             obj.dataUltimoPreco = data;
             obj.precoAtual = Number(row[8]);
             obj.dataPrecoAtual = data;
-            obj.precoPromocao = Number(row[10]);
-            obj.promocao = Number(row[10]) ? true : false;
+            obj.precoPromocao = Number(row[9]);
+            obj.promocao = Number(row[9]) ? true : false;
             obj.dataPromocao = data;
             obj.referencia = row[2];
         }
         jsonData.push(obj);
     }
+    console.log(jsonData);
     //setJsonData(newJsonData); // Atualizando o estado aqui
     verificarRepetidos(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };

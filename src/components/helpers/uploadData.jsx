@@ -37,7 +37,7 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             } else if (user.isAdmin === true) {
                 await setDoc(docRef, item); //se o item não existir no DB, grava todos os dados do relatório
             }
-            procuraRef(item);
+            //procuraRef(item);
             setProgress(((counter / jsonData.length) * 100).toFixed(2));
         }
         console.log('Dados atualizados com sucesso!');
