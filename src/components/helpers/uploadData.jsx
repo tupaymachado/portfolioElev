@@ -11,7 +11,6 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
     const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
     const diff = data.getTime() - dataUltimaAtualizacao.getTime();
     const diffInHours = diff / 1000 / 60 / 60;
-    console.log(diffInHours);
     if (diffInHours >= -1) {
         let counter = 0;
         await set(dataAttRef, data.getTime()); //atualiza o realtime db com a data de atualização

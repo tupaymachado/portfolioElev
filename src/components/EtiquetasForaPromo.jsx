@@ -27,7 +27,9 @@ export function EtiquetasForaPromo({ etiquetas, user }) {
                             return (
                                 <tr className={`${styles.etiqueta} ${tabelaStyles.etiqueta}`} key={etiqueta.codigo}>
                                     <td className={`${tabelaStyles.etiquetaCodigo} ${styles.etiquetaCodigo}`}>{etiqueta.codigo == '0' ? etiqueta.referencia : etiqueta.codigo}</td>
-                                    <td className={`${tabelaStyles.etiquetaPosicao} ${styles.etiquetaPosicao}`}>{etiqueta.localizacao[user.filial]?.expositor}-{etiqueta.localizacao[user.filial]?.posicao}</td>
+                                    <td className={`${tabelaStyles.etiquetaPosicao} ${styles.etiquetaPosicao}`}>
+                                        {`${etiqueta.localizacao.Laranjal?.expositor ?? ''}-${etiqueta.localizacao.Laranjal?.posicao ?? ''}`}
+                                    </td>
                                     <td className={`${tabelaStyles.etiquetaDescricao} ${styles.etiquetaDescricao}`}>{etiqueta.descricao}</td>
                                 </tr>
                             )
