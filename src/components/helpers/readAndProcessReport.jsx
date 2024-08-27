@@ -16,7 +16,7 @@ export function readFileAndConvertToJson(event) {
     });
 };
 
-export function processarDados(rows, setPrecos, setPromos, setForaPromos, setProgress) {
+export function processarDados(user, rows, setPrecos, setPromos, setForaPromos, setProgress) {    
     setPromos([]);
     setForaPromos([]);
     setPrecos([]);
@@ -25,6 +25,7 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
         alert('Arquivo inválido. Selecione o arquivo correto.');
         return;
     }
+    console.log(rows[4][6])
     let data = formatarData(rows[4][6]); //data da atualização, serve para preços e promoções
     rows = rows.slice(7);
     let marca = '';
@@ -36,32 +37,34 @@ export function processarDados(rows, setPrecos, setPromos, setForaPromos, setPro
         if (row[0] === 'Marca/Fabricante') {
             marca = row[3];
             continue;
-        }
+        }        
         let piso = row[2].split(' ')[0] === 'PISO' ? true : false;
         let formatoRegex = /(\d+,\d+|\d+)X(\d+,\d+|\d+)/;
         let formatoMatch = row[2].match(formatoRegex);
         let formato = formatoMatch ? formatoMatch[0] : false;
         let obj = {
             codigo: row[1].toString(),
-            descricao: row[2],
+            descricao: row[4],
             formato: formato,
             marca: marca,
-            acabamento: piso ? categoria(row[2]) : 'não definido',
+            acabamento: piso ? categoria(row[4]) : 'não definido',
             promocaoStatus: promocao(row[11])
         };        
         if (data >= new Date('2023-10-03')) {
             obj.ultimoPreco = 0;
             obj.dataUltimoPreco = data;
-            obj.precoAtual = Number(row[7]);
+            obj.precoAtual = Number(row[8]);
             obj.dataPrecoAtual = data;
-            obj.precoPromocao = Number(row[8]);
-            obj.promocao = Number(row[8]) ? true : false;
+            obj.precoPromocao = Number(row[9]);
+            obj.promocao = Number(row[9]) ? true : false;
             obj.dataPromocao = data;
+            obj.referencia = row[2];
         }
         jsonData.push(obj);
     }
+    console.log(jsonData);
     //setJsonData(newJsonData); // Atualizando o estado aqui
-    verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    verificarRepetidos(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
 
 export function promocao(status) {
@@ -99,7 +102,7 @@ export function categoria(descricao) {
     }
 };
 
-export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) {
+export function verificarRepetidos(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data) {
     let mapa = {};
     let duplicados = {};
     // Primeiro, identifique todos os itens duplicados
@@ -117,5 +120,5 @@ export function verificarRepetidos(jsonData, setPrecos, setPromos, setForaPromos
         alert('Os seguintes itens estão duplicados e foram excluídos da atualização. Confira os dados pelo CISS e adicione manualmente: ' + Object.keys(duplicados).join(', '));
     }
     //setJsonData(jsonData); // Atualizando o estado aqui
-    updateData(jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
+    updateData(user, jsonData, setPrecos, setPromos, setForaPromos, setProgress, data);
 };
