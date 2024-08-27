@@ -94,6 +94,7 @@ function App() {
               mostrarForaPromos={mostrarForaPromos}
               user={user}
             />
+            <CsvHandling />
             <SolicitacaoAmostras use={user} />
           </div>
           <div className='main'>
@@ -124,11 +125,7 @@ function App() {
                 etiquetas={foraPromos}
                 setEtiquetas={setForaPromos}
               />}
-              {/* register && <CsvHandling 
-                user={user}
-              />*/}
             </div>
-
           </div>
         </div>
       </div>
