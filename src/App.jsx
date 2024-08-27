@@ -124,9 +124,9 @@ function App() {
                 etiquetas={foraPromos}
                 setEtiquetas={setForaPromos}
               />}
-              {register && <CsvHandling 
+              {/* register && <CsvHandling 
                 user={user}
-              />}
+              />*/}
             </div>
 
           </div>
