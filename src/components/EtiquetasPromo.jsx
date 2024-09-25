@@ -36,6 +36,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
         <div className={`${tabelaStyles.etiquetasWrapper} ${styles.etiquetasWrapper} `}>
             <p>Etiquetas Promoção</p>
             <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Promoção</button>
+            <button onClick={() => setEtiquetas([])} className={`${styles.clearButton} ${tabelaStyles.clearButton}`}>Limpar Tabela</button>
             <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
                 <table>
                     <thead>

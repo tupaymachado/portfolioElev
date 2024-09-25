@@ -10,9 +10,8 @@ import { EtiquetasForaPromo } from './components/EtiquetasForaPromo.jsx'
 import { DataAtt } from './components/DataAtt.jsx'
 import { Login } from './components/Login.jsx'
 import { Logout } from './components/Logout.jsx'
-import { auth, onAuthStateChanged, doc, getDoc, db } from './components/FirebaseConfig.jsx'
+import { auth, onAuthStateChanged, doc, getDoc, db } from './components/firebaseConfig.jsx'
 import { Aviso } from './components/AvisoCreateAcc.jsx'
-import { SolicitacaoAmostras } from './components/SolicitacaoAmostras.jsx'
 import './App.css'
 
 function App() {
@@ -95,7 +94,6 @@ function App() {
               user={user}
             />
             <CsvHandling />
-            <SolicitacaoAmostras use={user} />
           </div>
           <div className='main'>
             <div className='topo'>

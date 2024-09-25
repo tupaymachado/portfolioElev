@@ -14,6 +14,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
         setEtiquetas(newEtiquetas);
     }
 
+
     async function handleExclusao(codigo) {
         const userConfirmed = window.confirm(`Deseja excluir a amostra ${codigo} do Banco de Dados?`);
         if (userConfirmed) {
@@ -36,6 +37,7 @@ export function EtiquetasPreco({ etiquetas = [], setEtiquetas, user }) {
         <div className={`${styles.etiquetasWrapper} ${tabelaStyles.etiquetasWrapper}`}>
             <p>Etiquetas Preço</p>
             <button onClick={handlePrint} className={`${styles.printButton} ${tabelaStyles.printButton}`}>Imprimir Etiquetas de Preço</button>
+            <button onClick={() => setEtiquetas([])} className={`${styles.clearButton} ${tabelaStyles.clearButton}`}>Limpar Tabela</button>
             <div className={`${styles.etiquetasContainer} ${tabelaStyles.etiquetasContainer} ${etiquetas.length < 1 ? tabelaStyles.tableMinHeight : ' '} etiquetasContainer`}>
                 <table>
                     <thead>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { collection, query, where, getDocs, db } from './firebaseConfig.jsx';
 import styles from './SearchBar.module.css';
 
@@ -6,6 +6,7 @@ export function SearchBar({ setPrecos, setPromos }) {
   let [searchTerm, setSearchTerm] = useState('');
   let [filter, setFilter] = useState('codigo');
   let [operator, setOperator] = useState('==');
+  const inputRef = useRef(null);
 
   async function handleSearch(event) {
     event.preventDefault();
@@ -29,37 +30,20 @@ export function SearchBar({ setPrecos, setPromos }) {
         if (data.promocao === true) {
           setPromos(prevPromos => [...prevPromos, data]);
         }
+        //LIMPAR O ELEMENTO HTML (input) DE BUSCA
+
       }
     })
+    reset();
   }
 
   function renderInput() {
     switch (filter) {
-      case 'marca':
-        return (
-          <input
-            onChange={(event) => setSearchTerm(event.target.value)}
-            type="text"
-            placeholder="Pesquisar"
-          />
-        );
-      case 'promocao':
-        return (
-          <select onChange={(event) => setSearchTerm(event.target.value)} className={styles.selectFilter}>
-            <option value='true'>Sim</option>
-            <option value='false'>Não</option>
-          </select>
-        );
-      case 'precoAtual':
+      case 'codigo':
         return (
           <div>
-            <select>
-              <option value='=='>Igual à</option>
-              <option value='>'>Maior que</option>
-              <option value='<'>Menor que</option>
-            </select>
-            &nbsp;
             <input
+              ref={inputRef}
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"
               placeholder="Pesquisar"
@@ -69,12 +53,20 @@ export function SearchBar({ setPrecos, setPromos }) {
       default:
         return (
           <input
+            ref={inputRef}
             onChange={(event) => setSearchTerm(event.target.value)}
             type="text"
             placeholder="Pesquisar"
           />
         );
     }
+  }
+
+  function reset() {
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+    setSearchTerm('');
   }
 
   return (
@@ -84,8 +76,6 @@ export function SearchBar({ setPrecos, setPromos }) {
       <select onChange={(event) => setFilter(event.target.value)} className={styles.selectFilter}>
         <option value='codigo'>Código</option>
         <option value='marca'>Marca</option>
-        <option value='promocao'>Em promoção</option>
-        <option value='precoAtual'>Preço Atual</option>
         <option value='localizacao.Laranjal.expositor'>Expositor</option>
       </select>
       &nbsp;
