@@ -10,7 +10,9 @@ export function SearchBar({ setPrecos, setPromos }) {
 
   async function handleSearch(event) {
     event.preventDefault();
-    searchTerm = searchTerm.toUpperCase();
+    if (filter == "marca") {
+      searchTerm = searchTerm.toUpperCase();
+    }
     const collectionRef = collection(db, 'portfolio');
     if (filter === 'precoAtual') {
       searchTerm = Number(searchTerm.replace(',', '.'));

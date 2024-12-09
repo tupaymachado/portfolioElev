@@ -27,6 +27,8 @@ function App() {
   const [mostrarPromos, setMostrarPromos] = useState(false);
   const [mostrarForaPromos, setMostrarForaPromos] = useState(false);
 
+  const [dataRel, setDataRel] = useState('blergh');
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -74,7 +76,9 @@ function App() {
         <div className='wrapper'>
           <div className="sidebar">
             <Logo />
-            <DataAtt />
+            <DataAtt 
+              dataRel={dataRel}
+            />
             <AddEtiqueta
               precos={precos}
               setPrecos={setPrecos}

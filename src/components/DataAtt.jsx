@@ -2,7 +2,7 @@ import styles from './DataAtt.module.css';
 import { realtime, ref, onValue } from './firebaseConfig.jsx';
 import { useState, useEffect } from 'react';
 
-export function DataAtt() {
+export function DataAtt({ dataRel }) {
     const [dataAtt, setDataAtt] = useState(null);
 
     useEffect(() => {
@@ -10,7 +10,7 @@ export function DataAtt() {
 
         // Configurando um ouvinte para atualizações em tempo real
         const unsubscribe = onValue(dataAttRef, (snapshot) => {
-            const dataAtt = new Date(snapshot.val());
+            const dataAtt = new Date(snapshot.val()); 
             setDataAtt(dataAtt.toLocaleDateString('pt-BR'));
         });
 
