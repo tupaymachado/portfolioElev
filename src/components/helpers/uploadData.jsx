@@ -11,9 +11,8 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
     const dataUltimaAtualizacao = new Date(dataUltimaAtualizacaoVal);
     const diff = data.getTime() - dataUltimaAtualizacao.getTime();
     const diffInHours = diff / 1000 / 60 / 60;
-    if (diffInHours >= -1) {
+    //if (diffInHours >= -1) {
         let counter = 0;
-        await set(dataAttRef, data.getTime()); //atualiza o realtime db com a data de atualização
         for (const item of jsonData) {
             counter++;
             const codigo = item.codigo;
@@ -22,14 +21,14 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             let docData;
             if (docSnapshot.exists()) {
                 docData = docSnapshot.data(); //inserir verificação de erro para users isAdmin = false                
-                if (docData.descricao && data >= new Date('2023-10-03') && user.isAdmin === true) {
+                if (docData.descricao && data >= new Date('2023-10-03') && user.isAdmin === true) {//
                     let updatePayload = precoEPromo(docData, item);
                     updatePayload = !docData.referencia ? { ...updatePayload, referencia: item.referencia } : updatePayload;
                     await updateDoc(docRef, updatePayload);
                 } else if (user.isAdmin === true) {
                     await updateDoc(docRef, item); //se o item tiver sido gravado apenas a partir do CSV, atualiza com todos os dados do relatório
                 }
-                if (docData.localizacao?.[user.filial]) {
+                if (docData.localizacao?.[user.filial]) {  //
                     verificaEtiquetasPreco(user, docData, item, setPrecos);
                     verificaEtiquetasPromo(user, docData, item, setPromos, setForaPromos);
                 }
@@ -39,10 +38,13 @@ export async function updateData(user, jsonData, setPrecos, setPromos, setForaPr
             //procuraRef(item);
             setProgress(((counter / jsonData.length) * 100).toFixed(2));
         }
+        if (user.isAdmin === true) {
+            await set(dataAttRef, data.getTime()); //atualiza o realtime db com a data de atualização
+        }
         console.log('Dados atualizados com sucesso!');
-    } else {
+    /* } else {
         alert('O relatório selecionado é mais antigo que o último relatório carregado.')
-    }
+    } */
 };
 
 async function procuraRef(item) {
@@ -60,10 +62,8 @@ async function procuraRef(item) {
     }
 }
 
-
 export function precoEPromo(docData, item) { //executado apenas em escritas subsequentes de cada item
     let precosEPromosUpdate = {};
-
     if (!docData.promocao) {
         precosEPromosUpdate = {
             promocao: item.promocao,
@@ -71,7 +71,7 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
             dataPromocao: item.dataPromocao,
             ultimoPrecoPromocao: 0,
         }
-    } else if (
+    } else if (        
         item.promocaoStatus === false || //caso o status indique saída de promoção
         item.promocaoStatus === true && item.precoPromocao !== docData.precoPromocao //caso o status indique promoção e os preços sejam diferentes
     ) {
@@ -96,8 +96,9 @@ export function precoEPromo(docData, item) { //executado apenas em escritas subs
             precoAtual: item.precoAtual,
             dataPrecoAtual: item.dataPrecoAtual,
             ultimoPreco: docData.precoAtual,
-            dataUltimoPreco: docData.dataPrecoAtual.toDate()
+            dataUltimoPreco: docData.dataPrecoAtual ? docData.dataPrecoAtual.toDate() : new Date(1)
         }
     }
+    console.log(precosEPromosUpdate);
     return precosEPromosUpdate;
 }

@@ -64,7 +64,7 @@ export const EtiquetasPromo = ({ etiquetas = [], setEtiquetas, user }) => {
                                     <td className={`${styles.etiquetaAVista} ${tabelaStyles.etiquetaAVista}`}>À Vista</td>
                                     <td className={`${styles.etiquetaPreco} ${tabelaStyles.etiquetaPreco}`}>R$ {Number(etiqueta.precoPromocao).toFixed(2).replace('.', ',')}</td>
                                     <td className={`${styles.etiquetaData} ${tabelaStyles.etiquetaData}`}>{new Date(etiqueta.dataPromocao).toLocaleDateString('pt-BR')}</td>
-                                    <td><button onClick={() => handleDelete(index)}>Deletar</button></td>
+                                    <td><button onClick={() => handleDelete(etiqueta.codigo)}>Deletar</button></td>
                                     <td><button onClick={() => handleExclusao(etiqueta.codigo)}>Excluir amostra</button></td>
                                 </tr>
                             ))

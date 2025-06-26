@@ -19,6 +19,7 @@ export function CsvHandling() {
       let filial = data[0][0];
       data.splice(0, 2);
       for (let line of data) {
+        console.log('Line: ', line);
         if (line.length === 1) {
           break;
         }
@@ -27,19 +28,28 @@ export function CsvHandling() {
           localizacao: {
             [filial]: {
               posicao: `${line[2]}`,
-              expositor: `${line[1]}`
+              expositor: `${line[1]}`,
+              quantidade: line[5],
             }
           },
           unidade: line[3],
           referencia: line[4],
-          quantidade: line[5],
         };
+        if (line.length > 6) {
+          if (line[6]) {
+            obj.precoAtual = Number(line[6]);
+          }
+          if (line[7].length > 4) {
+            obj.descricao = line[7];
+          }
+        }
         if (line[0] === '0') {
           semCodigo.push(obj);
         } else {
           csvData.push(obj);
         }
       }
+      console.log('Dados: ', csvData);
       verificarRepetidos(csvData);
     };
     reader.readAsText(file);
@@ -51,22 +61,27 @@ export function CsvHandling() {
     for (let item of dados) {
       counter++;
       let codigo = item.codigo;
-      let index = dados.findIndex(item => item.codigo === codigo);
+      let index = Number(dados.findIndex(item => item.codigo === codigo));
       if (index !== counter - 1) {
+        item = {...item, index: index};
         repetidos.push(item);
         dados.splice(index, 1);
       }
     }
-    console.log('Repetidos: ', repetidos);
-    console.log('Dados: ', dados);
-    await updateFirebase(dados, 'portfolio');
-    updateFirebase(semCodigo, 'sem-codigo');
+    console.log('dados: ', dados);
+    if (repetidos.length > 0) {
+      alert(`O(s) iten(s) com código(s) ${repetidos.map(item => item.codigo).join(', ')}, na(s) linha(s) ${repetidos.map(item => Number(item.index)+3).join(', ')} estão repetidos, exclua um e adicione +1 à quantidade.`);
+    } else {
+      await updateFirebase(dados, 'portfolio');
+    }
+    //updateFirebase(semCodigo, 'sem-codigo');
   }
 
   //fazer update no Firebase
   async function updateFirebase(dados, ref) {
     const portfolioRef = collection(db, ref);
     let counter = 0;
+    console.log('Dados: ', dados);
     for (let item of dados) {
       counter++
       if (item.codigo === '0') {
@@ -76,7 +91,10 @@ export function CsvHandling() {
       const docRef = doc(portfolioRef, item.codigo);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
-        delete item.codigo;
+        const docSnapshotData = docSnapshot.data();
+        item = {...item,
+          localizacao: { ...item.localizacao, ...docSnapshotData.localizacao }
+        }
         await updateDoc(docRef, item);
       } else {
         await setDoc(docRef, item);
